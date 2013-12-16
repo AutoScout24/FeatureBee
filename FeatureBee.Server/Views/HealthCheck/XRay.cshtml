@@ -1,0 +1,11 @@
+﻿@model GoldenGate.Controllers.HealthCheckController.XRayModel
+
+@{
+    Layout = null;
+}
+{ 
+Status: '@Model.Status', 
+Read: '@Model.Read.ToString()',
+Write: '@Model.Write.ToString()',
+Delete: '@Model.Delete.ToString()'
+}
