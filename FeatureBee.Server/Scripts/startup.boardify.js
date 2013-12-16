@@ -28,6 +28,10 @@ $(function () {
     boardHub.client.itemEdited = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
+    
+    boardHub.client.itemMoved = function (item) {
+        $.Comm('page', 'itemMoved').publish(item);
+    };
 
     $.Comm('page', 'itemChanged').subscribe(function(item) {
         source.push(item);
@@ -61,7 +65,7 @@ $(function () {
                 return data;
             },
             subscribeToItemChanged: function(obj) {
-                boardHub.server.move(obj.title, obj.oldIndex, obj.index);
+                boardHub.server.moveItem(obj.data.title, obj.data.oldIndex, obj.data.index);
             },
             subscribeToItemSelected: function (obj) {
                 formEdit.formify('open', { title: obj.data.title, team: obj.data.team, index: obj.data.index });
@@ -69,6 +73,7 @@ $(function () {
         });
         
         $('#board').boardify('subscribeFor', 'page', 'itemChanged', $.boardifySubscribers.refresh);
+        $('#board').boardify('subscribeFor', 'page', 'itemMoved', $.boardifySubscribers.refresh);
     });
 
 });

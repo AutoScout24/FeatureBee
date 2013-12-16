@@ -90,7 +90,10 @@ $(function () {
 
         _cleanBoardItems: function (states, self) {
             states.find(self.options.boardItemAttribute).draggable('destroy');
-            states.find(self.options.boardItemAttribute).each(function (i, value) { $(value).off();  $(value).remove(); });
+            states.find(self.options.boardItemAttribute).each(function (i, value) {
+                $(value).off();
+                $(value).remove();
+            });
         },
 
         // called when created, and later when changing options
@@ -108,7 +111,7 @@ $(function () {
             self.elements = [];
             $.each(self.options.source(), function (i, item) {
                 var html = self.compiledTemplate(item).trim();
-                var element = $(html);
+                var element = $(html).clone();
                 element.attr(self.options.boardItem, true);
                 self._rotate(element, Math.floor((Math.random() * 10) - 5));
                 element.data(item);
@@ -116,12 +119,13 @@ $(function () {
 
                 var currentState = $(states[item[self.options.itemStateSelector]]);
                 currentState.append(element);
-                
                 element.on('dblclick', function (e) {
                     self._commPub(self.options.streams.selected, {
                         sender: self, element: element, data: item
                     });
+                    
                     e.stopImmediatePropagation();
+                    e.stopPropagation();
                     return false;
                 });
             });

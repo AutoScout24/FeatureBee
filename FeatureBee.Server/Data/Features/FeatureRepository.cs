@@ -16,11 +16,11 @@
     {
         private static readonly Dictionary<string,Feature> Features = new Dictionary<string,Feature>
         {
-            {"a" , new Feature { title= "a", team= "asm", index= 0 } },
-            {"b" , new Feature { title= "b", team= "dealer", index= 1 } },
-            {"lala" , new Feature { title= "lala", team= "asm", index= 0 } },
-            {"tata" , new Feature { title= "tata", team= "asm", index= 2 } },
-            {"erw" , new Feature { title= "erw", team= "", index= 0 } }
+            { "a" , new Feature { title= "a", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030" } },
+            { "b" , new Feature { title= "b", team= "dealer", index= 1, link="https://jira.as24.local/browse/PMVM-1030" } },
+            {"lala" , new Feature { title= "lala", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030" } },
+            {"tata" , new Feature { title= "tata", team= "asm", index= 2, link="https://jira.as24.local/browse/PMVM-1030" } },
+            {"erw" , new Feature { title= "erw", team= "", index= 0, link="https://jira.as24.local/browse/PMVM-1030" } }
         };
 
         public IQueryable<Feature> Collection()
