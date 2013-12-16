@@ -76,7 +76,12 @@ $(function () {
                     }
                 });
             });
-
+            
+            // register subscriptions
+            self._commSub(self.options.streams.selected, self.options.subscribeToItemSelected);
+            self._commSub(self.options.streams.moved, self.options.subscribeToItemChanged);
+            self._commSub(self.options.streams.itemsCreated, self.options.subscribeToItemsCreated);
+            
             this.option(this.options);
         },
 
@@ -101,11 +106,6 @@ $(function () {
             var self = this;
             var ele = $(this.element);
             var states = ele.find(self.options.states);
-            
-            // register subscriptions
-            self._commSub(self.options.streams.selected, self.options.subscribeToItemSelected);
-            self._commSub(self.options.streams.moved, self.options.subscribeToItemChanged);
-            self._commSub(self.options.streams.itemsCreated, self.options.subscribeToItemsCreated);
             
             self._cleanBoardItems(states, self);
             self.elements = [];
