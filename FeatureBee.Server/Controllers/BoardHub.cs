@@ -1,5 +1,7 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
+    using System.Linq.Expressions;
+
     using Microsoft.AspNet.SignalR;
 
     public class BoardHub : Hub
@@ -7,6 +9,16 @@
         public void AddNewItem(string name, string team)
         {
             this.NewItemAdded(new { title = name, team = team, index = 0 });
+        }
+
+        public void EditItem(string name, string team, int index)
+        {
+            this.ItemEdited(new { title = name, team = team, index = index });
+        }
+
+        public void ItemEdited(dynamic item)
+        {
+            Clients.All.itemEdited(item);
         }
 
         public void NewItemAdded(dynamic item)

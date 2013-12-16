@@ -10,6 +10,7 @@ $(function () {
 
         open: function (item) {
             var self = this;
+            
             var html = self.compiledTemplate(item);
             self.dialog = $(html).dialog({
                 modal: true,
@@ -35,6 +36,7 @@ $(function () {
                 }
                 ],
                 close: function () {
+                    $(this).dialog("destroy");
                 }
             });
         },

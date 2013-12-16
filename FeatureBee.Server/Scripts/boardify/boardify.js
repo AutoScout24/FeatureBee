@@ -78,7 +78,6 @@ $(function () {
             });
 
             this.option(this.options);
-            self._refresh();
         },
 
         _commPub: function (to, what) {
@@ -91,7 +90,7 @@ $(function () {
 
         _cleanBoardItems: function (states, self) {
             states.find(self.options.boardItemAttribute).draggable('destroy');
-            states.find(self.options.boardItemAttribute).each(function (i, value) { $(value).remove(); });
+            states.find(self.options.boardItemAttribute).each(function (i, value) { $(value).off();  $(value).remove(); });
         },
 
         // called when created, and later when changing options
@@ -114,10 +113,17 @@ $(function () {
                 self._rotate(element, Math.floor((Math.random() * 10) - 5));
                 element.data(item);
                 self.elements.push(item);
-                element.dblclick(function () { self._commPub(self.options.streams.selected, { sender: self, element: element, data: item }); });
 
                 var currentState = $(states[item[self.options.itemStateSelector]]);
                 currentState.append(element);
+                
+                element.on('dblclick', function (e) {
+                    self._commPub(self.options.streams.selected, {
+                        sender: self, element: element, data: item
+                    });
+                    e.stopImmediatePropagation();
+                    return false;
+                });
             });
 
             self._commPub(self.options.streams.itemsCreated, { sender: self, data: self.elements });

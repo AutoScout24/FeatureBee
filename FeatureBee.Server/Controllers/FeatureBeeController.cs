@@ -12,5 +12,9 @@ namespace FeatureBee.Server.Controllers
             return View();
         }
 
+        public JsonResult Features()
+        {
+            
+        }
     }
 }

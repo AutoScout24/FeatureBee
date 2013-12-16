@@ -6,7 +6,17 @@
             { title: "erw", team: '', index: 0 }
 ];
 
-$(function() {
+$(function () {
+    var initHandleBar = function() {
+        window.Handlebars.registerHelper('select', function(value, options) {
+            var $el = $('<select />').html(options.fn(this));
+            $el.find('[value=' + value + ']').attr({ 'selected': 'selected' });
+            return $el.html();
+        });
+    };
+    
+    initHandleBar();
+
     // Declare a proxy to reference the hub. 
     var boardHub = $.connection.boardHub;
 
@@ -14,15 +24,29 @@ $(function() {
     boardHub.client.newItemAdded = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
+    
+    boardHub.client.itemChanged = function (item) {
+        
+        $.Comm('page', 'itemChanged').publish(item);
+    };
 
     $.Comm('page', 'itemChanged').subscribe(function(item) {
         source.push(item);
     });
 
-    var editTemplate = $('[data-edit-item="template"]').html();
-    var compilededitTemplate = Handlebars.compile(editTemplate);
+    $.connection.hub.start().done(function () {
+        var formEdit = $('[data-edit-item="edit"]').formify({
+            save: function (data) {
+                boardHub.server.editItem(data.title, data.team, data.index);
+            }
+        });
+        var formNew = $('[data-edit-item="edit"]').formify({
+            save: function (data) {
+                boardHub.server.addNewItem(data.title, data.team);
+            }
+        });
+        $('[data-open="newFeature"]').click(function () { formNew.formify('open'); });
 
-    $.connection.hub.start().done(function() {
         $('#board').boardify({
             states: "[data-state]",
             template: '[data-item]',
@@ -39,19 +63,10 @@ $(function() {
                 ;
             },
             subscribeToItemSelected: function (obj) {
-                $('[data-edit-item="template"]').formify();
-                $('[data-edit-item="template"]').formify('open', { title: obj.data.title, team: obj.data.team });
+                formEdit.formify('open', { title: obj.data.title, team: obj.data.team });
             }
         });
         $('#board').boardify('subscribeFor', 'page', 'itemChanged', $.boardifySubscribers.refresh);
-        $('[data-edit-item="newFeature"]').formify({
-            save: function(data) {
-                boardHub.server.addNewItem(data.title, data.team);
-            }
-        });
-        
-        $('[data-open="newFeature"]').click(function () { $('[data-edit-item="newFeature"]').formify('open'); });
-        $('#kill').click(function() { $('#board').boardify('destroy'); });
     });
 
 });

@@ -41,41 +41,34 @@
             </div>
             <div data-item="template" class="template">
                 <div class="post-it {{team}}">
-                    {{title}}
+                    <strong>{{title}}</strong>
                     <br>
-                    <smaller>{{team}}</smaller>
+                    <small>{{team}}</small>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div data-edit-item="template" class="template">
-            <div class="item {{team}}">
-                Title:
-                <input type="text" value="{{title}}" />
-                <br>
-                Team:
-                <input type="text" value="{{team}}" />
-            </div>
-        </div>
-        <div style="clear: both;"></div>
-        <div data-edit-item="newFeature" class="template">
+        <div data-edit-item="edit" class="template">
             <form class="form-horizontal">
+                <input type="hidden" id="index" name="index" value="{{index}}">
                 <fieldset>
                     <legend>Add new feature</legend>
                     <div class="form-group">
                         <label for="title" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Name">
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Name" value="{{title}}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="team" class="col-lg-2 control-label">Team</label>
                         <div class="col-lg-10">
                             <select class="form-control" id="team" name="team">
-                                <option>dealer</option>
-                                <option>asm</option>
-                                <option>all</option>
+                                {{#select team}}
+                                <option value="dealer">dealer</option>
+                                <option value="asm">asm</option>
+                                <option value="all">all</option>
+                                {{/select}}
                             </select>
                         </div>
                     </div>
