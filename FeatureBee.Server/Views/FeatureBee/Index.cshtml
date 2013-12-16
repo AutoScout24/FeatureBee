@@ -51,9 +51,10 @@
     <div class="row">
         <div data-edit-item="edit" class="template">
             <form class="form-horizontal">
+                <input type="hidden" id="id" name="id" value="{{title}}">
                 <input type="hidden" id="index" name="index" value="{{index}}">
                 <fieldset>
-                    <legend>Add new feature</legend>
+                    <legend style="display: none;">{{title}}</legend>
                     <div class="form-group">
                         <label for="title" class="col-lg-2 control-label">Name</label>
                         <div class="col-lg-10">

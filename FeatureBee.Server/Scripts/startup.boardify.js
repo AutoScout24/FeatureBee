@@ -25,8 +25,7 @@ $(function () {
         $.Comm('page', 'itemChanged').publish(item);
     };
     
-    boardHub.client.itemChanged = function (item) {
-        
+    boardHub.client.itemEdited = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
@@ -35,12 +34,13 @@ $(function () {
     });
 
     $.connection.hub.start().done(function () {
-        var formEdit = $('[data-edit-item="edit"]').formify({
+        var editItem = $('[data-edit-item="edit"]');
+        var formEdit = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
-                boardHub.server.editItem(data.title, data.team, data.index);
+                boardHub.server.editItem(data.id, data.title, data.team, data.index);
             }
         });
-        var formNew = $('[data-edit-item="edit"]').formify({
+        var formNew = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
                 boardHub.server.addNewItem(data.title, data.team);
             }
@@ -50,22 +50,24 @@ $(function () {
         $('#board').boardify({
             states: "[data-state]",
             template: '[data-item]',
-            source: function() { return source; },
+            source: function () {
+                var data = null;
+                jQuery.ajaxSetup({ async: false });
+                $.post('/FeatureBee/Features').done(function (d) {
+                    data = d;
+                });
+                jQuery.ajaxSetup({ async: true });
+
+                return data;
+            },
             subscribeToItemChanged: function(obj) {
                 boardHub.server.move(obj.title, obj.oldIndex, obj.index);
-                for (var i = source.length - 1; i >= 0; i--) {
-                    if (source[i].title == obj.data.title) {
-                        source[i] = obj.data;
-                        boardHub.server.move("new!", "new Team");
-                        break;
-                    }
-                }
-                ;
             },
             subscribeToItemSelected: function (obj) {
-                formEdit.formify('open', { title: obj.data.title, team: obj.data.team });
+                formEdit.formify('open', { title: obj.data.title, team: obj.data.team, index: obj.data.index });
             }
         });
+        
         $('#board').boardify('subscribeFor', 'page', 'itemChanged', $.boardifySubscribers.refresh);
     });
 

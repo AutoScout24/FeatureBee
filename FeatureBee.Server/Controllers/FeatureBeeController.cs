@@ -2,6 +2,8 @@
 
 namespace FeatureBee.Server.Controllers
 {
+    using System.Linq;
+
     using FeatureBee.Server.Data.Features;
 
     public class FeatureBeeController : Controller
@@ -18,9 +20,10 @@ namespace FeatureBee.Server.Controllers
             return View();
         }
 
+        [HttpPost]
         public JsonResult Features()
         {
-            return Json(featureRepository.Collection());
+            return Json(featureRepository.Collection().ToArray());
         }
     }
 }

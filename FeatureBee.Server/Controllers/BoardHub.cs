@@ -21,10 +21,10 @@
             this.NewItemAdded(feature);
         }
 
-        public void EditItem(string name, string team, int index)
+        public void EditItem(string oldName, string name, string team, int index)
         {
             var feature = new Feature { title = name, team = team, index = index };
-            featureRepository.Update(name, feature);
+            featureRepository.Update(oldName, feature);
             this.ItemEdited(feature);
         }
 
