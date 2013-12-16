@@ -6,14 +6,14 @@
 Background: 
 	Given I have feature with a condition evaluator that is always fullfilled
 
-@mytag
-Scenario: Based on the State of the feature
+Scenario Outline: Based on the State of the feature
 	Given I have a feature in state <state>
 	When evaluating the feature state
-	Then the feature is <enabled>
-	And <conditions where used> to evaluate the state
+	Then the <feature is enabled>
+	And <conditions were used> to evaluate the state
 
-| state          | enabled | conditions where used |
-| In Development | false   | false                 |
-| Under Test     | true    | true                  |
-| Released       | true    | false                 |
+Examples:
+| state			 | feature is enabled | conditions were used |
+| In Development | false			  | false                |
+| Under Test	 | true				  | true                 |
+| Released       | true				  | false                |
