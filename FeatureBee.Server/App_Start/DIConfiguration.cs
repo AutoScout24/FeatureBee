@@ -5,6 +5,7 @@
 
     using Autofac;
     using Autofac.Integration.Mvc;
+    using Autofac.Integration.SignalR;
 
     using Module = Autofac.Module;
 
@@ -22,6 +23,8 @@
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            // Register the SignalR hubs.
+            builder.RegisterHubs(Assembly.GetExecutingAssembly());
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .Where(t => t.Name.EndsWith("Repository", StringComparison.Ordinal))

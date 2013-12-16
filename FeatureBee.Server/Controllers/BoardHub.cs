@@ -7,11 +7,11 @@
 
     public class BoardHub : Hub
     {
-        private FeatureRepository featureRepository;
+        private readonly IFeatureRepository featureRepository;
 
-        public BoardHub()
+        public BoardHub(IFeatureRepository featureRepository)
         {
-            this.featureRepository = new FeatureRepository();
+            this.featureRepository = featureRepository;
         }
 
         public void AddNewItem(string name, string team)
