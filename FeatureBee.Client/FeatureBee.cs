@@ -1,65 +1,52 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace FeatureBee.Client
 {
-    public interface IFeatureBeeContext { }
-
-    public class WebApplicationContext: IFeatureBeeContext
-    {
-        public HttpContext HttpContext { get; private set; }
-
-        public WebApplicationContext(HttpContext httpContext)
-        {
-            HttpContext = httpContext;
-        }
-    }
-
-    public static class FeatureBeeConfig
-    {
-        internal static IFeatureBeeContext Context { get; private set; }
-        public static void SetContext<T>(T app)
-        {
-            Context = new WebApplicationContext(app.Context);
-            Conditions = LoadConditions(app);
-        }
-    }
-
     public static class FeatureBee
     {
-        public static bool IsToggleEnabled(string toggleName)
+        public static bool IsFeatureEnabled(string featureName)
         {
-            // Check if FeatureBeeConfig was initialized
             if (FeatureBeeConfig.Context == null)
             {
-                throw new InvalidOperationException("FeatureBeeConfing.SetContext needs to be called first!");
+                throw new InvalidOperationException("FeatureBeeConfing.Init needs to be called first!");
             }
 
-            // Get latest update from server
+            var evaluators = FeatureBeeConfig.Context.Evaluators;
+            var features = FeatureBeeConfig.Context.FeatureRepository.GetFeatures();
 
-            // Evaluate conditions
+            var feature = features.FirstOrDefault(x => string.Equals(x.Name, featureName));
+
+            if (feature == null)
+            {
+                return false;
+            }
+
+            if (feature.State == "In Development")
+            {
+                return false;
+            }
+
+            if (feature.State == "Released")
+            {
+                return true;
+            }
+
+            var isFulfilled = false;
             foreach (var condition in feature.Conditions)
             {
-                var evaluator = FeatureBeeConfig.ConditionEvaluators.Where(x => x.Name = condition.Name);
-                evaluator.IsFulfilled(FeatureBeeConfig.Context, condition.Values);
+                var evaluator = evaluators.FirstOrDefault(x => string.Equals(x.Name, condition.Evaluator));
+                if (evaluator == null)
+                {
+                    return false;
+                }
+
+                isFulfilled = evaluator.IsFulfilled(condition.Value);
+                if (!isFulfilled) {
+                    return false;
+                }
             }
-
+            return isFulfilled;
         }
-    }
-
-    public class Feature
-    {
-        public string Name { get; set; }
-        public List<Condition> Conditions { get; set; }
-    }
-
-    public class Condition
-    {
-        public string Evaluator { get; set; }
-        public object Value { get; set; }
     }
 }

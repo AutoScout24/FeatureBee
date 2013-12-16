@@ -6,7 +6,6 @@
 Background: 
 	Given I have feature under test with a condition evaluator
 
-@mytag
 Scenario: Condition is true
 	Given the condition is <condition>
 	When evaluating the feature state
