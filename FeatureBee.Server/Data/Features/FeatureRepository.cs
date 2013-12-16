@@ -9,7 +9,7 @@
     {
         IQueryable<Feature> Collection();
 
-        void Update(string title, Feature feature);
+        void Save(string title, Feature feature);
     }
 
     public class FeatureRepository : IFeatureRepository
@@ -28,7 +28,7 @@
             return Features.Values.AsQueryable();
         }
 
-        public void Update(string title, Feature feature)
+        public void Save(string title, Feature feature)
         {
             if (Features.ContainsKey(title)) Features.Remove(title);
 

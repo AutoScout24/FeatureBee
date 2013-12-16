@@ -10,7 +10,7 @@
     public class BoardHub : Hub
     {
         private readonly IFeatureRepository featureRepository;
-
+        
         public BoardHub(IFeatureRepository featureRepository)
         {
             this.featureRepository = featureRepository;
@@ -19,14 +19,14 @@
         public void AddNewItem(string name, string team)
         {
             var feature = new Feature{ title = name, team = team, index = 0 };
-            featureRepository.Update(name, feature);
+            featureRepository.Save(name, feature);
             this.NewItemAdded(feature);
         }
 
         public void EditItem(string oldName, string name, string team, int index)
         {
             var feature = new Feature { title = name, team = team, index = index };
-            featureRepository.Update(oldName, feature);
+            featureRepository.Save(oldName, feature);
             this.ItemEdited(feature);
         }
 
@@ -36,7 +36,7 @@
             if (feature == null) return;
 
             feature.index = newIndex;
-            featureRepository.Update(name, feature);
+            featureRepository.Save(name, feature);
             this.ItemMoved(feature);
         }
 
@@ -50,7 +50,7 @@
             Clients.All.itemEdited(item);
         }
 
-        public void NewItemAdded(Feature item)
+        public virtual void NewItemAdded(Feature item)
         {
             Clients.All.newItemAdded(item);
         }
