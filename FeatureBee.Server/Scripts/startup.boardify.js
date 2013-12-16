@@ -1,12 +1,4 @@
-﻿var source = [
-            { title: "a", team: 'asm', index: 0 },
-            { title: "b", team: 'dealer', index: 1 },
-            { title: "lala", team: 'asm', index: 0 },
-            { title: "tata", team: 'asm', index: 2 },
-            { title: "erw", team: '', index: 0 }
-];
-
-$(function () {
+﻿$(function () {
     var initHandleBar = function() {
         window.Handlebars.registerHelper('select', function(value, options) {
             var $el = $('<select />').html(options.fn(this));
@@ -33,16 +25,13 @@ $(function () {
         $.Comm('page', 'itemMoved').publish(item);
     };
 
-    $.Comm('page', 'itemChanged').subscribe(function(item) {
-        source.push(item);
-    });
-
     $.connection.hub.start().done(function () {
         var editItem = $('[data-edit-item="edit"]');
         var formEdit = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
                 boardHub.server.editItem(data.id, data.title, data.team, data.index);
-            }
+            },
+            width: $(window).width() - 180
         });
         var formNew = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
@@ -68,7 +57,7 @@ $(function () {
                 boardHub.server.moveItem(obj.data.title, obj.data.oldIndex, obj.data.index);
             },
             subscribeToItemSelected: function (obj) {
-                formEdit.formify('open', { title: obj.data.title, team: obj.data.team, index: obj.data.index });
+                formEdit.formify('open', obj.data);
             }
         });
         

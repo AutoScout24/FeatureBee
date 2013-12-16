@@ -51,38 +51,51 @@
     </div>
     <div class="row">
         <div data-edit-item="edit" class="template">
-            <form class="form-horizontal">
-                <input type="hidden" id="id" name="id" value="{{title}}">
-                <input type="hidden" id="index" name="index" value="{{index}}">
-                <fieldset>
-                    <legend style="display: none;">{{title}}</legend>
-                    <div class="form-group">
-                        <label for="title" class="col-lg-2 control-label">Name</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Name" value="{{title}}">
-                        </div>
+            <div class="row">
+                <form class="form-horizontal">
+                    <input type="hidden" id="id" name="id" value="{{title}}">
+                    <input type="hidden" id="index" name="index" value="{{index}}">
+                    <div class="col-lg-6">
+                        <fieldset>
+                            <legend style="display: none;">{{title}}</legend>
+                            <div class="form-group">
+                                <label for="title" class="col-lg-2 control-label">Name</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="Name" value="{{title}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="team" class="col-lg-2 control-label">Team</label>
+                                <div class="col-lg-10">
+                                    <select class="form-control" id="team" name="team">
+                                        {{#select team}}
+                                        <option value="dealer">dealer</option>
+                                        <option value="asm">asm</option>
+                                        <option value="all">all</option>
+                                        {{/select}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="textArea" class="col-lg-2 control-label">Description</label>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control" rows="3" id="textArea"></textarea>
+                                    <span class="help-block">The description can help you later.</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="link" class="col-lg-2 control-label">Story Url</label>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="link" name="link" placeholder="Link to your story in jira|tfs|etc" value="{{link}}">
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
-                    <div class="form-group">
-                        <label for="team" class="col-lg-2 control-label">Team</label>
-                        <div class="col-lg-10">
-                            <select class="form-control" id="team" name="team">
-                                {{#select team}}
-                                <option value="dealer">dealer</option>
-                                <option value="asm">asm</option>
-                                <option value="all">all</option>
-                                {{/select}}
-                            </select>
-                        </div>
+                    <div class="col-lg-6">
+                        
                     </div>
-                    <div class="form-group">
-                        <label for="textArea" class="col-lg-2 control-label">Description</label>
-                        <div class="col-lg-10">
-                            <textarea class="form-control" rows="3" id="textArea"></textarea>
-                            <span class="help-block">The description can help you later.</span>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
