@@ -2,10 +2,16 @@
 
 namespace FeatureBee.Server.Controllers
 {
+    using FeatureBee.Server.Data.Features;
+
     public class FeatureBeeController : Controller
     {
-        //
-        // GET: /FeatureBee/
+        private readonly IFeatureRepository featureRepository;
+
+        public FeatureBeeController(IFeatureRepository featureRepository)
+        {
+            this.featureRepository = featureRepository;
+        }
 
         public ActionResult Index()
         {
@@ -14,7 +20,7 @@ namespace FeatureBee.Server.Controllers
 
         public JsonResult Features()
         {
-            
+            return Json(featureRepository.Collection());
         }
     }
 }

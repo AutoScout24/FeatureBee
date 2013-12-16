@@ -1,27 +1,39 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
-    using System.Linq.Expressions;
+    using FeatureBee.Server.Data.Features;
+    using FeatureBee.Server.Models;
 
     using Microsoft.AspNet.SignalR;
 
     public class BoardHub : Hub
     {
+        private FeatureRepository featureRepository;
+
+        public BoardHub()
+        {
+            this.featureRepository = new FeatureRepository();
+        }
+
         public void AddNewItem(string name, string team)
         {
-            this.NewItemAdded(new { title = name, team = team, index = 0 });
+            var feature = new Feature{ title = name, team = team, index = 0 };
+            featureRepository.Update(name, feature);
+            this.NewItemAdded(feature);
         }
 
         public void EditItem(string name, string team, int index)
         {
-            this.ItemEdited(new { title = name, team = team, index = index });
+            var feature = new Feature { title = name, team = team, index = index };
+            featureRepository.Update(name, feature);
+            this.ItemEdited(feature);
         }
 
-        public void ItemEdited(dynamic item)
+        public void ItemEdited(Feature item)
         {
             Clients.All.itemEdited(item);
         }
 
-        public void NewItemAdded(dynamic item)
+        public void NewItemAdded(Feature item)
         {
             Clients.All.newItemAdded(item);
         }
