@@ -11,15 +11,6 @@
     padding: 0;
 }
 
-.item {
-    width: 90px;
-    height: 40px;
-    margin: 3px;
-    cursor: pointer;
-    border: 1px solid black;
-    float: left;
-}
-
 .post-it {
     background: #fefabc;
     padding: 15px;
