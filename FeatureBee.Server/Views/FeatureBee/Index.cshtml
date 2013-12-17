@@ -44,13 +44,67 @@
                     <strong>{{name}}</strong>
                     <br>
                     <small>{{team}}</small>
-                    <a href="{{link}}" target="_blank">read more</a><br/>
-                    <span class="label label-danger">de-DE</span><span class="label label-primary">Chrome</span><span class="label label-primary">Firefox</span><span class="label label-success">50%</span>
+                    <a href="{{link}}" target="_blank">read more</a><br />
+                    {{#each conditions}}
+                        {{#each values}}
+                            <span class="label label-{{../type}}">{{this}}</span>
+                    {{/each}}
+                    {{/each}}
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
+        <div class="template">
+            <div data-template="trafficDistribution">
+                <div class="form-group">
+                    <label for="team" class="col-lg-2 control-label">Traffic distribution</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <input type="text" class="col-lg-5" value="" name="from" placeholder="from" />
+                            <input type="text" class="col-lg-5" value="" name="to" placeholder="to" />
+                            <span class="input-group-btn col-lg-2">
+                                <button class="btn btn-default" data-action="add" type="button">Add</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-template="culture">
+                <div class="form-group">
+                    <label for="team" class="col-lg-2 control-label">Culture</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <select class="form-control" id="culture" name="culture">
+                                <option value="de-DE">Deutsch</option>
+                                <option value="de-AT">Österreichisch</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-action="add" type="button">Add</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-template="browser">
+                <div class="form-group">
+                    <label for="team" class="col-lg-2 control-label">Browser</label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <select class="form-control" id="browser" name="browser">
+                                <option value="chrome">Google Chrome</option>
+                                <option value="firefox">Firefox</option>
+                                <option value="ie9">Internet Explorer 9</option>
+                                <option value="ie10">Internet Explorer 10</option>
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" data-action="add" type="button">Add</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div data-edit-item="edit" class="template">
             <div class="row">
                 <form class="form-horizontal">
@@ -93,46 +147,19 @@
                         </fieldset>
                     </div>
                     <div class="col-lg-6">
+                        {{#each conditions}}
                         <div class="row">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    Regions
-                                    <span class="label label-danger">de-DE</span>
-                                    <span class="btn btn-danger btn-xs" data-add="browser">+</span>
-                                </div>
-                            </div>
+                            <p>
+                                {{type}}
+                                             {{#each values}}
+                                             <span class="label-{{../type}} label-condition-detail alert alert-dismissable"><button type="button" class="close" data-dismiss="alert">×</button>{{this}}</span>
+                                {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition="{{type}}">+</span>
+                            </p>
+
+                            {{#condition type}}
+                            {{/condition}}
                         </div>
-                        <div class="row">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    Browsers
-                                    <span class="label label-primary">Chrome</span>
-                                    <span class="label label-primary">Firefox</span>
-                                    <span class="btn btn-primary btn-xs" data-add="browser">+</span><br/>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <select class="form-control" id="browser" name="browser">
-                                                <option value="dealer">chrome</option>
-                                                <option value="asm">firefox</option>
-                                                <option value="all">IE</option>
-                                                <option value="all">Safari</option>
-                                            </select>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="button">Add</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="panel panel-default">
-                                <div class="panel-body">
-                                    Traffic Distribution
-                            <span class="label label-success">0% to 50% of users</span>
-                                </div>
-                            </div>
-                        </div>
+                        {{/each}}
                         <div class="row">
                             <div class="col-lg-12 btn btn-success">Add Condition</div>
                         </div>

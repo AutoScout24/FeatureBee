@@ -1,6 +1,4 @@
-﻿using System; ;
-
-namespace FeatureBee.Server.Controllers
+﻿namespace FeatureBee.Server.Controllers
 {
     using System.Collections.Generic;
     using System.Linq;

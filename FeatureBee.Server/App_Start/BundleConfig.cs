@@ -26,6 +26,7 @@ namespace FeatureBee.Server
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/style.css"));
 
             bundles.Add(new StyleBundle("~/Content/boardify").Include("~/Content/boardify.css",
+                        "~/Content/conditions.css",
                         "~/Content/jquery.ui.theme.css"));
         }
     }
