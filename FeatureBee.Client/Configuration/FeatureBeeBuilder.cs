@@ -16,7 +16,7 @@ namespace FeatureBee.Configuration
 
         public static FeatureBeeBuilder UsingEvaluatorsFromAssembly(this FeatureBeeBuilder config)
         {
-            var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
+            var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
             var evaluators = types.Select(_ =>
             {
                 var constructor = _.GetConstructor(Type.EmptyTypes);
@@ -27,9 +27,9 @@ namespace FeatureBee.Configuration
             return config;
         }
 
-        private static bool TypeIsConditionEvaluator<T>(Type type)
+        private static bool TypeIsConditionEvaluator(Type type)
         {
-            return type.IsSubclassOf(typeof(IConditionEvaluator<T>)) && !type.IsAbstract;
+            return type.GetInterface(typeof(IConditionEvaluator).Name) != null && !type.IsAbstract;
         }
     }
 

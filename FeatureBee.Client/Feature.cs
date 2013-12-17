@@ -42,13 +42,13 @@ namespace FeatureBee
             var isFulfilled = false;
             foreach (var condition in feature.Conditions)
             {
-                var evaluator = evaluators.FirstOrDefault(x => string.Equals(x.Name, condition.Evaluator));
+                var evaluator = evaluators.FirstOrDefault(x => string.Equals(x.Name, condition.Type));
                 if (evaluator == null)
                 {
                     return false;
                 }
 
-                isFulfilled = evaluator.IsFulfilled(condition.Value);
+                isFulfilled = evaluator.IsFulfilled(condition.Values);
                 if (!isFulfilled) {
                     return false;
                 }

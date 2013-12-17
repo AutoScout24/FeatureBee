@@ -21,7 +21,7 @@ namespace FeatureBee.Acceptance
         public void GivenIHaveFeatureWithAConditionEvaluatorThatIsAlwaysFullfilled()
         {
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
-            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(true);
+            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(true);
 
             FeatureBeeBuilder
                 .Init(_httpContextMock)
@@ -34,7 +34,7 @@ namespace FeatureBee.Acceptance
         public void GivenIHaveFeatureWithAConditionEvaluatorThatIsNeverFullfilled()
         {
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
-            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(false);
+            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(false);
 
             FeatureBeeBuilder
                 .Init(_httpContextMock)
@@ -46,7 +46,7 @@ namespace FeatureBee.Acceptance
         [Given(@"I have feature under test with a condition evaluator")]
         public void GivenIHaveFeatureUnderTestWithAConditionEvaluator()
         {
-            var conditions = new List<ConditionDto> { new ConditionDto { Evaluator = "FakeEvaluator", Value = null } };
+            var conditions = new List<ConditionDto> { new ConditionDto { Type = "FakeEvaluator", Values = null } };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
                 .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = "Under Test", Conditions = conditions } });
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
@@ -61,13 +61,13 @@ namespace FeatureBee.Acceptance
         [Given(@"the condition is (.*)")]
         public void GivenTheConditionIs(bool condition)
         {
-            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(condition);
+            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(condition);
         }
 
         [Given(@"I have a feature in state (.*)")]
         public void GivenIHaveAFeatureInState(string featureState)
         {
-            var conditions = new List<ConditionDto> { new ConditionDto { Evaluator = "FakeEvaluator", Value = null } };
+            var conditions = new List<ConditionDto> { new ConditionDto { Type = "FakeEvaluator", Values = null } };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
                 .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = featureState, Conditions = conditions } });
         }
@@ -77,8 +77,8 @@ namespace FeatureBee.Acceptance
         {
             var conditions = new List<ConditionDto>
             {
-                new ConditionDto { Evaluator = "FakeEvaluator", Value = null },
-                new ConditionDto { Evaluator = "FakeEvaluator2", Value = null }
+                new ConditionDto { Type = "FakeEvaluator", Values = null },
+                new ConditionDto { Type = "FakeEvaluator2", Values = null }
             };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
                 .Returns(new List<FeatureDto>()
@@ -97,13 +97,13 @@ namespace FeatureBee.Acceptance
         [Given(@"the first condition evaluator returns (.*)")]
         public void GivenTheFirstConditionEvaluatorReturns(bool firstEvaluator)
         {
-            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(firstEvaluator);
+            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(firstEvaluator);
         }
 
         [Given(@"the second condition evaluator returns (.*)")]
         public void GivenTheSecondConditionEvaluatorReturns(bool secondEvaluator)
         {
-            _conditionEvaluatorsMock2.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(secondEvaluator);
+            _conditionEvaluatorsMock2.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(secondEvaluator);
         }
 
         [Given(@"I have enabled the GodMode")]
@@ -139,9 +139,9 @@ namespace FeatureBee.Acceptance
         public void ThenToEvaluateTheState(bool conditionsWhereUsed)
         {
             if (conditionsWhereUsed)
-                _conditionEvaluatorsMock.Verify(x => x.IsFulfilled(It.IsAny<object>()), Times.Once);
+                _conditionEvaluatorsMock.Verify(x => x.IsFulfilled(It.IsAny<string[]>()), Times.Once);
             else
-             _conditionEvaluatorsMock.Verify(x => x.IsFulfilled(It.IsAny<object>()), Times.Never);
+                _conditionEvaluatorsMock.Verify(x => x.IsFulfilled(It.IsAny<string[]>()), Times.Never);
         }
     }
 }
