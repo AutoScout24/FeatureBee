@@ -199,6 +199,7 @@
     <Content Include="Content\boardify.css" />
     <Content Include="Content\conditions.css" />
     <Content Include="Content\images\line.png" />
+    <Content Include="Content\images\logo.png" />
     <Content Include="Content\jasmine\jasmine.css" />
     <Content Include="Content\jasmine\jasmine_favicon.png" />
     <Content Include="Content\jquery.ui.theme.css" />
