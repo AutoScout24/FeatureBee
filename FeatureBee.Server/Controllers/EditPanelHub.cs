@@ -17,10 +17,23 @@
         {
             this.featureRepository = featureRepository;
         }
+        
+        public void CreateCondition(string name, string type)
+        {
+            var feature = this.featureRepository.Collection().Single(_ => _.name == name);
+            var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
+
+            if (condition == null)
+            {
+                feature.conditions.Add(new Condition() { type = type });
+            }
+
+            this.ConditionCreated(feature);
+        }
 
         public void AddConditionValue(string name, string type, string[] values)
         {
-            var feature = this.featureRepository.Collection().FirstOrDefault(_ => _.name == name);
+            var feature = this.featureRepository.Collection().Single(_ => _.name == name);
             var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
             if (condition == null)
             {
@@ -28,17 +41,17 @@
                 feature.conditions.Add(condition);
             }
 
-            condition.AddValue(string.Join(",", values));
+            condition.AddValue(string.Join("-", values));
             this.ConditionValueAdded(feature);
         }
 
         public void RemoveConditionValue(string name, string type, string[] values)
         {
-            var feature = this.featureRepository.Collection().FirstOrDefault(_ => _.name == name);
+            var feature = this.featureRepository.Collection().Single(_ => _.name == name);
             var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
             if (condition != null)
             {
-                condition.RemoveValue(string.Join(",", values));
+                condition.RemoveValue(string.Join("-", values));
                 if (!condition.values.Any())
                 {
                     feature.conditions.Remove(condition);
@@ -52,6 +65,11 @@
         {
             featureRepository.Save(oldName, feature);
             this.ItemEdited(feature);
+        }
+
+        public void ConditionCreated(Feature feature)
+        {
+            Clients.All.conditionCreatedForFeature(feature);
         }
 
         public void ConditionValueAdded(Feature feature)

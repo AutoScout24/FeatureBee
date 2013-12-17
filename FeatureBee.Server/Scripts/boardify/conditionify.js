@@ -2,42 +2,21 @@
     $.widget("as24.conditionify", {
         options: {
             conditions: [],
-            triggerAdd: 'data-add-condition',
+            triggerAdd: 'data-add-condition-value',
             triggerDelete: 'data-delete',
+            triggerNew: 'data-add-condition',
             
             add: function () { },
-            delete: function () { }
+            delete: function () { },
+            new : function () { }
         },
         
         baseTemplate : null,
         templates: [],
         
-        render: function (name, type, toElement, data) {
+        render: function (name, type, data) {
             var self = this;
-            $("body").on("click", '[' + self.options.triggerAdd + '="' + type + '"]', function () {
-                var template = self.templates[type];
-                if (template) {
-                    var element = $(self.templates[type](data));
-                    element.attr('data-adding', 'true');
-                    $(this).siblings('[data-adding]').remove();
-                    $(this).after(element);
-                    $(element).find('[data-action="add"]').on('click', function () {
-                        var datastate = {
-                            name : name,
-                            type: type,
-                            values: []
-                        };
-                        $(element).find('[data-value]').each(function(index, value) {
-                            datastate.values.push($(this).val());
-                        });
-                        
-                        self.options.add(datastate);
-                        data.push(datastate.values[0]);
-                        $(element).parent().html(self.baseTemplate({ name: name, type: type, values: data }));
-                        $(element).remove();
-                    });
-                }
-            });
+            $("body").on("click", '[' + self.options.triggerAdd + '="' + type + '"]', function () { self._renderItem(this, name, type, data); });
 
             $(data).each(function (index, value) {
                 $("body").off("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]');
@@ -47,6 +26,54 @@
                     $(this).parent().remove();
                 });
             });
+            $("body").off("click", '[' + self.options.triggerNew + '="' + name + '"]');
+            $("body").on("click", '[' + self.options.triggerNew + '="' + name + '"]', function () {
+                var btn = $(this);
+                btn.find('[data-select="condition"]').remove();
+                var item = $('<ul data-select="condition" class="nav nav-pills nav-stacked" />');
+                item.hide();
+                item.insertBefore(btn);
+                $.each(self.options.conditions, function (index, value) {
+                    var li = $('<li />');
+                    var a = $('<a />');
+                    a.text(value.type);
+                    a.data(value.type);
+                    item.append(li.append(a));
+                    a.click(function() {
+                        self.options.new({ name: name, type: value.type });
+                        btn.find('[data-select="condition"]').hide('fast');
+                        btn.find('[data-select="condition"]').remove();
+                    });
+                });
+                btn.hide('fast');
+                item.show('fast');
+            });
+        },
+
+        _renderItem : function(ele, name, type, data) {
+            var self = this;
+            var template = self.templates[type];
+            if (template) {
+                var element = $(self.templates[type](data));
+                element.attr('data-adding', 'true');
+                $(ele).siblings('[data-adding]').remove();
+                $(ele).after(element);
+                $(element).find('[data-action="add"]').on('click', function() {
+                    var datastate = {
+                        name: name,
+                        type: type,
+                        values: []
+                    };
+                    $(element).find('[data-value]').each(function(index, value) {
+                        datastate.values.push($(this).val());
+                    });
+
+                    self.options.add(datastate);
+                    data.push(datastate.values[0]);
+                    $(element).parent().html(self.baseTemplate({ name: name, type: type, values: data }));
+                    $(element).remove();
+                });
+            }
         },
 
         _create: function () {

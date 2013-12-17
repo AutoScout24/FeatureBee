@@ -73,7 +73,7 @@
             It should_have_dispatched_the_event;
         }
 
-        public class When_removing_a_condition
+        public class When_removing_a_condition_value
         {
             Establish context = () =>
             {
@@ -94,6 +94,52 @@
 
             It should_not_have_removed_the_other_conditions_from_the_feature =
                 () => feature.conditions.ShouldContain(_ => _.values.Any(v => v == "b"));
+
+            // todo: find a way to test this...
+            It should_have_dispatched_the_event;
+        }
+
+        public class When_removing_all_condition_values
+        {
+            Establish context = () =>
+            {
+                feature.conditions.Add(new Condition { type = "cond", values = new List<string>() { "a" } });
+                The<IFeatureRepository>()
+                    .WhenToldTo(_ => _.Collection())
+                    .Return(new List<Feature> { feature }.AsQueryable());
+            };
+
+            Because of = () => Subject.RemoveConditionValue("item", "cond", new[] { "a" });
+
+            It should_not_have_saved_the_feature_to_the_repository =
+                () =>
+                    The<IFeatureRepository>()
+                        .WasNotToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
+
+            It should_not_have_the_condition =
+                () => feature.conditions.ShouldBeEmpty();
+
+            // todo: find a way to test this...
+            It should_have_dispatched_the_event;
+        }
+
+        public class When_creating_a_new_condition
+        {
+            Establish context = () => The<IFeatureRepository>()
+                .WhenToldTo(_ => _.Collection())
+                .Return(new List<Feature> { feature }.AsQueryable());
+
+            Because of = () => Subject.CreateCondition("item", "cond");
+
+            It should_not_have_saved_the_feature_to_the_repository =
+                () =>
+                    The<IFeatureRepository>()
+                        .WasNotToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
+
+            It should_contain_a_condition = () => feature.conditions.Count.ShouldEqual(1);
+
+            It should_have_added_the_condition =
+                () => feature.conditions.ShouldContain(_ => _.type == "cond");
 
             // todo: find a way to test this...
             It should_have_dispatched_the_event;

@@ -25,6 +25,10 @@
     editPanelHub.client.conditionValueRemovedFromFeature = function (item) {
         form.openEdit(item);
     };
+    
+    editPanelHub.client.conditionCreatedForFeature = function (item) {
+        form.openEdit(item);
+    };
 
     $.connection.hub.start().done(function () {
         boot.loadPrequesits().loadTemplates().loadMenu().loadBoard();
@@ -96,6 +100,9 @@
             },
             delete: function (data) {
                 editPanelHub.server.removeConditionValue(data.name, data.type, data.values);
+            },
+            new: function (data) {
+                editPanelHub.server.createCondition(data.name, data.type);
             }
         });
 
@@ -118,7 +125,7 @@
         });
         window.Handlebars.registerHelper('condition', function(name, type, conditions, options) {
             var $el = $(options.fn({ type: type, values: conditions }).trim());
-            templates.render(name, type, $el, conditions);
+            templates.render(name, type, conditions);
             return $el.html();
         });
     };
