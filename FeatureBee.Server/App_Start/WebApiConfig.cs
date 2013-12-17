@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using System.Web.Http;
 
 namespace FeatureBee.Server
 {
@@ -10,9 +7,15 @@ namespace FeatureBee.Server
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/features/{id}",
-                defaults: new { controller = "FeatureBeeApi", id = RouteParameter.Optional }
+                name: "Staging",
+                routeTemplate: "api/features/staging/{id}",
+                defaults: new { controller = "FeatureBeeStagingApi", id = RouteParameter.Optional }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "Live",
+                routeTemplate: "api/features/live/{id}",
+                defaults: new { controller = "FeatureBeeLiveApi", id = RouteParameter.Optional }
             );
         }
     }

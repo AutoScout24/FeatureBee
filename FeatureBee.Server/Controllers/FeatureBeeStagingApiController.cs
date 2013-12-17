@@ -8,19 +8,23 @@ namespace FeatureBee.Server.Controllers
     using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
-    public class FeatureBeeApiController : ApiController
+    public class FeatureBeeStagingApiController : ApiController
     {
         private readonly IFeatureRepository repository;
 
-        public FeatureBeeApiController(IFeatureRepository repository)
+        public FeatureBeeStagingApiController(IFeatureRepository repository)
         {
             this.repository = repository;
         }
 
         // GET api/features
-        public IEnumerable<Feature> Get()
+        public IEnumerable<dynamic> Get()
         {
-            return repository.Collection();
+            return repository.Collection().Select(
+                feature => new {
+                    name = feature.name,
+                    conditions = feature.conditions
+                });
         }
 
         // GET api/features/myfeature

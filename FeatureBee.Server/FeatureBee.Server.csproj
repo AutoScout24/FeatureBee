@@ -175,7 +175,8 @@
     <Compile Include="Controllers\BoardHubSpecs.cs">
       <DependentUpon>BoardHub.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\FeatureBeeApiController.cs" />
+    <Compile Include="Controllers\FeatureBeeLiveApiController.cs" />
+    <Compile Include="Controllers\FeatureBeeStagingApiController.cs" />
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
