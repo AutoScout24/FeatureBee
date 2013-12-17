@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Web;
-using FeatureBee.Client;
-using FeatureBee.Client.Evaluators;
+using FeatureBee.Configuration;
+using FeatureBee.Evaluators;
 using Moq;
 using NUnit.Framework;
 using TechTalk.SpecFlow;

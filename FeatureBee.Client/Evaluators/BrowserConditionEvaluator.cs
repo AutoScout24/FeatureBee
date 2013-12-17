@@ -1,6 +1,7 @@
 ﻿using System;
+using FeatureBee.Configuration;
 
-namespace FeatureBee.Client.Evaluators
+namespace FeatureBee.Evaluators
 {
     internal class BrowserConditionEvaluator : IConditionEvaluator<WebApplicationContext>
     {
