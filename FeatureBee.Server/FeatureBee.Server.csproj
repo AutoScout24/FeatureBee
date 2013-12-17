@@ -179,11 +179,7 @@
     <Compile Include="Controllers\EditPanelHubSpecs.cs">
       <DependentUpon>EditPanelHub.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\FeatureBeeLiveApiController.cs" />
-    <Compile Include="Controllers\FeatureBeeLiveApiControllerSpecs.cs">
-      <DependentUpon>FeatureBeeLiveApiController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controllers\FeatureBeeStagingApiController.cs" />
+    <Compile Include="Controllers\FeatureBeeApiController.cs" />
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />

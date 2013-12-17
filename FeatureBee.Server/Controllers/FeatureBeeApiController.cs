@@ -8,11 +8,11 @@ namespace FeatureBee.Server.Controllers
     using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
-    public class FeatureBeeStagingApiController : ApiController
+    public class FeatureBeeApiController : ApiController
     {
         private readonly IFeatureRepository repository;
 
-        public FeatureBeeStagingApiController(IFeatureRepository repository)
+        public FeatureBeeApiController(IFeatureRepository repository)
         {
             this.repository = repository;
         }
