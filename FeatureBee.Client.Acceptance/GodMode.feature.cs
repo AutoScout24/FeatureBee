@@ -32,8 +32,8 @@ namespace FeatureBee.Acceptance
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "GodMode", "In order to test new features\nAs a Dev or QA guy\nI want to overwrite the conditio" +
-                    "n per cookie", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "GodMode", "In order to test new features\r\nAs a Dev or QA guy\r\nI want to overwrite the condit" +
+                    "ion per cookie", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
