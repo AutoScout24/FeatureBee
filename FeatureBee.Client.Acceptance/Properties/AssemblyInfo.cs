@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Autoscout24")]
-[assembly: AssemblyProduct("FeatureBee.Acceptance")]
+[assembly: AssemblyProduct("Feature.Acceptance")]
 [assembly: AssemblyCopyright("Copyright © Autoscout24 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

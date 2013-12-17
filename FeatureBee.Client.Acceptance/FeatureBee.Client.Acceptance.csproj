@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,12 @@
       <DependentUpon>FeatureStates.feature</DependentUpon>
     </Compile>
     <Compile Include="FeatureStatesSteps.cs" />
+    <Compile Include="GodMode.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GodMode.feature</DependentUpon>
+    </Compile>
+    <Compile Include="HttpFakes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Conditions.feature.cs">
       <AutoGen>True</AutoGen>
@@ -72,6 +79,10 @@
     <None Include="FeatureStates.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FeatureStates.feature.cs</LastGenOutput>
+    </None>
+    <None Include="GodMode.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>GodMode.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
