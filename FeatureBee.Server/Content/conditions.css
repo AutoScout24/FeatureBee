@@ -1,15 +1,29 @@
-﻿.label-condition-detail {
-    display: inline;
-    padding: .2em 15px .3em .6em;
-    font-size: 75%;
+﻿.label-condition {
+    position: relative;
+    padding-right: 16px;
+}
+
+.delete-condition {
+    position: absolute;
+    top: 2px;
+    right: 2px;
     font-weight: bold;
     line-height: 1;
-    color: #ffffff;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25em;
+    color: red;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
 }
+
+    .delete-condition:hover, .delete-condition:focus {
+        color: #000000;
+        text-decoration: none;
+        cursor: pointer;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
 
 .label-browser {
     background-color: #eb6864;

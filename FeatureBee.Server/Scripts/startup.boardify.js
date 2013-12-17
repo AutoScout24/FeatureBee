@@ -1,29 +1,40 @@
 ﻿$(function () {
     // Declare a proxy to reference the hub. 
     var boardHub = $.connection.boardHub;
-
+    var editPanelHub = $.connection.editPanelHub;
+    var form;
+    
     // Create a function that the hub can call to broadcast new items.
     boardHub.client.newItemAdded = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
-    boardHub.client.itemEdited = function (item) {
-        $.Comm('page', 'itemChanged').publish(item);
-    };
 
     boardHub.client.itemMoved = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
     };
+    
+    editPanelHub.client.itemEdited = function (item) {
+        $.Comm('page', 'itemChanged').publish(item);
+    };
+
+    editPanelHub.client.conditionValueAddedToFeature = function (item) {
+        form.openEdit(item);
+        boot(form);
+    };
 
     $.connection.hub.start().done(function () {
-        var handlebar = new handleBar(new conditionTemplates());
-
-        var form = new forms();
+        form = new forms();
+        boot(form);
 
         menu.register(form);
 
         board.create(form);
     });
+
+    var boot = function(form) {
+        var handlebar = new handleBar(new conditionTemplates(form));
+    };
 
     var board = {
         create: function (form) {
@@ -53,7 +64,7 @@
         }
     };
 
-    var conditionTemplates = function () {
+    var conditionTemplates = function (form) {
         var templates = [];
         $('[data-template]').each(function (index, value) {
             templates.push({
@@ -62,40 +73,35 @@
             });
         });
 
-        var c = $('body').conditionify({
-            conditions: templates
+        var c = $('[data-container="condition"]').conditionify({
+            conditions: templates,
+            add: function (data) {
+                editPanelHub.server.addConditionValue(data.name, data.type, data.values);
+            }
         });
 
-        this.render = function (type, element, data) {
-            c.conditionify('render', type, element, data);
+        this.render = function (name, type, element, data) {
+            c.conditionify('render', name, type, element, data);
         };
     };
 
-    var handleBar = function (templates) {
+    var handleBar = function(templates) {
         var self = this;
+        
+        Handlebars.registerHelper('setIndex', function (value) {
+            this.outerindex = Number(value);
+        });
 
-        var registerSelectHelper = function() {
-            window.Handlebars.registerHelper('select', function (value, options) {
-                var $el = $('<select />').html(options.fn(this));
-                $el.find('[value=' + value + ']').attr({ 'selected': 'selected' });
-                return $el.html();
-            });
-        };
-
-        var registerConditionHelper = function() {
-            window.Handlebars.registerHelper('condition', function(type) {
-                var $el = $('<div />');
-                templates.render(type, $el);
-                return $el.html();
-            });
-        };
-
-        var initHandleBar = function() {
-            registerSelectHelper();
-            registerConditionHelper();
-        };
-
-        initHandleBar();
+        window.Handlebars.registerHelper('select', function(value, options) {
+            var $el = $('<select />').html(options.fn(this));
+            $el.find('[value=' + value + ']').attr({ 'selected': 'selected' });
+            return $el.html();
+        });
+        window.Handlebars.registerHelper('condition', function(name, type, conditions, options) {
+            var $el = $(options.fn({ type: type, values: conditions }).trim());
+            templates.render(name, type, $el, conditions);
+            return $el.html();
+        });
     };
 
     var menu = {
@@ -118,12 +124,13 @@
 
         var createEditForm = function (usingItem) {
             return createForm(usingItem, function (data) {
-                boardHub.server.editItem(data.oldName,
+                editPanelHub.server.editItem(data.oldName,
                     {
                         name: data.name,
                         team: data.team,
                         link: data.link,
-                        index: data.index
+                        index: data.index,
+                        conditions: data.conditions
                     });
             });
         };
@@ -135,7 +142,8 @@
                         name: data.name,
                         team: data.team,
                         link: data.link,
-                        index: 0
+                        index: 0,
+                        conditions: data.conditions
                     });
             });
         };

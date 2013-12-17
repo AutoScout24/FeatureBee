@@ -12,6 +12,9 @@ $(function () {
             var self = this;
             
             var html = self.compiledTemplate(item);
+            if (self.dialog) {
+                self.dialog.dialog('destroy');
+            }
             self.dialog = $(html).dialog({
                 modal: true,
                 width: self.options.width,
@@ -37,6 +40,7 @@ $(function () {
                 ],
                 close: function () {
                     $(this).dialog("destroy");
+                    self.dialog = null;
                 }
             });
         },

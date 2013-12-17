@@ -16,9 +16,9 @@
     {
         private static readonly Dictionary<string,Feature> Features = new Dictionary<string,Feature>
         {
-            { "a" , new Feature { name= "a", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new [] {"de-DE", "de-AT"}}, new Condition { type="browser", values = new [] {"chrome", "firefox"}}} }  },
+            { "a" , new Feature { name= "a", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-DE", "de-AT"}}, new Condition { type="browser", values = new List<string> {"chrome", "firefox"}}} }  },
             { "b" , new Feature { name= "b", team= "dealer", index= 1, link="https://jira.as24.local/browse/PMVM-1030" } },
-            {"lala" , new Feature { name= "lala", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new [] {"de-AT"}}, new Condition { type="trafficDistribution", values = new [] {"0%", "50%"}}} } },
+            {"lala" , new Feature { name= "lala", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-AT"}}, new Condition { type="trafficDistribution", values = new List<string> {"0%", "50%"}}} } },
             {"tata" , new Feature { name= "tata", team= "asm", index= 2, link="https://jira.as24.local/browse/PMVM-1030" } },
             {"erw" , new Feature { name= "erw", team= "", index= 0, link="https://jira.as24.local/browse/PMVM-1030" } }
         };

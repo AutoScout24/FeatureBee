@@ -1,7 +1,10 @@
-﻿namespace FeatureBee.Server.Controllers
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace FeatureBee.Server.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Security.Principal;
 
     using FeatureBee.Server.Data.Features;
@@ -13,9 +16,9 @@
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Hubs;
 
-    public class BoardHubSpecs : WithSubject<BoardHubSpecs.TestableBoardHub>
+    public class EditPanelHubSpecs : WithSubject<EditPanelHubSpecs.TestableBoardHub>
     {
-        public class TestableBoardHub : BoardHub
+        public class TestableBoardHub : EditPanelHub
         {
             public TestableBoardHub(IFeatureRepository mockChatRepository)
                 : base(mockChatRepository)
@@ -37,11 +40,11 @@
 
         Establish context = () => feature = new Feature { name = "item", index = 0 };
 
-        public class When_adding_a_new_item
+        public class When_editing_a_item
         {
-            Because of = () => Subject.AddNewItem(feature);
+            Because of = () => Subject.EditItem("item", feature);
 
-            It should_have_added_the_feature_to_the_repository =
+            It should_have_saved_the_feature_to_the_repository =
                 () =>
                     The<IFeatureRepository>()
                         .WasToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
@@ -50,25 +53,26 @@
             It should_have_dispatched_the_event;
         }
 
-        public class When_moving_an_item
+        public class When_adding_a_condition
         {
             Establish context = () => The<IFeatureRepository>()
-                .WhenToldTo(_ => _.Collection())
-                .Return(new List<Feature> { feature }.AsQueryable());
+                   .WhenToldTo(_ => _.Collection())
+                   .Return(new List<Feature> { feature }.AsQueryable());
 
-            Because of = () => Subject.MoveItem("item", 0, 1);
+            Because of = () => Subject.AddConditionValue("item", "cond", new []{ "a" });
 
-            It should_have_saved_the_feature_to_the_repository =
+            It should_not_have_saved_the_feature_to_the_repository =
                 () =>
                     The<IFeatureRepository>()
-                        .WasToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
+                        .WasNotToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
 
-            It should_have_moved_the_item_to_the_new_index = () => feature.index.ShouldEqual(1);
+            private It should_have_added_the_condition_to_the_feature =
+                () => feature.conditions.ShouldContain(_ => _.type == "cond");
 
             // todo: find a way to test this...
-            private It should_have_dispatched_the_event;
+            It should_have_dispatched_the_event;
         }
-        
+
         private static Feature feature;
     }
 }

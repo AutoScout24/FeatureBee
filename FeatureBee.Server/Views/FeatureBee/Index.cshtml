@@ -61,8 +61,8 @@
                     <label for="team" class="col-lg-2 control-label">Traffic distribution</label>
                     <div class="col-lg-10">
                         <div class="input-group">
-                            <input type="text" class="col-lg-5" value="" name="from" placeholder="from" />
-                            <input type="text" class="col-lg-5" value="" name="to" placeholder="to" />
+                            <input type="text" class="col-lg-5" value="" name="from" placeholder="from" data-value="0" />
+                            <input type="text" class="col-lg-5" value="" name="to" placeholder="to" data-value="1" />
                             <span class="input-group-btn col-lg-2">
                                 <button class="btn btn-default" data-action="add" type="button">Add</button>
                             </span>
@@ -75,9 +75,10 @@
                     <label for="team" class="col-lg-2 control-label">Culture</label>
                     <div class="col-lg-10">
                         <div class="input-group">
-                            <select class="form-control" id="culture" name="culture">
+                            <select class="form-control" id="culture" name="culture" data-value="culture">
                                 <option value="de-DE">Deutsch</option>
                                 <option value="de-AT">Österreichisch</option>
+                                <option value="fr-FR">Französisch</option>
                             </select>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" data-action="add" type="button">Add</button>
@@ -91,7 +92,7 @@
                     <label for="team" class="col-lg-2 control-label">Browser</label>
                     <div class="col-lg-10">
                         <div class="input-group">
-                            <select class="form-control" id="browser" name="browser">
+                            <select class="form-control" id="browser" name="browser" data-value="browser">
                                 <option value="chrome">Google Chrome</option>
                                 <option value="firefox">Firefox</option>
                                 <option value="ie9">Internet Explorer 9</option>
@@ -148,15 +149,20 @@
                     </div>
                     <div class="col-lg-6">
                         {{#each conditions}}
-                        <div class="row">
-                            <p>
-                                {{type}}
-                                             {{#each values}}
-                                             <span class="label-{{../type}} label-condition-detail alert alert-dismissable"><button type="button" class="close" data-dismiss="alert">×</button>{{this}}</span>
-                                {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition="{{type}}">+</span>
-                            </p>
-
-                            {{#condition type}}
+                        <div class="row" data-container="condition">
+                            {{#condition ../name type values}}
+                        {{setIndex @@index}}
+                                <p>
+                                    <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}"/>
+                                    {{type}}
+                                    {{#each values}}
+                                    <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}"/>
+                                    <span class="label-{{../type}} label label-condition">
+                                        <button type="button" class="btn delete-condition" data-delete="{{../type}}.{{this}}">×</button>
+                                        <span data-edit="{{this}}">{{this}}</span>
+                                    </span>
+                                    {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition="{{type}}">+</span>
+                                </p>
                             {{/condition}}
                         </div>
                         {{/each}}
