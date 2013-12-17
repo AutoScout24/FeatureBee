@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using FeatureBee.Client;
 using FeatureBee.Client.Evaluators;
 using Moq;
@@ -14,6 +15,7 @@ namespace FeatureBee.Acceptance
         private readonly Mock<IFeatureRepository> _featureRepositoryMock = new Mock<IFeatureRepository>();
         private readonly Mock<IConditionEvaluator> _conditionEvaluatorsMock = new Mock<IConditionEvaluator>();
         private readonly Mock<IConditionEvaluator> _conditionEvaluatorsMock2 = new Mock<IConditionEvaluator>();
+        private readonly HttpContextBase _httpContextMock = HttpFakes.FakeHttpContext();
 
         [Given(@"I have feature with a condition evaluator that is always fullfilled")]
         public void GivenIHaveFeatureWithAConditionEvaluatorThatIsAlwaysFullfilled()
@@ -22,7 +24,20 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(true);
 
             FeatureBeeConfig
-                .Init()
+                .Init(_httpContextMock)
+                .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
+                .UsingRepository(_featureRepositoryMock.Object)
+                .Build();
+        }
+
+        [Given(@"I have feature with a condition evaluator that is never fullfilled")]
+        public void GivenIHaveFeatureWithAConditionEvaluatorThatIsNeverFullfilled()
+        {
+            _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
+            _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(false);
+
+            FeatureBeeConfig
+                .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
                 .UsingRepository(_featureRepositoryMock.Object)
                 .Build();
@@ -31,13 +46,13 @@ namespace FeatureBee.Acceptance
         [Given(@"I have feature under test with a condition evaluator")]
         public void GivenIHaveFeatureUnderTestWithAConditionEvaluator()
         {
-            var conditions = new List<Condition> { new Condition { Evaluator = "FakeEvaluator", Value = null } };
+            var conditions = new List<ConditionDto> { new ConditionDto { Evaluator = "FakeEvaluator", Value = null } };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<Feature>() { new Feature { Name = "SampleFeature", State = "Under Test", Conditions = conditions } });
+                .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = "Under Test", Conditions = conditions } });
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
 
             FeatureBeeConfig
-                .Init()
+                .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
                 .UsingRepository(_featureRepositoryMock.Object)
                 .Build();
@@ -52,28 +67,28 @@ namespace FeatureBee.Acceptance
         [Given(@"I have a feature in state (.*)")]
         public void GivenIHaveAFeatureInState(string featureState)
         {
-            var conditions = new List<Condition> { new Condition { Evaluator = "FakeEvaluator", Value = null } };
+            var conditions = new List<ConditionDto> { new ConditionDto { Evaluator = "FakeEvaluator", Value = null } };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<Feature>() { new Feature { Name = "SampleFeature", State = featureState, Conditions = conditions } });
+                .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = featureState, Conditions = conditions } });
         }
 
         [Given(@"the feature has a second condition evaluator")]
         public void GivenTheFeatureHasASecondConditionEvaluator()
         {
-            var conditions = new List<Condition>
+            var conditions = new List<ConditionDto>
             {
-                new Condition { Evaluator = "FakeEvaluator", Value = null },
-                new Condition { Evaluator = "FakeEvaluator2", Value = null }
+                new ConditionDto { Evaluator = "FakeEvaluator", Value = null },
+                new ConditionDto { Evaluator = "FakeEvaluator2", Value = null }
             };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<Feature>()
+                .Returns(new List<FeatureDto>()
                 {
-                    new Feature {Name = "SampleFeature", State = "Under Test", Conditions = conditions}
+                    new FeatureDto {Name = "SampleFeature", State = "Under Test", Conditions = conditions}
                 });
             _conditionEvaluatorsMock2.Setup(x => x.Name).Returns("FakeEvaluator2");
 
             FeatureBeeConfig
-                .Init()
+                .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object })
                 .UsingRepository(_featureRepositoryMock.Object)
                 .Build();
@@ -91,10 +106,19 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock2.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(secondEvaluator);
         }
 
+        [Given(@"I have enabled the GodMode")]
+        public void GivenIHaveEnabledTheGodMode()
+        {
+            var godModeCookie = new HttpCookie("FeatureBee", "SampleFeature");
+            var request = Mock.Get(_httpContextMock.Request);
+            request.SetupGet(r => r.Cookies).Returns(new HttpCookieCollection());
+            _httpContextMock.Request.Cookies.Add(godModeCookie);
+        }
+
         [When(@"evaluating the feature state")]
         public void WhenEvaluatingTheFeatureState()
         {
-            _featureIsEnabled = Client.FeatureBee.IsFeatureEnabled("SampleFeature");
+            _featureIsEnabled = Feature.IsEnabled("SampleFeature");
         }
 
         [Then(@"the (.*)")]

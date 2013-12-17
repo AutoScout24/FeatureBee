@@ -49,19 +49,33 @@ namespace FeatureBee.Client
 
     public class FeatureBeeConfig
     {
-        private FeatureBeeConfig()
+        private readonly HttpContextBase _httpContext;
+
+        private FeatureBeeConfig(HttpContextBase httpContext)
         {
-            
+            _httpContext = httpContext;
         }
 
         public void Build()
         {
-            Context = new WindowsApplicationContext(Evaluators, FeatureRepository);
+            if (_httpContext == null)
+                Context = new WindowsApplicationContext(Evaluators, FeatureRepository);
+            Context = new WebApplicationContext(_httpContext, Evaluators, FeatureRepository);
+        }
+
+        public static FeatureBeeConfig Init(HttpApplication app)
+        {
+            return new FeatureBeeConfig(new HttpContextWrapper(app.Context));
+        }
+
+        public static FeatureBeeConfig Init(HttpContextBase httpContext)
+        {
+            return new FeatureBeeConfig(httpContext);
         }
 
         public static FeatureBeeConfig Init()
         {
-            return new FeatureBeeConfig();
+            return new FeatureBeeConfig(null);
         }
 
         internal static IFeatureBeeContext Context { get; private set; }

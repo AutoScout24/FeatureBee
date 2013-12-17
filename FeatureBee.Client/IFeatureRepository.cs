@@ -4,6 +4,6 @@ namespace FeatureBee.Client
 {
     public interface IFeatureRepository
     {
-        List<Feature> GetFeatures();
+        List<FeatureDto> GetFeatures();
     }
 }
