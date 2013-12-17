@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using FeatureBee.Client.Evaluators;
 
 namespace FeatureBee.Client
 {
-    public static class FeatureBeeConfigEvaluators
+    public static class FeatureBeeBuilderEvaluators
     {
-        public static FeatureBeeConfig UsingEvaluators(this FeatureBeeConfig config, List<IConditionEvaluator> evaluators)
+        public static FeatureBeeBuilder UsingEvaluators(this FeatureBeeBuilder config, List<IConditionEvaluator> evaluators)
         {
             config.Evaluators = evaluators;
             return config;
         }
 
-        public static FeatureBeeConfig UsingEvaluatorsFromAssembly(this FeatureBeeConfig config)
+        public static FeatureBeeBuilder UsingEvaluatorsFromAssembly(this FeatureBeeBuilder config)
         {
-            var types = typeof(FeatureBeeConfig).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
+            var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
             var evaluators = types.Select(_ =>
             {
                 var constructor = _.GetConstructor(Type.EmptyTypes);
@@ -33,25 +34,31 @@ namespace FeatureBee.Client
         }
     }
 
-    public static class FeatureBeeConfigFeatures
+    public static class FeatureBeeBuilderFeatures
     {
-        public static FeatureBeeConfig UsingRepository(this FeatureBeeConfig config, IFeatureRepository featureRepository)
+        public static FeatureBeeBuilder FeaturesPullFrom(this FeatureBeeBuilder config, string featureBeeUri)
+        {
+            config.FeatureRepository = new PullFeatureRepository(featureBeeUri);
+            return config;
+        }
+
+        public static FeatureBeeBuilder FeaturesProvidedBy(this FeatureBeeBuilder config, IFeatureRepository featureRepository)
         {
             config.FeatureRepository = featureRepository;
             return config;
         }
 
-        public static FeatureBeeConfig UsingRepositoryFromConfig(this FeatureBeeConfig config)
-        {
-            return config;
-        }
+        //public static FeatureBeeBuilder UsingRepositoryFromConfig(this FeatureBeeBuilder config)
+        //{
+        //    return config;
+        //}
     }
 
-    public class FeatureBeeConfig
+    public class FeatureBeeBuilder
     {
         private readonly HttpContextBase _httpContext;
 
-        private FeatureBeeConfig(HttpContextBase httpContext)
+        private FeatureBeeBuilder(HttpContextBase httpContext)
         {
             _httpContext = httpContext;
         }
@@ -63,19 +70,19 @@ namespace FeatureBee.Client
             Context = new WebApplicationContext(_httpContext, Evaluators, FeatureRepository);
         }
 
-        public static FeatureBeeConfig Init(HttpApplication app)
+        public static FeatureBeeBuilder Init(HttpApplication app)
         {
-            return new FeatureBeeConfig(new HttpContextWrapper(app.Context));
+            return new FeatureBeeBuilder(new HttpContextWrapper(app.Context));
         }
 
-        public static FeatureBeeConfig Init(HttpContextBase httpContext)
+        public static FeatureBeeBuilder Init(HttpContextBase httpContext)
         {
-            return new FeatureBeeConfig(httpContext);
+            return new FeatureBeeBuilder(httpContext);
         }
 
-        public static FeatureBeeConfig Init()
+        public static FeatureBeeBuilder Init()
         {
-            return new FeatureBeeConfig(null);
+            return new FeatureBeeBuilder(null);
         }
 
         internal static IFeatureBeeContext Context { get; private set; }
@@ -88,7 +95,7 @@ namespace FeatureBee.Client
         ///// <param name="app">The reference to your Web Application.</param>
         //public static void Init(HttpApplication app)
         //{
-        //    var types = typeof(FeatureBeeConfig).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WebApplicationContext>).ToList();
+        //    var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WebApplicationContext>).ToList();
         //    var evaluators = types.Select(_ =>
         //    {
         //        var constructor = _.GetConstructor(Type.EmptyTypes);
@@ -102,7 +109,7 @@ namespace FeatureBee.Client
         ///// </summary>
         //public static void Init()
         //{
-        //    var types = typeof(FeatureBeeConfig).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
+        //    var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
         //    var evaluators = types.Select(_ =>
         //    {
         //        var constructor = _.GetConstructor(Type.EmptyTypes);

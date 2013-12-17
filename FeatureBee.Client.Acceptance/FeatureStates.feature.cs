@@ -74,24 +74,52 @@ namespace FeatureBee.Acceptance
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Based on the State of the feature")]
+        [NUnit.Framework.DescriptionAttribute("Based on the State of the feature with release configuration")]
         [NUnit.Framework.TestCaseAttribute("In Development", "false", "false", null)]
         [NUnit.Framework.TestCaseAttribute("Under Test", "true", "true", null)]
         [NUnit.Framework.TestCaseAttribute("Released", "true", "false", null)]
-        public virtual void BasedOnTheStateOfTheFeature(string state, string featureIsEnabled, string conditionsWereUsed, string[] exampleTags)
+        public virtual void BasedOnTheStateOfTheFeatureWithReleaseConfiguration(string state, string featureIsEnabled, string conditionsWereUsed, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Based on the State of the feature", exampleTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Based on the State of the feature with release configuration", exampleTags);
 #line 9
 this.ScenarioSetup(scenarioInfo);
 #line 6
 this.FeatureBackground();
 #line 10
- testRunner.Given(string.Format("I have a feature in state {0}", state), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("I have a release configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("evaluating the feature state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+  testRunner.And(string.Format("I have a feature in state {0}", state), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 12
- testRunner.Then(string.Format("the {0}", featureIsEnabled), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("evaluating the feature state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
+ testRunner.Then(string.Format("the {0}", featureIsEnabled), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.And(string.Format("{0} to evaluate the state", conditionsWereUsed), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [NUnit.Framework.TestAttribute()]
+        [NUnit.Framework.DescriptionAttribute("Based on the State of the feature with debug configuration")]
+        [NUnit.Framework.TestCaseAttribute("In Development", "true", "true", null)]
+        [NUnit.Framework.TestCaseAttribute("Under Test", "true", "true", null)]
+        [NUnit.Framework.TestCaseAttribute("Released", "true", "false", null)]
+        public virtual void BasedOnTheStateOfTheFeatureWithDebugConfiguration(string state, string featureIsEnabled, string conditionsWereUsed, string[] exampleTags)
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Based on the State of the feature with debug configuration", exampleTags);
+#line 23
+this.ScenarioSetup(scenarioInfo);
+#line 6
+this.FeatureBackground();
+#line 24
+ testRunner.Given("I have a debug configuration", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 25
+  testRunner.And(string.Format("I have a feature in state {0}", state), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 26
+ testRunner.When("evaluating the feature state", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 27
+ testRunner.Then(string.Format("the {0}", featureIsEnabled), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
  testRunner.And(string.Format("{0} to evaluate the state", conditionsWereUsed), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

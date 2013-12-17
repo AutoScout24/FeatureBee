@@ -9,5 +9,6 @@ namespace FeatureBee.Client
         List<IConditionEvaluator> Evaluators { get; }
         IFeatureRepository FeatureRepository { get; }
         List<string> GodModeFeatures { get; }
+        bool IsDebugMode { get; }
     }
 }
