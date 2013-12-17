@@ -8,6 +8,7 @@
 
     using Autofac;
     using Autofac.Integration.Mvc;
+    using Autofac.Integration.WebApi;
 
     using FeatureBee.Server.App_Start;
 
@@ -26,7 +27,10 @@
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             // Configure SignalR with the dependency resolver.
             GlobalHost.DependencyResolver = new Autofac.Integration.SignalR.AutofacDependencyResolver(container);
+            var resolver = new AutofacWebApiDependencyResolver(container);
 
+            // Configure Web API with the dependency resolver.
+            GlobalConfiguration.Configuration.DependencyResolver = resolver;
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

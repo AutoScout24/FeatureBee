@@ -54,6 +54,9 @@
     <Reference Include="Autofac.Integration.SignalR">
       <HintPath>..\packages\Autofac.SignalR.3.0.1\lib\net40\Autofac.Integration.SignalR.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
     <Reference Include="FakeItEasy">
       <HintPath>..\packages\FakeItEasy.1.14.0\lib\net40\FakeItEasy.dll</HintPath>
     </Reference>
@@ -172,6 +175,7 @@
     <Compile Include="Controllers\BoardHubSpecs.cs">
       <DependentUpon>BoardHub.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\FeatureBeeApiController.cs" />
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
@@ -203,10 +207,6 @@
     <Content Include="Scripts\boardify\formify.js" />
     <Content Include="Scripts\boardify\specs\boardify.specs.js" />
     <Content Include="Scripts\handlebars-v1.1.2.js" />
-    <Content Include="Scripts\jasmine-samples\Player.js" />
-    <Content Include="Scripts\jasmine-samples\PlayerSpec.js" />
-    <Content Include="Scripts\jasmine-samples\Song.js" />
-    <Content Include="Scripts\jasmine-samples\SpecHelper.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-ui-1.10.3.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />

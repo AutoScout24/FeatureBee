@@ -6,6 +6,7 @@
     using Autofac;
     using Autofac.Integration.Mvc;
     using Autofac.Integration.SignalR;
+    using Autofac.Integration.WebApi;
 
     using Module = Autofac.Module;
 
@@ -23,6 +24,8 @@
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+
             // Register the SignalR hubs.
             builder.RegisterHubs(Assembly.GetExecutingAssembly());
 
