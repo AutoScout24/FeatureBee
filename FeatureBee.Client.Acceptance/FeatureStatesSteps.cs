@@ -23,7 +23,7 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
             _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(true);
 
-            FeatureBeeConfig
+            FeatureBeeBuilder
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
                 .FeaturesProvidedBy(_featureRepositoryMock.Object)
@@ -36,7 +36,7 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
             _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<object>())).Returns(false);
 
-            FeatureBeeConfig
+            FeatureBeeBuilder
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
                 .FeaturesProvidedBy(_featureRepositoryMock.Object)
@@ -51,7 +51,7 @@ namespace FeatureBee.Acceptance
                 .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = "Under Test", Conditions = conditions } });
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
 
-            FeatureBeeConfig
+            FeatureBeeBuilder
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
                 .FeaturesProvidedBy(_featureRepositoryMock.Object)
@@ -87,7 +87,7 @@ namespace FeatureBee.Acceptance
                 });
             _conditionEvaluatorsMock2.Setup(x => x.Name).Returns("FakeEvaluator2");
 
-            FeatureBeeConfig
+            FeatureBeeBuilder
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object })
                 .FeaturesProvidedBy(_featureRepositoryMock.Object)
@@ -114,6 +114,14 @@ namespace FeatureBee.Acceptance
             request.SetupGet(r => r.Cookies).Returns(new HttpCookieCollection());
             _httpContextMock.Request.Cookies.Add(godModeCookie);
         }
+
+        [Given(@"I have a (.*) configuration")]
+        public void GivenIHaveAReleaseConfiguration(string configuration)
+        {
+            var mock = Mock.Get(_httpContextMock);
+            mock.SetupGet(x => x.IsDebuggingEnabled).Returns(configuration == "debug");
+        }
+
 
         [When(@"evaluating the feature state")]
         public void WhenEvaluatingTheFeatureState()

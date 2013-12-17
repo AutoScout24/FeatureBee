@@ -7,19 +7,19 @@ namespace FeatureBee.Client
     {
         public static bool IsEnabled(string featureName)
         {
-            if (FeatureBeeConfig.Context == null)
+            if (FeatureBeeBuilder.Context == null)
             {
                 throw new InvalidOperationException("FeatureBeeConfing.Init needs to be called first!");
             }
 
-            var godModeFeatures = FeatureBeeConfig.Context.GodModeFeatures;
+            var godModeFeatures = FeatureBeeBuilder.Context.GodModeFeatures;
             if (godModeFeatures.Any(x => x.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 return true;
             }
 
-            var evaluators = FeatureBeeConfig.Context.Evaluators;
-            var features = FeatureBeeConfig.Context.FeatureRepository.GetFeatures();
+            var evaluators = FeatureBeeBuilder.Context.Evaluators;
+            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
 
             var feature = features.FirstOrDefault(x => string.Equals(x.Name, featureName));
 
@@ -28,7 +28,7 @@ namespace FeatureBee.Client
                 return false;
             }
 
-            if (feature.State == "In Development")
+            if (feature.State == "In Development" && !FeatureBeeBuilder.Context.IsDebugMode)
             {
                 return false;
             }

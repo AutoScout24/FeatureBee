@@ -9,8 +9,14 @@ namespace FeatureBee.Client
     internal class WebApplicationContext : IFeatureBeeContext
     {
         private readonly HttpContextBase _httpContext;
+
         public List<IConditionEvaluator> Evaluators { get; private set; }
         public IFeatureRepository FeatureRepository { get; private set; }
+
+        public bool IsDebugMode
+        {
+            get { return _httpContext.IsDebuggingEnabled; }
+        }
 
         public List<string> GodModeFeatures
         {
@@ -42,10 +48,12 @@ namespace FeatureBee.Client
             Evaluators = evaluators;
             FeatureRepository = featureRepository;
             GodModeFeatures = new List<string>(); // Not supported, yet
+            IsDebugMode = false; // Not supported, yet
         }
 
         public List<IConditionEvaluator> Evaluators { get; private set; }
         public IFeatureRepository FeatureRepository { get; private set; }
         public List<string> GodModeFeatures { get; private set; }
+        public bool IsDebugMode { get; private set; }
     }
 }

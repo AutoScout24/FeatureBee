@@ -48,7 +48,7 @@
     <Compile Include="Evaluators\IConditionEvaluator.cs" />
     <Compile Include="FeatureDto.cs" />
     <Compile Include="Feature.cs" />
-    <Compile Include="FeatureBeeConfig.cs" />
+    <Compile Include="FeatureBeeBuilder.cs" />
     <Compile Include="IFeatureBeeContext.cs" />
     <Compile Include="IFeatureRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
