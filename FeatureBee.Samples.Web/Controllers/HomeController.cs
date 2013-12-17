@@ -10,6 +10,10 @@ namespace FeatureBee.Samples.Web.Controllers
     {
         public ActionResult Index()
         {
+            if (Feature.IsEnabled("a"))
+            {
+                ViewBag.Message = "Congratulations. You passed FeatureBee´s conditions";
+            }
             return View();
         }
 

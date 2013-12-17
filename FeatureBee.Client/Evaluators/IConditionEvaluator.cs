@@ -8,6 +8,6 @@
     public interface IConditionEvaluator
     {
         string Name { get; }
-        bool IsFulfilled(object value);
+        bool IsFulfilled(string[] values);
     }
 }
