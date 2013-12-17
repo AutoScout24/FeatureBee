@@ -18,12 +18,14 @@ namespace FeatureBee.Server.Controllers
         }
 
         // GET api/features
-        public IEnumerable<dynamic> Get()
+        public IEnumerable<FeatureViewModel> Get()
         {
             return repository.Collection().Select(
-                feature => new {
-                    name = feature.name,
-                    conditions = feature.conditions
+                feature => new FeatureViewModel
+                {
+                    Name = feature.name,
+                    Conditions = feature.conditions,
+                    State = new StateMapper().Map(feature.index)
                 });
         }
 
