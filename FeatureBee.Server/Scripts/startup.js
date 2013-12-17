@@ -20,24 +20,37 @@
 
     editPanelHub.client.conditionValueAddedToFeature = function (item) {
         form.openEdit(item);
-        boot(form);
     };
 
     $.connection.hub.start().done(function () {
-        form = new forms();
-        boot(form);
-
-        menu.register(form);
-
-        board.create(form);
+        
+        boot.loadPrequesits().loadTemplates().loadMenu().loadBoard();
     });
 
-    var boot = function(form) {
-        var handlebar = new handleBar(new conditionTemplates(form));
+    var boot = {
+        loadPrequesits: function() {
+            form = new forms();
+            return this;
+        },
+
+        loadTemplates: function () {
+            handleBar(new conditionTemplates(form));
+            return this;
+        },
+   
+        loadMenu: function () {
+            $('[data-open="newFeature"]').click(form.openNew);
+            return this;
+        },
+        
+        loadBoard: function () {
+            board.create();
+            return this;
+        }
     };
 
     var board = {
-        create: function (form) {
+        create: function () {
             $('#board').boardify({
                 states: "[data-state]",
                 template: '[data-item]',
@@ -64,7 +77,7 @@
         }
     };
 
-    var conditionTemplates = function (form) {
+    var conditionTemplates = function () {
         var templates = [];
         $('[data-template]').each(function (index, value) {
             templates.push({
@@ -102,12 +115,6 @@
             templates.render(name, type, $el, conditions);
             return $el.html();
         });
-    };
-
-    var menu = {
-        register: function (form) {
-            $('[data-open="newFeature"]').click(form.openNew);
-        }
     };
 
     var forms = function () {

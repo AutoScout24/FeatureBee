@@ -20,8 +20,8 @@ namespace FeatureBee.Server
                     "~/Scripts/boardify/*.js",
                     "~/Scripts/handlebars-v{version}.js"));
             bundles.Add(
-                new ScriptBundle("~/bundles/startup-boardify").Include(
-                    "~/Scripts/startup.boardify.js"));
+                new ScriptBundle("~/bundles/startup").Include(
+                    "~/Scripts/startup.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include("~/Content/style.css"));
 
