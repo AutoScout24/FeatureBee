@@ -26,7 +26,7 @@ namespace FeatureBee.Acceptance
             FeatureBeeConfig
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
-                .UsingRepository(_featureRepositoryMock.Object)
+                .FeaturesProvidedBy(_featureRepositoryMock.Object)
                 .Build();
         }
 
@@ -39,7 +39,7 @@ namespace FeatureBee.Acceptance
             FeatureBeeConfig
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
-                .UsingRepository(_featureRepositoryMock.Object)
+                .FeaturesProvidedBy(_featureRepositoryMock.Object)
                 .Build();
         }
 
@@ -54,7 +54,7 @@ namespace FeatureBee.Acceptance
             FeatureBeeConfig
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object })
-                .UsingRepository(_featureRepositoryMock.Object)
+                .FeaturesProvidedBy(_featureRepositoryMock.Object)
                 .Build();
         }
 
@@ -90,7 +90,7 @@ namespace FeatureBee.Acceptance
             FeatureBeeConfig
                 .Init(_httpContextMock)
                 .UsingEvaluators(new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object })
-                .UsingRepository(_featureRepositoryMock.Object)
+                .FeaturesProvidedBy(_featureRepositoryMock.Object)
                 .Build();
         }
 

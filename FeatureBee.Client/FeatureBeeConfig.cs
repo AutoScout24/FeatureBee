@@ -35,16 +35,22 @@ namespace FeatureBee.Client
 
     public static class FeatureBeeConfigFeatures
     {
-        public static FeatureBeeConfig UsingRepository(this FeatureBeeConfig config, IFeatureRepository featureRepository)
+        public static FeatureBeeConfig FeaturesPullFrom(this FeatureBeeConfig config, string featureBeeUri)
+        {
+            config.FeatureRepository = new PullFeatureRepository(featureBeeUri);
+            return config;
+        }
+
+        public static FeatureBeeConfig FeaturesProvidedBy(this FeatureBeeConfig config, IFeatureRepository featureRepository)
         {
             config.FeatureRepository = featureRepository;
             return config;
         }
 
-        public static FeatureBeeConfig UsingRepositoryFromConfig(this FeatureBeeConfig config)
-        {
-            return config;
-        }
+        //public static FeatureBeeConfig UsingRepositoryFromConfig(this FeatureBeeConfig config)
+        //{
+        //    return config;
+        //}
     }
 
     public class FeatureBeeConfig
