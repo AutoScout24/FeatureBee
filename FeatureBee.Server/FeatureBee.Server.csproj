@@ -222,7 +222,9 @@
     <Content Include="Scripts\jquery.signalR-2.0.1.js" />
     <Content Include="Scripts\jquery.signalR-2.0.1.min.js" />
     <Content Include="Scripts\startup.boardify.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

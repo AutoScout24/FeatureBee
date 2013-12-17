@@ -1,0 +1,4 @@
+SignalR.Transports.TransportHeartBeat Information: 0 : Connection 652d658e-ab60-4303-908b-3246295fdd4d is New.
+SignalR.Transports.TransportHeartBeat Verbose: 0 : KeepAlive(652d658e-ab60-4303-908b-3246295fdd4d)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : KeepAlive(652d658e-ab60-4303-908b-3246295fdd4d)
+SignalR.Transports.TransportHeartBeat Verbose: 0 : KeepAlive(652d658e-ab60-4303-908b-3246295fdd4d)

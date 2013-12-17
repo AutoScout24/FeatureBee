@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace FeatureBee.Server.Controllers
+﻿namespace FeatureBee.Server.Controllers
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Principal;
 
     using FeatureBee.Server.Data.Features;
@@ -16,11 +13,11 @@ namespace FeatureBee.Server.Controllers
     using Microsoft.AspNet.SignalR;
     using Microsoft.AspNet.SignalR.Hubs;
 
-    public class EditPanelHubSpecs : WithSubject<EditPanelHubSpecs.TestableBoardHub>
+    public class EditPanelHubSpecs : WithSubject<EditPanelHubSpecs.TestableEditPanelHub>
     {
-        public class TestableBoardHub : EditPanelHub
+        public class TestableEditPanelHub : EditPanelHub
         {
-            public TestableBoardHub(IFeatureRepository mockChatRepository)
+            public TestableEditPanelHub(IFeatureRepository mockChatRepository)
                 : base(mockChatRepository)
             {
                 const string connectionId = "1234";
