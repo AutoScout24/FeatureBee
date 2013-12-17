@@ -7,6 +7,13 @@
     using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
+    public class FeatureResult
+    {
+        public string name { get; set; }
+        public List<Condition> conditions { get; set; }
+        public int index { get; set; }
+    }
+
     public class FeatureBeeLiveApiController : ApiController
     {
         private readonly IFeatureRepository repository;
@@ -17,13 +24,14 @@
         }
 
         // GET api/features
-        public IEnumerable<dynamic> Get()
+        public IEnumerable<FeatureResult> Get()
         {
             return this.repository.Collection().Where(_ => _.index > 0).Select(
-                feature => new
+                feature => new FeatureResult
                            {
                                name = feature.name,
-                               conditions = feature.conditions
+                               conditions = feature.conditions,
+                               index = feature.index
                            });
         }
 
