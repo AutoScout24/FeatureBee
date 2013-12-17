@@ -31,7 +31,7 @@
             save: function (data) {
                 boardHub.server.editItem(data.oldName,
                 {
-                    title : data.title, 
+                    name: data.name,
                     team : data.team, 
                     link : data.link, 
                     index : data.index
@@ -42,12 +42,13 @@
         var formNew = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
                 boardHub.server.addNewItem({
-                    title: data.title,
+                    name: data.name,
                     team: data.team,
                     link: data.link,
                     index: 0
                 });
-            }
+            },
+            width: $(window).width() - 180
         });
         $('[data-open="newFeature"]').click(function () { formNew.formify('open'); });
 
@@ -65,7 +66,7 @@
                 return data;
             },
             subscribeToItemChanged: function(obj) {
-                boardHub.server.moveItem(obj.data.title, obj.data.oldIndex, obj.data.index);
+                boardHub.server.moveItem(obj.data.name, obj.data.oldIndex, obj.data.index);
             },
             subscribeToItemSelected: function (obj) {
                 formEdit.formify('open', obj.data);

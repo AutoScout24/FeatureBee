@@ -41,7 +41,7 @@
             </div>
             <div data-item="template" class="template">
                 <div class="post-it {{team}}">
-                    <strong>{{title}}</strong>
+                    <strong>{{name}}</strong>
                     <br>
                     <small>{{team}}</small>
                     <a href="{{link}}" target="_blank">read more</a><br/>
@@ -54,15 +54,15 @@
         <div data-edit-item="edit" class="template">
             <div class="row">
                 <form class="form-horizontal">
-                    <input type="hidden" id="oldName" name="oldName" value="{{title}}">
+                    <input type="hidden" id="oldName" name="oldName" value="{{name}}">
                     <input type="hidden" id="index" name="index" value="{{index}}">
                     <div class="col-lg-6">
                         <fieldset>
-                            <legend style="display: none;">{{title}}</legend>
+                            <legend style="display: none;">{{name}}</legend>
                             <div class="form-group">
-                                <label for="title" class="col-lg-2 control-label">Name</label>
+                                <label for="name" class="col-lg-2 control-label">Name</label>
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="title" name="title" placeholder="Name" value="{{title}}">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}">
                                 </div>
                             </div>
                             <div class="form-group">

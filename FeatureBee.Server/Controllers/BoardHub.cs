@@ -18,7 +18,7 @@
 
         public void AddNewItem(Feature feature)
         {
-            featureRepository.Save(feature.title, feature);
+            featureRepository.Save(feature.name, feature);
             this.NewItemAdded(feature);
         }
 
@@ -30,7 +30,7 @@
 
         public void MoveItem(string name, int oldIndex, int newIndex)
         {
-            var feature = featureRepository.Collection().FirstOrDefault(f => f.title == name);
+            var feature = featureRepository.Collection().FirstOrDefault(f => f.name == name);
             if (feature == null) return;
 
             feature.index = newIndex;

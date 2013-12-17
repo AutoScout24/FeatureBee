@@ -26,7 +26,7 @@ namespace FeatureBee.Server.Controllers
         // GET api/features/myfeature
         public Feature Get(string id)
         {
-            return repository.Collection().FirstOrDefault(_ => _.title == id);
+            return repository.Collection().FirstOrDefault(_ => _.name == id);
         }
     }
 }

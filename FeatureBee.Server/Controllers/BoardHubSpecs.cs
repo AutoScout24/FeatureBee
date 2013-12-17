@@ -35,7 +35,7 @@
             }
         }
 
-        Establish context = () => feature = new Feature { title = "item", index = 0 };
+        Establish context = () => feature = new Feature { name = "item", index = 0 };
 
         public class When_adding_a_new_item
         {
