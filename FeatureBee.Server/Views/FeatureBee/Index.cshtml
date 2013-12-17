@@ -54,7 +54,7 @@
         <div data-edit-item="edit" class="template">
             <div class="row">
                 <form class="form-horizontal">
-                    <input type="hidden" id="id" name="id" value="{{title}}">
+                    <input type="hidden" id="oldName" name="oldName" value="{{title}}">
                     <input type="hidden" id="index" name="index" value="{{index}}">
                     <div class="col-lg-6">
                         <fieldset>
@@ -93,21 +93,49 @@
                         </fieldset>
                     </div>
                     <div class="col-lg-6">
-                        <span class="label label-danger">Region: de-DE</span><br/>
-                        <span class="label label-primary">Browser: Chrome</span>
-                        <span class="label label-primary">Browser: Firefox</span><br/>
-                        <div class="form-group">
-                            <label for="browser" class="col-lg-2 control-label">Browser</label>
-                            <div class="col-lg-10">
-                                <select multiple class="form-control" id="browser" name="browser">
-                                    <option value="dealer" selected="selected">chrome</option>
-                                    <option value="asm" selected="selected">firefox</option>
-                                    <option value="all">IE</option>
-                                    <option value="all">Safari</option>
-                                </select>
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    Regions
+                                    <span class="label label-danger">de-DE</span>
+                                    <span class="btn btn-danger btn-xs" data-add="browser">+</span>
+                                </div>
                             </div>
                         </div>
-                        <span class="label label-success">Distribution of users: 0-50</span>
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    Browsers
+                                    <span class="label label-primary">Chrome</span>
+                                    <span class="label label-primary">Firefox</span>
+                                    <span class="btn btn-primary btn-xs" data-add="browser">+</span><br/>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select class="form-control" id="browser" name="browser">
+                                                <option value="dealer">chrome</option>
+                                                <option value="asm">firefox</option>
+                                                <option value="all">IE</option>
+                                                <option value="all">Safari</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button">Add</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    Traffic Distribution
+                            <span class="label label-success">0% to 50% of users</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 btn btn-success">Add Condition</div>
+                        </div>
                     </div>
                 </form>
             </div>

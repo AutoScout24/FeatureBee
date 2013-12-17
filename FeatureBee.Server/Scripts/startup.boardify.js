@@ -29,13 +29,24 @@
         var editItem = $('[data-edit-item="edit"]');
         var formEdit = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
-                boardHub.server.editItem(data.id, data.title, data.team, data.index);
+                boardHub.server.editItem(data.oldName,
+                {
+                    title : data.title, 
+                    team : data.team, 
+                    link : data.link, 
+                    index : data.index
+                });
             },
             width: $(window).width() - 180
         });
         var formNew = editItem.clone().appendTo(editItem.parent()).formify({
             save: function (data) {
-                boardHub.server.addNewItem(data.title, data.team);
+                boardHub.server.addNewItem({
+                    title: data.title,
+                    team: data.team,
+                    link: data.link,
+                    index: 0
+                });
             }
         });
         $('[data-open="newFeature"]').click(function () { formNew.formify('open'); });

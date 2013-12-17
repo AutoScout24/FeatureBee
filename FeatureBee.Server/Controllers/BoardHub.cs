@@ -16,16 +16,14 @@
             this.featureRepository = featureRepository;
         }
 
-        public void AddNewItem(string name, string team)
+        public void AddNewItem(Feature feature)
         {
-            var feature = new Feature{ title = name, team = team, index = 0 };
-            featureRepository.Save(name, feature);
+            featureRepository.Save(feature.title, feature);
             this.NewItemAdded(feature);
         }
 
-        public void EditItem(string oldName, string name, string team, int index)
+        public void EditItem(string oldName, Feature feature)
         {
-            var feature = new Feature { title = name, team = team, index = index };
             featureRepository.Save(oldName, feature);
             this.ItemEdited(feature);
         }

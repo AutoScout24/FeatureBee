@@ -30,7 +30,7 @@ $(function () {
                 {
                     text: "Save",
                     click: function () {
-                        self.options.save($(this).serializeObject());
+                        self.options.save($(this).find('form').serializeObject());
                         $(this).dialog("close");
                     }
                 }

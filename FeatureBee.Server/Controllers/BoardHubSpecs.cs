@@ -35,9 +35,11 @@
             }
         }
 
+        Establish context = () => feature = new Feature { title = "item", index = 0 };
+
         public class When_adding_a_new_item
         {
-            Because of = () => Subject.AddNewItem("item", "team");
+            Because of = () => Subject.AddNewItem(feature);
 
             It should_have_added_the_feature_to_the_repository =
                 () =>
@@ -50,7 +52,7 @@
         
         public class When_editing_a_item
         {
-            Because of = () => Subject.EditItem("item", "item", "team", 0);
+            Because of = () => Subject.EditItem("item", feature);
 
             It should_have_saved_the_feature_to_the_repository =
                 () =>
@@ -63,11 +65,9 @@
 
         public class When_moving_an_item
         {
-            Establish context = () =>
-            {
-                feature = new Feature() { title = "item", index = 0 };
-                The<IFeatureRepository>().WhenToldTo(_ => _.Collection()).Return(new List<Feature> { feature }.AsQueryable());
-            };
+            Establish context = () => The<IFeatureRepository>()
+                .WhenToldTo(_ => _.Collection())
+                .Return(new List<Feature> { feature }.AsQueryable());
 
             Because of = () => Subject.MoveItem("item", 0, 1);
 
@@ -76,12 +76,12 @@
                     The<IFeatureRepository>()
                         .WasToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
 
-            private It should_have_moved_the_item_to_the_new_index = () => feature.index.ShouldEqual(1);
+            It should_have_moved_the_item_to_the_new_index = () => feature.index.ShouldEqual(1);
 
             // todo: find a way to test this...
-            It should_have_dispatched_the_event;
-
-            private static Feature feature;
+            private It should_have_dispatched_the_event;
         }
+        
+        private static Feature feature;
     }
 }
