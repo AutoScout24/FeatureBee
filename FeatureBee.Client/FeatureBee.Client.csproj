@@ -7,7 +7,7 @@
     <ProjectGuid>{93EC90DF-046A-4355-84D8-9ED8A71D83D5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FeatureBee.Client</RootNamespace>
+    <RootNamespace>FeatureBee</RootNamespace>
     <AssemblyName>FeatureBee.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,20 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConditionDto.cs" />
+    <Compile Include="Configuration\ConditionDto.cs" />
     <Compile Include="Evaluators\BrowserConditionEvaluator.cs" />
     <Compile Include="Evaluators\IConditionEvaluator.cs" />
-    <Compile Include="FeatureDto.cs" />
+    <Compile Include="Configuration\FeatureDto.cs" />
     <Compile Include="Feature.cs" />
-    <Compile Include="FeatureBeeBuilder.cs" />
-    <Compile Include="IFeatureBeeContext.cs" />
-    <Compile Include="IFeatureRepository.cs" />
+    <Compile Include="Configuration\FeatureBeeBuilder.cs" />
+    <Compile Include="Configuration\IFeatureBeeContext.cs" />
+    <Compile Include="Configuration\IFeatureRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebApplicationContext.cs" />
+    <Compile Include="Configuration\WebApplicationContext.cs" />
+    <Compile Include="Configuration\WindowsApplicationContext.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

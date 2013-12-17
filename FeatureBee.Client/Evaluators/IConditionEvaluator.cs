@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FeatureBee.Client.Evaluators
+﻿namespace FeatureBee.Evaluators
 {
     public interface IConditionEvaluator<T> : IConditionEvaluator
     {

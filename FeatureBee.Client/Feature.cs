@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using FeatureBee.Configuration;
 
-namespace FeatureBee.Client
+namespace FeatureBee
 {
     public static class Feature
     {
