@@ -10,7 +10,7 @@ namespace FeatureBee.Samples.Web
             FeatureBeeBuilder
                 .Init(app)
                 .UsingEvaluatorsFromAssembly()
-                .FeaturesPullFrom("http://localhost:")
+                .FeaturesPullFrom("http://localhost:57189/")
                 .Build();
         }
     }
