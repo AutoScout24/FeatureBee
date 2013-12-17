@@ -38,6 +38,15 @@
                     });
                 }
             });
+
+            $(data).each(function (index, value) {
+                $("body").off("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]');
+                $("body").on("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]', function () {
+                    var data = JSON.parse($(this).attr(self.options.triggerDelete));
+                    self.options.delete({ name: name, type: type, values: [ data[type] ] });
+                    $(this).parent().remove();
+                });
+            });
         },
 
         _create: function () {
@@ -49,10 +58,6 @@
                 var template = Handlebars.compile(source);
                 this.templates[condition.type] = template;
             }
-            $("body").on("click", '[' + self.options.triggerDelete + ']', function () {
-                self.options.delete();
-                $(this).parent().remove();
-            });
         },
         
         _destroy: function () {

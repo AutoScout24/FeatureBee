@@ -63,8 +63,37 @@
                     The<IFeatureRepository>()
                         .WasNotToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
 
-            private It should_have_added_the_condition_to_the_feature =
+            It should_have_a_condition_to_the_feature =
                 () => feature.conditions.ShouldContain(_ => _.type == "cond");
+
+            It should_have_added_the_condition_to_the_feature =
+                () => feature.conditions.ShouldContain(_ => _.values.Any(v => v == "a"));
+
+            // todo: find a way to test this...
+            It should_have_dispatched_the_event;
+        }
+
+        public class When_removing_a_condition
+        {
+            Establish context = () =>
+            {
+                feature.conditions.Add(new Condition { type = "cond", values = new List<string>() { "a", "b" } });
+                The<IFeatureRepository>()
+                    .WhenToldTo(_ => _.Collection())
+                    .Return(new List<Feature> { feature }.AsQueryable());
+            };
+
+            Because of = () => Subject.RemoveConditionValue("item", "cond", new[] { "a" });
+
+            It should_not_have_saved_the_feature_to_the_repository =
+                () =>
+                    The<IFeatureRepository>()
+                        .WasNotToldTo(_ => _.Save(Param<string>.IsAnything, Param<Feature>.IsAnything));
+
+            It should_have_removed_the_condition_from_the_feature = () => feature.conditions.ShouldNotContain(_ => _.values.Any(v => v == "a"));
+
+            It should_not_have_removed_the_other_conditions_from_the_feature =
+                () => feature.conditions.ShouldContain(_ => _.values.Any(v => v == "b"));
 
             // todo: find a way to test this...
             It should_have_dispatched_the_event;

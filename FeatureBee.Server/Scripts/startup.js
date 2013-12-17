@@ -21,9 +21,12 @@
     editPanelHub.client.conditionValueAddedToFeature = function (item) {
         form.openEdit(item);
     };
+    
+    editPanelHub.client.conditionValueRemovedFromFeature = function (item) {
+        form.openEdit(item);
+    };
 
     $.connection.hub.start().done(function () {
-        
         boot.loadPrequesits().loadTemplates().loadMenu().loadBoard();
     });
 
@@ -90,6 +93,9 @@
             conditions: templates,
             add: function (data) {
                 editPanelHub.server.addConditionValue(data.name, data.type, data.values);
+            },
+            delete: function (data) {
+                editPanelHub.server.removeConditionValue(data.name, data.type, data.values);
             }
         });
 
@@ -167,6 +173,4 @@
             formNew.formify('open');
         };
     };
-
-
 });

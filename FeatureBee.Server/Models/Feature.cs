@@ -36,5 +36,11 @@
             if (values.Contains(value)) return;
             values.Add(value);
         }
+
+        public void RemoveValue(string value)
+        {
+            if (!values.Contains(value)) return;
+            values.Remove(value);
+        }
     }
 }

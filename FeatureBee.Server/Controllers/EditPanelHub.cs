@@ -2,6 +2,8 @@
 {
     using System.Linq;
 
+    using FakeItEasy.ExtensionSyntax.Full;
+
     using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
@@ -30,6 +32,22 @@
             this.ConditionValueAdded(feature);
         }
 
+        public void RemoveConditionValue(string name, string type, string[] values)
+        {
+            var feature = this.featureRepository.Collection().FirstOrDefault(_ => _.name == name);
+            var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
+            if (condition != null)
+            {
+                condition.RemoveValue(string.Join(",", values));
+                if (!condition.values.Any())
+                {
+                    feature.conditions.Remove(condition);
+                }
+            }
+
+            this.ConditionValueRemoved(feature);
+        }
+
         public void EditItem(string oldName, Feature feature)
         {
             featureRepository.Save(oldName, feature);
@@ -39,6 +57,11 @@
         public void ConditionValueAdded(Feature feature)
         {
             Clients.All.conditionValueAddedToFeature(feature);
+        }
+
+        public void ConditionValueRemoved(Feature feature)
+        {
+            Clients.All.conditionValueRemovedFromFeature(feature);
         }
 
         public void ItemEdited(Feature item)
