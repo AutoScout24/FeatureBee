@@ -19,9 +19,6 @@ let testResultsDir  = "./testresults/"
 let deployDir       = "./deploy/"
 let packagingDir    = "./packaging/"
 
-// version info
-let version = "0.2"  // or retrieve from CI server
-
 let releaseNotes =
     ReadFile "ReleaseNotes.md"
     |> ReleaseNotesHelper.parseReleaseNotes
