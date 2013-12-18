@@ -32,7 +32,7 @@
 </div>
 <script>
     $(function () {
-        $('h1').text('click here to ensure jquery ' + $.fn.jquery + ' is still working ');
-        $('h1').click(function () { alert('jquery ' + $.fn.jquery + ' (expected 1.10.2) is still working '); });
+        $('h1').text('click here to ensure jquery 1.10.2 is still working ' + (($.fn.jquery == "1.10.2") ? "(looking good)" : "(looking bad)"));
+        $('h1').click(function () { alert(($.fn.jquery == "1.10.2") ? 'jquery ' + $.fn.jquery + ' (expected 1.10.2) is still working ' : "oh no... wrong version: " + $.fn.jquery); });
     });
 </script>
