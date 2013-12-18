@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -45,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Configuration\ConditionDto.cs" />
     <Compile Include="Evaluators\BrowserConditionEvaluator.cs" />
+    <Compile Include="Evaluators\ClaimConditionEvaluator.cs" />
+    <Compile Include="Evaluators\CultureConditionEvaluator.cs" />
     <Compile Include="Evaluators\IConditionEvaluator.cs" />
     <Compile Include="Configuration\FeatureDto.cs" />
     <Compile Include="Feature.cs" />
