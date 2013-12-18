@@ -39,24 +39,27 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" data-container="condition">
                 {{#each conditions}}
-                        <div class="row" data-container="condition">
-                            {{#condition ../name type values}}
-                        {{setIndex @@index}}
-                                <p>
-                                    <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}" />
-                                    {{type}}
-                                    {{#each values}}
-                                    <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
-                                    <span class="label-{{../type}} label label-condition">
-                                        <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
-                                        <span data-edit="{{this}}">{{this}}</span>
-                                    </span>
-                                    {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
-                                </p>
-                            {{/condition}}
-                        </div>
+                <div class="row" data-container="condition-item">
+                    {{#condition ../name type values}}
+                    {{setIndex @@index}}
+                    <p>
+                        <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}" />
+                        {{type}}
+                        {{#each values}}
+                        <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
+                        <span class="label-{{../type}} label label-condition">
+                            <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
+                            <span data-edit="{{this}}">{{this}}</span>
+                        </span>
+                        {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
+                    </p>
+                    {{/condition}}
+                </div>
+                {{else}}
+                    {{#emptyCondition ../name}}
+                    {{/emptyCondition}}
                 {{/each}}
                         <div class="row">
                             <p>&nbsp;</p>

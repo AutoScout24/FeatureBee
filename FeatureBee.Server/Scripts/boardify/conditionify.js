@@ -16,6 +16,7 @@
         
         render: function (name, type, data) {
             var self = this;
+            
             $("body").on("click", '[' + self.options.triggerAdd + '="' + type + '"]', function () { self._renderItem(this, name, type, data); });
 
             $(data).each(function (index, value) {
@@ -26,6 +27,12 @@
                     $(this).parent().remove();
                 });
             });
+
+            self.renderAddNewCondition(name);
+        },
+        
+        renderAddNewCondition: function (name) {
+            var self = this;
             $("body").off("click", '[' + self.options.triggerNew + '="' + name + '"]');
             $("body").on("click", '[' + self.options.triggerNew + '="' + name + '"]', function () {
                 var btn = $(this);
@@ -39,7 +46,7 @@
                     a.text(value.type);
                     a.data(value.type);
                     item.append(li.append(a));
-                    a.click(function() {
+                    a.click(function () {
                         self.options.new({ name: name, type: value.type });
                         btn.find('[data-select="condition"]').hide('fast');
                         btn.find('[data-select="condition"]').remove();
@@ -78,7 +85,7 @@
 
         _create: function () {
             var self = this;
-            self.baseTemplate = Handlebars.compile($(self.element).html().trim());
+            self.baseTemplate = Handlebars.compile($(self.element).find('[data-container="condition-item"]').html().trim());
             for (var i = 0; i < this.options.conditions.length; i++) {
                 var condition = this.options.conditions[i];
                 var source = $(condition.template).html().trim();
