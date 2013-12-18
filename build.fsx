@@ -3,6 +3,8 @@
 
 open Fake
 
+RestorePackages()
+
 let authors = ["AutoScout24"]
 
 // project name and description
