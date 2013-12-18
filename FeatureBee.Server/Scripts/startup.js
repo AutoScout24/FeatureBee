@@ -1,14 +1,13 @@
 ﻿$(function () {
-    // Declare a proxy to reference the hub. 
+    // board hub => board specific functions. 
     var boardHub = $.connection.boardHub;
+    // edit panel hub => edit dialog specific functions.
     var editPanelHub = $.connection.editPanelHub;
     var form;
     
-    // Create a function that the hub can call to broadcast new items.
     boardHub.client.newItemAdded = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
-
 
     boardHub.client.itemMoved = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
@@ -31,11 +30,11 @@
     };
 
     $.connection.hub.start().done(function () {
-        boot.loadPrequesits().loadTemplates().loadMenu().loadBoard();
+        boot.loadPrerequisite().loadTemplates().loadMenu().loadBoard();
     });
 
     var boot = {
-        loadPrequesits: function() {
+        loadPrerequisite: function () {
             form = new forms();
             return this;
         },
