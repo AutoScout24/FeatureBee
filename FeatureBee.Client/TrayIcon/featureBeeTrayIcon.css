@@ -1,0 +1,181 @@
+﻿.feature-bee-tray-container * {
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: #000000;
+}
+
+.feature-bee-tray-container strong {
+    font-weight: bold;
+}
+
+.feature-bee-tray-container small {
+    font-size: 85%;
+}
+
+.feature-bee-tray-container {
+    z-index: 1030;
+    position: fixed;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.feature-bee-panel {
+    padding: 15px;
+    background-color: #ffffff;
+    border-color: #eeeeee;
+    border-width: 1px;
+    border-top-style: solid;
+    display: none;
+}
+
+.feature-bee-brand {
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    font-family: 'News Cycle', 'Arial Narrow Bold', sans-serif;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 170px;
+    font-size: 18px;
+    font-weight: bold;
+    height: 60px;
+    line-height: 21px;
+    text-transform: uppercase;
+    padding: 19.5px 15px;
+}
+
+.feature-bee-brand-description {
+    font-size: 13px;
+    display: block;
+}
+
+.feature-bee-show {
+    position: absolute;
+    right: 60px;
+    bottom: 60px;
+    cursor: pointer;
+}
+
+.feature-bee-hide {
+    position: absolute;
+    bottom: 15px;
+    left: 28px;
+    cursor: pointer;
+}
+
+.feature-bee-content {
+    margin-left: 175px;
+}
+
+.feature-bee-scroll-pane {
+    overflow: auto;
+    width: 99%;
+    float: left;
+}
+
+.feature-bee-scroll-content {
+    width: 12440px;
+    float: left;
+}
+
+.feature-bee-scroll-content-items-template {
+    display: none;
+}
+
+.feature-bee-scroll-content-item {
+    position: relative;
+    background: #fefabc;
+    padding: 5px 15px;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 15px;
+    color: #000;
+    -webkit-transform: rotate( random(-5, 5)deg);
+    -moz-transform: rotate( random(-5, 5)deg);
+    -o-transform: rotate( random(-5, 5)deg);
+    -ms-transform: rotate( random(-5, 5)deg);
+    transform: rotate( random(-5, 5)deg);
+    box-shadow: 0px 4px 6px #333;
+    -moz-box-shadow: 0px 4px 6px #333;
+    -webkit-box-shadow: 0px 4px 6px #333;
+    width: 100px;
+    height: 50px;
+    float: left;
+    margin: 10px;
+}
+
+.feature-bee-scroll-bar-wrap {
+    clear: left;
+    padding: 0 4px 0 2px;
+    margin: 0 -1px -1px -1px;
+}
+
+    .feature-bee-scroll-bar-wrap .ui-slider {
+        background: none;
+        border: 0;
+        height: 20px;
+        margin: 0 auto;
+    }
+
+    .feature-bee-scroll-bar-wrap .ui-handle-helper-parent {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .feature-bee-scroll-bar-wrap .ui-slider-handle {
+        top: .2em;
+        height: 12px;
+    }
+
+        .feature-bee-scroll-bar-wrap .ui-slider-handle .ui-icon {
+            margin: -8px auto 0;
+            position: relative;
+            top: 50%;
+        }
+
+.godmode-toggle {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    padding: 4px 6px;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+    .godmode-toggle.On {
+        color: #ffffff;
+        background-color: #22b24c;
+        border-color: #22b24c;
+    }
+
+        .godmode-toggle.On:hover {
+            background-color: #1b903d;
+            border-color: #187f36;
+        }
+
+    .godmode-toggle.Off {
+        color: #ffffff;
+        background-color: #999999;
+        border-color: #999999;
+    }
+
+        .godmode-toggle.Off:hover {
+            background-color: #858585;
+            border-color: #7a7a7a;
+        }
