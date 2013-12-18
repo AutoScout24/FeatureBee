@@ -17,7 +17,7 @@ namespace FeatureBee.Server
             bundles.Add(
                 new ScriptBundle("~/bundles/board").Include(
                     "~/Scripts/jquery.signalR-{version}.js",
-                    "~/Scripts/boardify/*.js",
+                    "~/Scripts/featureBee/*.js",
                     "~/Scripts/handlebars-v{version}.js"));
             bundles.Add(
                 new ScriptBundle("~/bundles/startup").Include(
