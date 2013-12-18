@@ -1,12 +1,17 @@
-﻿<div data-template="culture">
+﻿@using System.Globalization
+<div data-template="culture">
     <div class="form-group">
         <label for="team" class="col-lg-2 control-label">Culture</label>
         <div class="col-lg-10">
             <div class="input-group">
                 <select class="form-control" id="culture" name="culture" data-value="culture">
-                    <option value="de-DE">Deutsch</option>
-                    <option value="de-AT">Österreichisch</option>
-                    <option value="fr-FR">Französisch</option>
+                    @{
+                        var cultures = CultureInfo.GetCultures(CultureTypes.SpecificCultures).OrderBy(_ => _.DisplayName);
+                        foreach (var cultureInfo in cultures)
+                        {
+                            <option value="@cultureInfo.Name">@cultureInfo.DisplayName</option>
+                        }
+                    }
                 </select>
                 <span class="input-group-btn">
                     <button class="btn btn-default" data-action="add" type="button">Add</button>
