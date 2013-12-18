@@ -11,28 +11,25 @@ namespace FeatureBee.WireUp
     {
         internal static IFeatureBeeContext Context { get; private set; }
 
-        private FeatureBeeBuilder()
+        private FeatureBeeBuilder(IFeatureBeeContext context)
         {
-            Context = new WindowsApplicationContext {Evaluators = LoadConditionEvaluators()};
-        }
-        private FeatureBeeBuilder(HttpContextBase httpContext)
-        {
-            Context = new WebApplicationContext(httpContext) {Evaluators = LoadConditionEvaluators()};
+            Context = context;
+            Context.Evaluators = LoadConditionEvaluators();
         }
 
-        public static FeatureBeeBuilder ForWebApp(HttpApplication app)
+        public static FeatureBeeBuilder ForWebApp(Func<HttpContextBase> httpContextFunc)
         {
-            return new FeatureBeeBuilder(new HttpContextWrapper(app.Context));
+            return new FeatureBeeBuilder(new WebApplicationContext(httpContextFunc));
         }
 
-        public static FeatureBeeBuilder ForWebApp(HttpContextBase httpContext)
+        public static FeatureBeeBuilder ForWebApp()
         {
-            return new FeatureBeeBuilder(httpContext);
+            return new FeatureBeeBuilder(new WebApplicationContext(() => new HttpContextWrapper(HttpContext.Current)));
         }
 
         public static FeatureBeeBuilder ForWindowsService()
         {
-            return new FeatureBeeBuilder();
+            return new FeatureBeeBuilder(new WindowsApplicationContext());
         }
 
         public void Use(IFeatureRepository featureRepository = null, List<IConditionEvaluator> conditionEvaluators = null)

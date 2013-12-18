@@ -10,7 +10,7 @@ namespace FeatureBee.Samples.Web.Controllers
     {
         public ActionResult Index()
         {
-            if (Feature.IsEnabled("a"))
+            if (Feature.IsEnabled("PMVM-1150 Booking Overview"))
             {
                 ViewBag.Message = "Congratulations. You passed FeatureBee´s conditions";
             }

@@ -7,7 +7,7 @@ namespace FeatureBee.Samples.Web
     {
         public static void InitFor(HttpApplication app)
         {
-            FeatureBeeBuilder.ForWebApp(app).UseConfig();
+            FeatureBeeBuilder.ForWebApp().UseConfig();
         }
     }
 }

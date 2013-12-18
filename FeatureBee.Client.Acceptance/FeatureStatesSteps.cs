@@ -24,7 +24,7 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(true);
 
             FeatureBeeBuilder
-                .ForWebApp(_httpContextMock)
+                .ForWebApp(() => _httpContextMock)
                 .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
         }
 
@@ -35,7 +35,7 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(false);
 
             FeatureBeeBuilder
-                .ForWebApp(_httpContextMock)
+                .ForWebApp(() => _httpContextMock)
                 .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object });
         }
 
@@ -48,8 +48,8 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
 
             FeatureBeeBuilder
-                .ForWebApp(_httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
+                .ForWebApp(() => _httpContextMock)
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object });
         }
 
         [Given(@"the condition is (.*)")]
@@ -82,8 +82,8 @@ namespace FeatureBee.Acceptance
             _conditionEvaluatorsMock2.Setup(x => x.Name).Returns("FakeEvaluator2");
 
             FeatureBeeBuilder
-                .ForWebApp(_httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object });
+                .ForWebApp(() => _httpContextMock)
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object });
         }
 
         [Given(@"the first condition evaluator returns (.*)")]
