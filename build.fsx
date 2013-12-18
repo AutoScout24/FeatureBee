@@ -7,8 +7,8 @@ let authors = ["AutoScout24"]
 
 // project name and description
 let projectName = "FeatureBee"
-let projectDescription = ""
-let projectSummary = ""
+let projectDescription = "Release your new features without a release."
+let projectSummary = projectDescription
 
 
 // Directories
@@ -66,7 +66,7 @@ Target "CreatePackage" (fun _ ->
     let net45Dir = packagingDir @@ "lib/net45/"
     CleanDirs [net45Dir]
 
-    CopyFile net45Dir (buildDir @@ "Release/Net45/FeatureBee.Client.dll")
+    CopyFile net45Dir (buildDir @@ "FeatureBee.Client.dll")
     CopyFiles packagingDir ["LICENSE.txt"; "README.md"; "ReleaseNotes.md"]
 
     NuGet (fun p ->
@@ -94,6 +94,7 @@ Target "Default" DoNothing
   ==> "NUnitTest"
   ==> "MSpecTest"
   ==> "JasmineTest"
+  ==> "CreatePackage"
   ==> "Default"
 
 // start build
