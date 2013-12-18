@@ -16,10 +16,10 @@
     {
         private static readonly Dictionary<string,Feature> Features = new Dictionary<string,Feature>
         {
-            { "a" , new Feature { name= "a", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-DE", "de-AT"}}, new Condition { type="browser", values = new List<string> {"chrome", "firefox"}}} }  },
-            { "b" , new Feature { name= "b", team= "dealer", index= 1, link="https://jira.as24.local/browse/PMVM-1030" } },
-            {"lala" , new Feature { name= "lala", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-AT"}}, new Condition { type="trafficDistribution", values = new List<string> {"0%", "50%"}}} } },
-            {"tata" , new Feature { name= "tata", team= "asm", index= 2, link="https://jira.as24.local/browse/PMVM-1030" } },
+            { "PMVM-1150 Booking Overview" , new Feature { name= "PMVM-1150 Booking Overview", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-DE", "de-AT"}}, new Condition { type="browser", values = new List<string> {"chrome", "firefox"}}} }  },
+            { "PMVM-442 SalesForce VII: WebForm Regsitration" , new Feature { name= "PMVM-442 SalesForce VII: WebForm Regsitration", team= "dealer", index= 1, link="https://jira.as24.local/browse/PMVM-1030" } },
+            {"PMVM-1589 Navigation 2.0" , new Feature { name= "PMVM-1589 Navigation 2.0", team= "asm", index= 0, link="https://jira.as24.local/browse/PMVM-1030", conditions = new List<Condition>{ new Condition {type="culture", values = new List<string> {"de-AT"}}, new Condition { type="trafficDistribution", values = new List<string> {"0%", "50%"}}} } },
+            {"PMVM-1238 Rating Comments" , new Feature { name= "PMVM-1238 Rating Comments", team= "asm", index= 2, link="https://jira.as24.local/browse/PMVM-1030" } },
             {"erw" , new Feature { name= "erw", team= "", index= 0, link="https://jira.as24.local/browse/PMVM-1030" } }
         };
 

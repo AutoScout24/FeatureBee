@@ -141,7 +141,34 @@
                 open: function () {
                     var self = this;
                     $(this.element).show('fast', function () {
-                        setTimeout(function () { self._sizeScrollbar(); }, 10);
+                        loadFeatures(function(features) {
+                            var featureItems = self.template(features);
+                            self.scrollContent.append($(featureItems));
+                            var width = 400;
+
+                            self.scrollContent.find('.feature-bee-scroll-content-item').each(function() {
+                                width += $(this).outerWidth();
+                            });
+
+                            $('.feature-bee-scroll-content').width(width);
+                            
+                            var toggleOn = "On", toggleOff = "Off";
+                            self.scrollContent.find('[data-toggle-target]').click(function () {
+                                var state = $(this).attr("data-toogle-state");
+                                if (state == toggleOn) {
+                                    self._removeFromCookie($(this).attr("data-toggle-target"));
+                                    $(this).attr("data-toogle-state", toggleOff);
+                                    $(this).removeClass(toggleOn).addClass(toggleOff);
+                                    $(this).text(toggleOff);
+                                } else {
+                                    self._addToCookie($(this).attr("data-toggle-target"));
+                                    $(this).attr("data-toogle-state", toggleOn);
+                                    $(this).removeClass(toggleOff).addClass(toggleOn);
+                                    $(this).text(toggleOn);
+                                }
+                            });
+                            setTimeout(function() { self._sizeScrollbar(); }, 10);
+                        });
                     });
                 },
 
@@ -190,74 +217,47 @@
                     $.cookie(cookieName, value);
                 },
 
-                _create: function () {
+                _create: function() {
                     var self = this;
                     //scrollpane parts
                     self.scrollPane = $(".feature-bee-scroll-pane"),
-                      self.scrollContent = $(".feature-bee-scroll-content");
+                    self.scrollContent = $(".feature-bee-scroll-content");
 
                     // load and add items
                     var source = $(".feature-bee-scroll-content-items-template").html().trim();
-                    var template = Handlebars.compile(source);
-                    loadFeatures(function(features) {
-                        var featureItems = template(features);
-                        self.scrollContent.append($(featureItems));
-                        var width = 400;
-                        self.scrollContent.find('.feature-bee-scroll-content-item').each(function() {
-                            width += $(this).outerWidth();
-                        });
-                        
-                        $('.feature-bee-scroll-content').width(width);
-                        
+                    self.template = Handlebars.compile(source);
 
-
-                        //build slider
-                        self.scrollbar = $(".feature-bee-scroll-bar").slider({
-                            slide: function (event, ui) {
-                                if (self.scrollContent.width() > self.scrollPane.width()) {
-                                    self.scrollContent.css("margin-left", Math.round(
-                                      ui.value / 100 * (self.scrollPane.width() - self.scrollContent.width())
-                                    ) + "px");
-                                } else {
-                                    self.scrollContent.css("margin-left", 0);
-                                }
-                            }
-                        });
-
-                        //append icon to handle
-                        self.handleHelper = self.scrollbar.find(".ui-slider-handle").mousedown(function () { self.scrollbar.width(self.handleHelper.width()); }).mouseup(function () { self.scrollbar.width("100%"); }).append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>").wrap("<div class='ui-handle-helper-parent'></div>").parent();
-
-                        //change overflow to hidden now that slider handles the scrolling
-                        self.scrollPane.css("overflow", "hidden");
-
-                        var toggleOn = "On", toggleOff = "Off";
-                        self.scrollContent.find('[data-toggle-target]').click(function () {
-                            var state = $(this).attr("data-toogle-state");
-                            if (state == toggleOn) {
-                                self._removeFromCookie($(this).attr("data-toggle-target"));
-                                $(this).attr("data-toogle-state", toggleOff);
-                                $(this).removeClass(toggleOn).addClass(toggleOff);
-                                $(this).text(toggleOff);
+                    //build slider
+                    self.scrollbar = $(".feature-bee-scroll-bar").slider({
+                        slide: function(event, ui) {
+                            if (self.scrollContent.width() > self.scrollPane.width()) {
+                                self.scrollContent.css("margin-left", Math.round(
+                                    ui.value / 100 * (self.scrollPane.width() - self.scrollContent.width())
+                                ) + "px");
                             } else {
-                                self._addToCookie($(this).attr("data-toggle-target"));
-                                $(this).attr("data-toogle-state", toggleOn);
-                                $(this).removeClass(toggleOff).addClass(toggleOn);
-                                $(this).text(toggleOn);
+                                self.scrollContent.css("margin-left", 0);
                             }
-                        });
-
-                        //change handle position on window resize
-                        $(window).resize(function () {
-                            self._resetValue();
-                            self._sizeScrollbar();
-                            self.reflowContent();
-                        });
-
-                        $('.feature-bee-hide').click(function () {
-                            $(self.element).hide('fast');
-                            self.options.close();
-                        });
+                        }
                     });
+
+                    //append icon to handle
+                    self.handleHelper = self.scrollbar.find(".ui-slider-handle").mousedown(function() { self.scrollbar.width(self.handleHelper.width()); }).mouseup(function() { self.scrollbar.width("100%"); }).append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>").wrap("<div class='ui-handle-helper-parent'></div>").parent();
+
+                    //change overflow to hidden now that slider handles the scrolling
+                    self.scrollPane.css("overflow", "hidden");
+
+                    //change handle position on window resize
+                    $(window).resize(function() {
+                        self._resetValue();
+                        self._sizeScrollbar();
+                        self.reflowContent();
+                    });
+
+                    $('.feature-bee-hide').click(function() {
+                        $(self.element).hide('fast');
+                        self.options.close();
+                    });
+
                 }
             });
 
