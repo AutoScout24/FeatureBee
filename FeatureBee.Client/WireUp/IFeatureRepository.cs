@@ -4,7 +4,7 @@ using System.Net;
 using System.Runtime.Caching;
 using System.Web.Script.Serialization;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.WireUp
 {
     public interface IFeatureRepository
     {

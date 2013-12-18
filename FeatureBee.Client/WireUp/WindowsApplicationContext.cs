@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using FeatureBee.Evaluators;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.WireUp
 {
     internal class WindowsApplicationContext : IFeatureBeeContext
     {
-        public WindowsApplicationContext(List<IConditionEvaluator> evaluators, IFeatureRepository featureRepository)
+        public WindowsApplicationContext()
         {
-            Evaluators = evaluators;
-            FeatureRepository = featureRepository;
             GodModeFeatures = new List<string>(); // Not supported, yet
             IsDebugMode = false; // Not supported, yet
         }
 
-        public List<IConditionEvaluator> Evaluators { get; private set; }
-        public IFeatureRepository FeatureRepository { get; private set; }
+        public List<IConditionEvaluator> Evaluators { get; set; }
+        public IFeatureRepository FeatureRepository { get; set; }
         public List<string> GodModeFeatures { get; private set; }
         public bool IsDebugMode { get; private set; }
+        public bool ShowTrayIconOnPages { get; set; }
     }
 }

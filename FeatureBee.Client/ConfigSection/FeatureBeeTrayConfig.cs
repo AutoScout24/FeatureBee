@@ -1,8 +1,8 @@
 ﻿using System.Configuration;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.ConfigSection
 {
-    public class FeatureBeeTrayConfig: ConfigurationElement
+    internal class FeatureBeeTrayConfig: ConfigurationElement
     {
         [ConfigurationProperty("showTrayIconOnPages", DefaultValue = false, IsRequired = false)]
         public bool ShowTrayIconOnPages

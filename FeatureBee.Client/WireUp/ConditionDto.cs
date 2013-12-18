@@ -1,4 +1,4 @@
-﻿namespace FeatureBee.Configuration
+﻿namespace FeatureBee.WireUp
 {
     public class ConditionDto
     {

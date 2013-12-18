@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee.Evaluators
 {

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee.Evaluators
 {

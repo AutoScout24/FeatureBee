@@ -1,5 +1,5 @@
 ﻿using System.Web;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee.Samples.Web
 {
@@ -7,7 +7,7 @@ namespace FeatureBee.Samples.Web
     {
         public static void InitFor(HttpApplication app)
         {
-            FeatureBeeBuilder.Init(app).BuildFromConfig();
+            FeatureBeeBuilder.ForWebApp(app).UseConfig();
         }
     }
 }

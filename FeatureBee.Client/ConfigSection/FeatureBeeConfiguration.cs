@@ -1,8 +1,8 @@
 ﻿using System.Configuration;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.ConfigSection
 {
-    public class FeatureBeeConfiguration : ConfigurationSection
+    internal class FeatureBeeConfiguration : ConfigurationSection
     {
         [ConfigurationProperty("server", IsRequired = false)]
         public FeatureBeeServerConfig Server

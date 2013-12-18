@@ -1,8 +1,9 @@
 ﻿using System.Configuration;
+using FeatureBee.WireUp;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.ConfigSection
 {
-    public class FeatureBeeServerConfig: ConfigurationElement
+    internal class FeatureBeeServerConfig: ConfigurationElement
     {
         [ConfigurationProperty("url", DefaultValue = "", IsRequired = true)]
         public string Url

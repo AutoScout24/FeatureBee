@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee
 {

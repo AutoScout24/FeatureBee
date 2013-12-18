@@ -3,19 +3,21 @@ using System.Linq;
 using System.Web;
 using FeatureBee.Evaluators;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.WireUp
 {
     internal class WebApplicationContext : IFeatureBeeContext
     {
         private readonly HttpContextBase _httpContext;
 
-        public List<IConditionEvaluator> Evaluators { get; private set; }
-        public IFeatureRepository FeatureRepository { get; private set; }
+        public List<IConditionEvaluator> Evaluators { get; set; }
+        public IFeatureRepository FeatureRepository { get; set; }
 
         public bool IsDebugMode
         {
             get { return _httpContext.IsDebuggingEnabled; }
         }
+
+        public bool ShowTrayIconOnPages { get; set; }
 
         public List<string> GodModeFeatures
         {
@@ -30,13 +32,15 @@ namespace FeatureBee.Configuration
                 }
                 return value.Split('#').ToList();
             }
+            set
+            {
+                
+            }
         }
 
-        public WebApplicationContext(HttpContextBase httpContext, List<IConditionEvaluator> evaluators, IFeatureRepository featureRepository)
+        public WebApplicationContext(HttpContextBase httpContext)
         {
             _httpContext = httpContext;
-            Evaluators = evaluators;
-            FeatureRepository = featureRepository;
         }
     }
 }
