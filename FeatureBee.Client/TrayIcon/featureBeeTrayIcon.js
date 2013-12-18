@@ -105,7 +105,7 @@
             var cookieName = "featureBee";
 
             var loadFeatures = function (onComplete) {
-                $.get('/featurebee.axd/features').done(function (features) {
+                $.get(featuresUrl + '?t=' + new Date().getTime()).done(function (features) {
                     var featureBeeCookie = $.cookie(cookieName);
                     $.each(features, function (index, value) {
                         if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "#") !== -1)
