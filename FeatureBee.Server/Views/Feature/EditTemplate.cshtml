@@ -1,0 +1,68 @@
+﻿<div data-edit-item="edit" class="template">
+    <div class="row">
+        <form class="form-horizontal">
+            <input type="hidden" id="oldName" name="oldName" value="{{name}}">
+            <input type="hidden" id="index" name="index" value="{{index}}">
+            <div class="col-lg-6">
+                <fieldset>
+                    <legend style="display: none;">{{name}}</legend>
+                    <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="team" class="col-lg-2 control-label">Team</label>
+                        <div class="col-lg-10">
+                            <select class="form-control" id="team" name="team">
+                                {{#select team}}
+                                        <option value="dealer">dealer</option>
+                                <option value="asm">asm</option>
+                                <option value="all">all</option>
+                                {{/select}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="textArea" class="col-lg-2 control-label">Description</label>
+                        <div class="col-lg-10">
+                            <textarea class="form-control" rows="3" id="textArea"></textarea>
+                            <span class="help-block">The description can help you later.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="link" class="col-lg-2 control-label">Story Url</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="link" name="link" placeholder="Link to your story in jira|tfs|etc" value="{{link}}">
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-lg-6">
+                {{#each conditions}}
+                        <div class="row" data-container="condition">
+                            {{#condition ../name type values}}
+                        {{setIndex @@index}}
+                                <p>
+                                    <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}" />
+                                    {{type}}
+                                    {{#each values}}
+                                    <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
+                                    <span class="label-{{../type}} label label-condition">
+                                        <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
+                                        <span data-edit="{{this}}">{{this}}</span>
+                                    </span>
+                                    {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
+                                </p>
+                            {{/condition}}
+                        </div>
+                {{/each}}
+                        <div class="row">
+                            <p>&nbsp;</p>
+                            <div class="col-lg-push-6 col-lg-6 btn btn-success" data-add-condition="{{name}}">Add Condition</div>
+                        </div>
+            </div>
+        </form>
+    </div>
+</div>

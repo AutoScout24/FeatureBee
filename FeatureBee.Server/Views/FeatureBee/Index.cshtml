@@ -32,7 +32,7 @@
                 <div style="clear: both"></div>
             </div>
             <div data-state="Under Test" class="board-row col-lg-4">
-                <h2 class="header">Under test || Testgroup</h2>
+                <h2 class="header">Under test || Testgroup || Usertests</h2>
                 <div style="clear: both"></div>
             </div>
             <div data-state="Released" class="board-row col-lg-4">
@@ -56,123 +56,13 @@
     </div>
     <div class="row">
         <div class="template">
-            <div data-template="trafficDistribution">
-                <div class="form-group">
-                    <label for="team" class="col-lg-2 control-label">Traffic distribution</label>
-                    <div class="col-lg-10">
-                        <div class="input-group">
-                            <input type="text" class="col-lg-5" value="" name="from" placeholder="from" data-value="0" />
-                            <input type="text" class="col-lg-5" value="" name="to" placeholder="to" data-value="1" />
-                            <span class="input-group-btn col-lg-2">
-                                <button class="btn btn-default" data-action="add" type="button">Add</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div data-template="culture">
-                <div class="form-group">
-                    <label for="team" class="col-lg-2 control-label">Culture</label>
-                    <div class="col-lg-10">
-                        <div class="input-group">
-                            <select class="form-control" id="culture" name="culture" data-value="culture">
-                                <option value="de-DE">Deutsch</option>
-                                <option value="de-AT">Österreichisch</option>
-                                <option value="fr-FR">Französisch</option>
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" data-action="add" type="button">Add</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div data-template="browser">
-                <div class="form-group">
-                    <label for="team" class="col-lg-2 control-label">Browser</label>
-                    <div class="col-lg-10">
-                        <div class="input-group">
-                            <select class="form-control" id="browser" name="browser" data-value="browser">
-                                <option value="chrome">Google Chrome</option>
-                                <option value="firefox">Firefox</option>
-                                <option value="ie9">Internet Explorer 9</option>
-                                <option value="ie10">Internet Explorer 10</option>
-                            </select>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" data-action="add" type="button">Add</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @{
+                foreach (var condition in new[] { "trafficDistribution", "culture", "browser" })
+                {
+                    Html.Partial(string.Format("~/Views/Conditions/{0}.cshtml", condition));
+                }
+            }
         </div>
-        <div data-edit-item="edit" class="template">
-            <div class="row">
-                <form class="form-horizontal">
-                    <input type="hidden" id="oldName" name="oldName" value="{{name}}">
-                    <input type="hidden" id="index" name="index" value="{{index}}">
-                    <div class="col-lg-6">
-                        <fieldset>
-                            <legend style="display: none;">{{name}}</legend>
-                            <div class="form-group">
-                                <label for="name" class="col-lg-2 control-label">Name</label>
-                                <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{name}}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="team" class="col-lg-2 control-label">Team</label>
-                                <div class="col-lg-10">
-                                    <select class="form-control" id="team" name="team">
-                                        {{#select team}}
-                                        <option value="dealer">dealer</option>
-                                        <option value="asm">asm</option>
-                                        <option value="all">all</option>
-                                        {{/select}}
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="textArea" class="col-lg-2 control-label">Description</label>
-                                <div class="col-lg-10">
-                                    <textarea class="form-control" rows="3" id="textArea"></textarea>
-                                    <span class="help-block">The description can help you later.</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="link" class="col-lg-2 control-label">Story Url</label>
-                                <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="link" name="link" placeholder="Link to your story in jira|tfs|etc" value="{{link}}">
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="col-lg-6">
-                        {{#each conditions}}
-                        <div class="row" data-container="condition">
-                            {{#condition ../name type values}}
-                        {{setIndex @@index}}
-                                <p>
-                                    <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}"/>
-                                    {{type}}
-                                    {{#each values}}
-                                    <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}"/>
-                                    <span class="label-{{../type}} label label-condition">
-                                        <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
-                                        <span data-edit="{{this}}">{{this}}</span>
-                                    </span>
-                                    {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
-                                </p>
-                            {{/condition}}
-                        </div>
-                        {{/each}}
-                        <div class="row">
-                            <p>&nbsp;</p>
-                            <div class="col-lg-push-6 col-lg-6 btn btn-success" data-add-condition="{{name}}">Add Condition</div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        @Html.Partial("~/Views/Feature/EditTemplate.cshtml")
     </div>
 </div>
