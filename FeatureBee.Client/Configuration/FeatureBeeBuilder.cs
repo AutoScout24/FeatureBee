@@ -88,35 +88,9 @@ namespace FeatureBee.Configuration
         internal List<IConditionEvaluator> Evaluators { get; set; }
         internal IFeatureRepository FeatureRepository { get; set; }
 
-        ///// <summary>
-        ///// Initializes FeatureBee. Use this method from a Web Application.
-        ///// </summary>
-        ///// <param name="app">The reference to your Web Application.</param>
-        //public static void Init(HttpApplication app)
-        //{
-        //    var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WebApplicationContext>).ToList();
-        //    var evaluators = types.Select(_ =>
-        //    {
-        //        var constructor = _.GetConstructor(Type.EmptyTypes);
-        //        return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
-        //    }).ToList();
-        //    Context = new WebApplicationContext(app.Context, evaluators);
-        //}
-
-        ///// <summary>
-        ///// Initializes FeatureBee. Use this method from a Windows Forms or Windows Service Application.
-        ///// </summary>
-        //public static void Init()
-        //{
-        //    var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator<WindowsApplicationContext>).ToList();
-        //    var evaluators = types.Select(_ =>
-        //    {
-        //        var constructor = _.GetConstructor(Type.EmptyTypes);
-        //        return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
-        //    }).ToList();
-
-        //    Context = new WindowsApplicationContext(evaluators, featureRepository);
-        //}
-
+        public void BuildFromConfig()
+        {
+            var config = FeatureBeeConfiguration.GetSection();
+        }
     }
 }

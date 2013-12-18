@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Caching" />
@@ -46,6 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConditionDto.cs" />
+    <Compile Include="Configuration\FeatureBeeConfiguration.cs" />
+    <Compile Include="Configuration\FeatureBeeServerConfig.cs" />
+    <Compile Include="Configuration\FeatureBeeTrayConfig.cs" />
+    <Compile Include="Configuration\UpdateMode.cs" />
     <Compile Include="Evaluators\BrowserConditionEvaluator.cs" />
     <Compile Include="Evaluators\ClaimConditionEvaluator.cs" />
     <Compile Include="Evaluators\CultureConditionEvaluator.cs" />
