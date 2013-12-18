@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee
 {

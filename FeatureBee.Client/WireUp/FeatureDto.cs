@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FeatureBee.Configuration
+namespace FeatureBee.WireUp
 {
     public class FeatureDto
     {

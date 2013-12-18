@@ -1,17 +1,13 @@
 ﻿using System.Web;
-using FeatureBee.Configuration;
+using FeatureBee.WireUp;
 
 namespace FeatureBee.Samples.Web
 {
-    public class FeatureBeeConfig
+    public static class FeatureBeeConfig
     {
         public static void InitFor(HttpApplication app)
         {
-            FeatureBeeBuilder
-                .Init(app)
-                .UsingEvaluatorsFromAssembly()
-                .FeaturesPullFrom("http://localhost:57189/")
-                .Build();
+            FeatureBeeBuilder.ForWebApp().UseConfig();
         }
     }
 }
