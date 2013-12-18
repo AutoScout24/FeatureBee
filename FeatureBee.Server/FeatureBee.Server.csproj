@@ -251,6 +251,7 @@
     <Content Include="Views\Conditions\Browser.cshtml" />
     <Content Include="Views\Feature\EditTemplate.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Views\Feature\BoardTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
