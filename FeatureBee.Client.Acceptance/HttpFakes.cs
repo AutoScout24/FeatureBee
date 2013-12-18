@@ -16,19 +16,19 @@ namespace FeatureBee.Acceptance
             var user = new Mock<IPrincipal>();
             var identity = new Mock<IIdentity>();
 
-            request.Expect(req => req.ApplicationPath).Returns("~/");
-            request.Expect(req => req.AppRelativeCurrentExecutionFilePath).Returns("~/");
-            request.Expect(req => req.PathInfo).Returns(string.Empty);
-            response.Expect(res => res.ApplyAppPathModifier(It.IsAny<string>()))
+            request.Setup(req => req.ApplicationPath).Returns("~/");
+            request.Setup(req => req.AppRelativeCurrentExecutionFilePath).Returns("~/");
+            request.Setup(req => req.PathInfo).Returns(string.Empty);
+            response.Setup(res => res.ApplyAppPathModifier(It.IsAny<string>()))
                 .Returns((string virtualPath) => virtualPath);
-            user.Expect(usr => usr.Identity).Returns(identity.Object);
-            identity.ExpectGet(ident => ident.IsAuthenticated).Returns(true);
+            user.Setup(usr => usr.Identity).Returns(identity.Object);
+            identity.SetupGet(ident => ident.IsAuthenticated).Returns(true);
 
-            context.Expect(ctx => ctx.Request).Returns(request.Object);
-            context.Expect(ctx => ctx.Response).Returns(response.Object);
-            context.Expect(ctx => ctx.Session).Returns(session.Object);
-            context.Expect(ctx => ctx.Server).Returns(server.Object);
-            context.Expect(ctx => ctx.User).Returns(user.Object);
+            context.Setup(ctx => ctx.Request).Returns(request.Object);
+            context.Setup(ctx => ctx.Response).Returns(response.Object);
+            context.Setup(ctx => ctx.Session).Returns(session.Object);
+            context.Setup(ctx => ctx.Server).Returns(server.Object);
+            context.Setup(ctx => ctx.User).Returns(user.Object);
 
             return context.Object;
         }        
