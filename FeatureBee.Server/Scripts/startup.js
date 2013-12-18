@@ -18,15 +18,15 @@
     };
 
     editPanelHub.client.conditionValueAddedToFeature = function (item) {
-        form.openEdit(item);
+        $.Comm('page', 'valueAddedTo:' + item.name).publish(item);
     };
     
     editPanelHub.client.conditionValueRemovedFromFeature = function (item) {
-        form.openEdit(item);
+        $.Comm('page', 'valueRemovedFrom:' + item.name).publish(item);
     };
     
     editPanelHub.client.conditionCreatedForFeature = function (item) {
-        form.openEdit(item);
+        $.Comm('page', 'conditionCreatedTo:' + item.name).publish(item);
     };
 
     $.connection.hub.start().done(function () {

@@ -10,7 +10,8 @@ $(function() {
       comm = {
         publish: callbacks.fire,
         subscribe: callbacks.add,
-        unsubscribe: callbacks.remove
+        unsubscribe: callbacks.remove,
+        empty: callbacks.empty
       };
       if ( id ) {
         communicator[ id + '.' + stream ] = comm;
