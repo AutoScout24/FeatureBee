@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
 using FeatureBee.Configuration;
@@ -25,7 +26,7 @@ namespace FeatureBee
         private static string GetFeaturesAsJson()
         {
             var serializer = new JavaScriptSerializer();
-            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
+            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures().Where(x => x.State != "Released");
             return serializer.Serialize(features);
         }
 
