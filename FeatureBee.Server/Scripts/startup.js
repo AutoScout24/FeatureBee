@@ -29,10 +29,6 @@
         $.Comm('page', 'conditionCreatedTo:' + item.name).publish(item);
     };
 
-    $.connection.hub.start().done(function () {
-        boot.loadPrerequisite().loadTemplates().loadMenu().loadBoard();
-    });
-
     var boot = {
         loadPrerequisite: function () {
             form = new forms();
@@ -50,37 +46,35 @@
         },
         
         loadBoard: function () {
-            board.create();
+            board();
             return this;
         }
     };
 
-    var board = {
-        create: function () {
-            $('#board').boardify({
-                states: "[data-state]",
-                template: '[data-item]',
-                source: function () {
-                    var data = null;
-                    jQuery.ajaxSetup({ async: false });
-                    $.post('/FeatureBee/Features').done(function (d) {
-                        data = d;
-                    });
-                    jQuery.ajaxSetup({ async: true });
+    var board = function() {
+        $('#board').boardify({
+            states: "[data-state]",
+            template: '[data-item]',
+            source: function() {
+                var data = null;
+                jQuery.ajaxSetup({ async: false });
+                $.post('/FeatureBee/Features').done(function(d) {
+                    data = d;
+                });
+                jQuery.ajaxSetup({ async: true });
 
-                    return data;
-                },
-                subscribeToItemChanged: function (obj) {
-                    boardHub.server.moveItem(obj.data.name, obj.data.oldIndex, obj.data.index);
-                },
-                subscribeToItemSelected: function (obj) {
-                    form.openEdit(obj.data);
-                }
-            });
+                return data;
+            },
+            subscribeToItemChanged: function(obj) {
+                boardHub.server.moveItem(obj.data.name, obj.data.oldIndex, obj.data.index);
+            },
+            subscribeToItemSelected: function(obj) {
+                form.openEdit(obj.data);
+            }
+        });
 
-            $('#board').boardify('subscribeFor', 'page', 'itemChanged', $.boardifySubscribers.refresh);
-            $('#board').boardify('subscribeFor', 'page', 'itemMoved', $.boardifySubscribers.refresh);
-        }
+        $('#board').boardify('subscribeFor', 'page', 'itemChanged', $.boardifySubscribers.refresh);
+        $('#board').boardify('subscribeFor', 'page', 'itemMoved', $.boardifySubscribers.refresh);
     };
 
     var conditionTemplates = function () {
@@ -187,4 +181,8 @@
             formNew.formify('open');
         };
     };
+
+    $.connection.hub.start().done(function () {
+        boot.loadPrerequisite().loadTemplates().loadMenu().loadBoard();
+    });
 });

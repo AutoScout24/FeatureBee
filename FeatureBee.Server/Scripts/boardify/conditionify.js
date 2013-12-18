@@ -1,4 +1,9 @@
-﻿$(function() {
+﻿$(function () {
+    /*
+    wrapper to attach events to the condition template, as the template
+    is rendered by handlebars after page initialization
+    */
+
     $.widget("as24.conditionify", {
         options: {
             conditions: [],

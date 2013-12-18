@@ -212,6 +212,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\boardify\conditionify.js" />
     <Content Include="Scripts\boardify\jsonify.js" />
+    <Content Include="Scripts\boardify\specs\formify.specs.js" />
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
     <Content Include="Scripts\jasmine\MIT.LICENSE" />

@@ -1,4 +1,7 @@
-$(function() {
+$(function () {
+    /*
+    wrapper for jquery callbacks
+    */
   var communicator = {};
    
   $.Comm = function( id, stream ) {

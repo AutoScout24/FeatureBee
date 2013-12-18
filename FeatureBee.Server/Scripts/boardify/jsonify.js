@@ -1,4 +1,7 @@
 ﻿(function ($) {
+    /*
+    serializes a form to a well formed json
+    */
     $.fn.serializeObject = function () {
 
         var self = this,

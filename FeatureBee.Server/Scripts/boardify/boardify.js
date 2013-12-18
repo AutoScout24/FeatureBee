@@ -11,6 +11,8 @@ $(function () {
             boardItem: 'data-board-item',
             boardItemAttribute : '',
             itemStateSelector: 'index',
+            minumumIndexWithNotes : 0,
+            maximumIndexWithNotes : 1,
 
             source: function () { return []; },
 
@@ -57,6 +59,7 @@ $(function () {
             data.oldIndex = data[self.options.itemStateSelector];
             data[self.options.itemStateSelector] = dropIndex;
             $(draggable).detach().css({ top: 0, left: 0 }).appendTo(dropTarget);
+            
             self._commPub(self.options.streams.moved, { sender: self, element: draggable, data: data });
         },
 
@@ -116,8 +119,13 @@ $(function () {
                 self._rotate(element, Math.floor((Math.random() * 10) - 5));
                 element.data(item);
                 self.elements.push(item);
-
-                var currentState = $(states[item[self.options.itemStateSelector]]);
+                var currentStateIndex = item[self.options.itemStateSelector];
+                if (currentStateIndex < self.options.minumumIndexWithNotes || currentStateIndex > self.options.maximumIndexWithNotes) {
+                    element.find('.label').hide();
+                } else {
+                    element.find('.label').show();
+                }
+                var currentState = $(states[currentStateIndex]);
                 currentState.append(element);
                 element.on('dblclick', function (e) {
                     self._commPub(self.options.streams.selected, {

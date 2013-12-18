@@ -1,4 +1,8 @@
 $(function () {
+    /*
+    wrapper for jquery dialog
+    */
+    
     $.widget("as24.formify", {
         options: {
             width: 500,
