@@ -1,9 +1,7 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
     using System.Linq;
-
-    using FakeItEasy.ExtensionSyntax.Full;
-
+    
     using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
