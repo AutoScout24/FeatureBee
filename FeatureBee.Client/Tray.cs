@@ -23,7 +23,7 @@
         {
             // TOOD: Check if it is allowed to render (based on web.config)
             var full = new StringBuilder();
-            full.AppendFormat("<style>{0}</style>", LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.css"));
+            full.AppendFormat("<style type=\"text/css\">{0}</style>", LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.css"));
             full.Append(LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.html"));
             full.AppendFormat(
                 "<script type\"text/javascript\">{0}</script>",

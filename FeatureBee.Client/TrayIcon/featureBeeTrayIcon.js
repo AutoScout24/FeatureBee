@@ -104,41 +104,18 @@
             var featuresUrl = '/featurebee.axd/features';
             var cookieName = "featureBee";
 
-            var loadFeatures = function () {
-                var features = [
-                    {
-                        "Name": "a",
-                        "Conditions": [{ "Type": "culture", "Values": ["de-DE", "de-AT"] }, { "Type": "browser", "Values": ["chrome", "firefox"] }],
-                        "State": "In Development"
-                    }, {
-                        "Name": "b",
-                        "Conditions": [],
-                        "State": "Released",
-                        "GodModeState": "Off"
-                    },
-                    {
-                        "Name": "lala",
-                        "Conditions": [{ "Type": "culture", "Values": ["de-AT"] }, { "Type": "trafficDistribution", "Values": ["0%", "50%"] }],
-                        "State": "In Development"
-                    }, {
-                        "Name": "tata",
-                        "Conditions": [],
-                        "State": "Under Test"
-                    }, {
-                        "Name": "erw",
-                        "Conditions": [],
-                        "State": "In Development"
-                    }];
-
-                var featureBeeCookie = $.cookie(cookieName);
-                $.each(features, function (index, value) {
-                    if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "#") !== -1)
-                        value.GodModeState = "On";
-                    else {
-                        value.GodModeState = "Off";
-                    }
+            var loadFeatures = function (onComplete) {
+                $.get('/featurebee.axd/features').done(function (features) {
+                    var featureBeeCookie = $.cookie(cookieName);
+                    $.each(features, function (index, value) {
+                        if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "#") !== -1)
+                            value.GodModeState = "On";
+                        else {
+                            value.GodModeState = "Off";
+                        }
+                    });
+                    onComplete(features);
                 });
-                return features;
             };
 
             $.widget("as24.featureBeeTrayIcon", {
@@ -222,61 +199,64 @@
                     // load and add items
                     var source = $(".feature-bee-scroll-content-items-template").html().trim();
                     var template = Handlebars.compile(source);
+                    loadFeatures(function(features) {
+                        var featureItems = template(features);
+                        self.scrollContent.append($(featureItems));
+                        var width = 400;
+                        self.scrollContent.find('.feature-bee-scroll-content-item').each(function() {
+                            width += $(this).outerWidth();
+                        });
+                        
+                        $('.feature-bee-scroll-content').width(width);
+                        
 
-                    var features = template(loadFeatures());
-                    self.scrollContent.append($(features));
-                    var width = 400;
-                    self.scrollContent.find('.feature-bee-scroll-content-item').each(function () {
-                        width += $(this).outerWidth();
-                    });
 
-                    $('.feature-bee-scroll-content').width(width);
-
-                    //build slider
-                    self.scrollbar = $(".feature-bee-scroll-bar").slider({
-                        slide: function (event, ui) {
-                            if (self.scrollContent.width() > self.scrollPane.width()) {
-                                self.scrollContent.css("margin-left", Math.round(
-                                  ui.value / 100 * (self.scrollPane.width() - self.scrollContent.width())
-                                ) + "px");
-                            } else {
-                                self.scrollContent.css("margin-left", 0);
+                        //build slider
+                        self.scrollbar = $(".feature-bee-scroll-bar").slider({
+                            slide: function (event, ui) {
+                                if (self.scrollContent.width() > self.scrollPane.width()) {
+                                    self.scrollContent.css("margin-left", Math.round(
+                                      ui.value / 100 * (self.scrollPane.width() - self.scrollContent.width())
+                                    ) + "px");
+                                } else {
+                                    self.scrollContent.css("margin-left", 0);
+                                }
                             }
-                        }
-                    });
+                        });
 
-                    //append icon to handle
-                    self.handleHelper = self.scrollbar.find(".ui-slider-handle").mousedown(function () { self.scrollbar.width(self.handleHelper.width()); }).mouseup(function () { self.scrollbar.width("100%"); }).append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>").wrap("<div class='ui-handle-helper-parent'></div>").parent();
+                        //append icon to handle
+                        self.handleHelper = self.scrollbar.find(".ui-slider-handle").mousedown(function () { self.scrollbar.width(self.handleHelper.width()); }).mouseup(function () { self.scrollbar.width("100%"); }).append("<span class='ui-icon ui-icon-grip-dotted-vertical'></span>").wrap("<div class='ui-handle-helper-parent'></div>").parent();
 
-                    //change overflow to hidden now that slider handles the scrolling
-                    self.scrollPane.css("overflow", "hidden");
+                        //change overflow to hidden now that slider handles the scrolling
+                        self.scrollPane.css("overflow", "hidden");
 
-                    var toggleOn = "On", toggleOff = "Off";
-                    self.scrollContent.find('[data-toggle-target]').click(function () {
-                        var state = $(this).attr("data-toogle-state");
-                        if (state == toggleOn) {
-                            self._removeFromCookie($(this).attr("data-toggle-target"));
-                            $(this).attr("data-toogle-state", toggleOff);
-                            $(this).removeClass(toggleOn).addClass(toggleOff);
-                            $(this).text(toggleOff);
-                        } else {
-                            self._addToCookie($(this).attr("data-toggle-target"));
-                            $(this).attr("data-toogle-state", toggleOn);
-                            $(this).removeClass(toggleOff).addClass(toggleOn);
-                            $(this).text(toggleOn);
-                        }
-                    });
+                        var toggleOn = "On", toggleOff = "Off";
+                        self.scrollContent.find('[data-toggle-target]').click(function () {
+                            var state = $(this).attr("data-toogle-state");
+                            if (state == toggleOn) {
+                                self._removeFromCookie($(this).attr("data-toggle-target"));
+                                $(this).attr("data-toogle-state", toggleOff);
+                                $(this).removeClass(toggleOn).addClass(toggleOff);
+                                $(this).text(toggleOff);
+                            } else {
+                                self._addToCookie($(this).attr("data-toggle-target"));
+                                $(this).attr("data-toogle-state", toggleOn);
+                                $(this).removeClass(toggleOff).addClass(toggleOn);
+                                $(this).text(toggleOn);
+                            }
+                        });
 
-                    //change handle position on window resize
-                    $(window).resize(function () {
-                        self._resetValue();
-                        self._sizeScrollbar();
-                        self.reflowContent();
-                    });
+                        //change handle position on window resize
+                        $(window).resize(function () {
+                            self._resetValue();
+                            self._sizeScrollbar();
+                            self.reflowContent();
+                        });
 
-                    $('.feature-bee-hide').click(function () {
-                        $(self.element).hide('fast');
-                        self.options.close();
+                        $('.feature-bee-hide').click(function () {
+                            $(self.element).hide('fast');
+                            self.options.close();
+                        });
                     });
                 }
             });
