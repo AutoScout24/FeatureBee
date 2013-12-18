@@ -22,10 +22,10 @@
     var handlebarsFeatureBee;
 
     var loadRequiredScripts = function (callbackOnComplete) {
-        var isJQueryLoaded = false, isJQueryUiLoaded = false, isHandlebarsLoaded = false;
+        var isJQueryLoaded = false, isJQueryUiLoaded = false, isHandlebarsLoaded = false, jQueryCookiesLoaded = false;
 
         var allLoaded = function () {
-            return isJQueryLoaded && isHandlebarsLoaded && isJQueryUiLoaded;
+            return isJQueryLoaded && isHandlebarsLoaded && isJQueryUiLoaded && jQueryCookiesLoaded;
         };
 
         var callbackIfComplete = function () {
@@ -33,35 +33,49 @@
         };
 
         /******** Load jQuery if not present *********/
-        var jQueryLoaded = function () {
+        var jQueryLoaded = function (callback) {
             isJQueryLoaded = true;
-            callbackIfComplete();
 
-            if (jQueryFeatureBee.ui === undefined) {
+            loadJQueryUi(callback);
+            callbackIfComplete();
+        };
+
+        var jQueryUiLoaded = function (callback) {
+            isJQueryUiLoaded = true;
+            if (callback) callback();
+            callbackIfComplete();
+        };
+
+        var loadJQueryUi = function (callback) {
+            if ($.ui === undefined) {
                 scriptLoader("//code.jquery.com/ui/1.10.3/jquery-ui.js", function () {
-                    jQueryUiLoaded();
+                    jQueryUiLoaded(callback);
                 });
             }
             else {
-                jQueryUiLoaded();
+                jQueryUiLoaded(callback);
             }
-        };
-
-        var jQueryUiLoaded = function () {
-            isJQueryUiLoaded = true;
-            callbackIfComplete();
         };
 
         if (window.jQuery === undefined || window.jQuery.fn.jquery !== '2.0.1') {
             var existedBefore = window.jQuery;
+            var currentDollar = $;
             scriptLoader("//code.jquery.com/jquery-2.0.3.min.js", function () {
-                // Restore globally scoped jQuery variables to the first (original) version loaded
-                if (existedBefore) {
-                    jQueryFeatureBee = window.jQuery.noConflict(true);
-                } else {
-                    jQueryFeatureBee = window.jQuery;
-                }
-                jQueryLoaded();
+
+                // load addons
+                scriptLoader("//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.3.1/jquery.cookie.min.js", function () {
+                    jQueryCookiesLoaded = true;
+                    jQueryLoaded(function () {
+                        // Restore globally scoped jQuery variables to the first (original) version loaded
+                        if (existedBefore) {
+                            jQueryFeatureBee = window.jQuery.noConflict(true);
+                        } else {
+                            jQueryFeatureBee = window.jQuery;
+                        }
+
+                        $ = currentDollar;
+                    });
+                });
             });
         } else {
             // The jQuery version on the window is the one we want to use
@@ -88,14 +102,14 @@
     var main = function () {
         jQueryFeatureBee(document).ready(function ($) {
             var featuresUrl = '/featurebee.axd/features';
+            var cookieName = "featureBee";
 
             var loadFeatures = function () {
-                return [
+                var features = [
                     {
                         "Name": "a",
                         "Conditions": [{ "Type": "culture", "Values": ["de-DE", "de-AT"] }, { "Type": "browser", "Values": ["chrome", "firefox"] }],
-                        "State": "In Development",
-                        "GodModeState": "On"
+                        "State": "In Development"
                     }, {
                         "Name": "b",
                         "Conditions": [],
@@ -105,19 +119,26 @@
                     {
                         "Name": "lala",
                         "Conditions": [{ "Type": "culture", "Values": ["de-AT"] }, { "Type": "trafficDistribution", "Values": ["0%", "50%"] }],
-                        "State": "In Development",
-                        "GodModeState": "On"
+                        "State": "In Development"
                     }, {
                         "Name": "tata",
                         "Conditions": [],
-                        "State": "Under Test",
-                        "GodModeState": "Off"
+                        "State": "Under Test"
                     }, {
                         "Name": "erw",
                         "Conditions": [],
-                        "State": "In Development",
-                        "GodModeState": "Off"
+                        "State": "In Development"
                     }];
+
+                var featureBeeCookie = $.cookie(cookieName);
+                $.each(features, function (index, value) {
+                    if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "#") !== -1)
+                        value.GodModeState = "On";
+                    else {
+                        value.GodModeState = "Off";
+                    }
+                });
+                return features;
             };
 
             $.widget("as24.featureBeeTrayIcon", {
@@ -174,6 +195,24 @@
                     }
                 },
 
+                _removeFromCookie: function (name) {
+                    var cookieValue = $.cookie(cookieName).replace("#" + name + "#", "#");
+                    if (cookieValue.replace(/.*#$/, "") === "") {
+                        cookieValue = null;
+                    }
+
+                    $.cookie(cookieName, cookieValue);
+                },
+
+                _addToCookie: function (name) {
+                    var value = $.cookie(cookieName);
+                    if (!value)
+                        value = "#";
+                    value = value.slice(0, -1);
+                    value += "#" + name + "#";
+                    $.cookie(cookieName, value);
+                },
+
                 _create: function () {
                     var self = this;
                     //scrollpane parts
@@ -211,6 +250,22 @@
 
                     //change overflow to hidden now that slider handles the scrolling
                     self.scrollPane.css("overflow", "hidden");
+
+                    var toggleOn = "On", toggleOff = "Off";
+                    self.scrollContent.find('[data-toggle-target]').click(function () {
+                        var state = $(this).attr("data-toogle-state");
+                        if (state == toggleOn) {
+                            self._removeFromCookie($(this).attr("data-toggle-target"));
+                            $(this).attr("data-toogle-state", toggleOff);
+                            $(this).removeClass(toggleOn).addClass(toggleOff);
+                            $(this).text(toggleOff);
+                        } else {
+                            self._addToCookie($(this).attr("data-toggle-target"));
+                            $(this).attr("data-toogle-state", toggleOn);
+                            $(this).removeClass(toggleOff).addClass(toggleOn);
+                            $(this).text(toggleOn);
+                        }
+                    });
 
                     //change handle position on window resize
                     $(window).resize(function () {
