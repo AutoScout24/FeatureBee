@@ -1,8 +1,10 @@
 ﻿namespace FeatureBee.Server.Data.Features
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using FeatureBee.Data;
     using FeatureBee.Server.Models;
 
     public interface IFeatureRepository
@@ -10,6 +12,8 @@
         IQueryable<Feature> Collection();
 
         void Save(string title, Feature feature);
+
+        void AddNewItem(string name, Feature feature);
     }
 
     public class FeatureRepository : IFeatureRepository
@@ -25,7 +29,10 @@
 
         public IQueryable<Feature> Collection()
         {
-            return Features.Values.AsQueryable();
+            using (var store = EventStoreFactory.Create())
+            {
+                return store.All<Feature>().AsQueryable();
+            }
         }
 
         public void Save(string title, Feature feature)
@@ -33,6 +40,14 @@
             if (Features.ContainsKey(title)) Features.Remove(title);
 
             Features.Add(feature.name, feature);
+        }
+
+        public void AddNewItem(string name, Feature feature)
+        {
+            using (var store = EventStoreFactory.Create(feature.id))
+            {
+                store.AddEvent(new NewFeatureCreated { Feature = feature });
+            }
         }
     }
 }
