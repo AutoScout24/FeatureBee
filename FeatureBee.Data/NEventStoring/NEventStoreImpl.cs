@@ -3,17 +3,26 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Transactions;
 
     using global::NEventStore;
 
     public class NEventStoreImpl : IStoreEvents<IStoreEvents>
     {
+        private readonly TransactionScope scope;
+
         private Guid id;
 
         private IStoreEvents store;
 
+        public NEventStoreImpl()
+        {
+            scope = new TransactionScope();
+        }
+
         public void Dispose()
         {
+            scope.Complete();
             this.store.Dispose();
         }
 

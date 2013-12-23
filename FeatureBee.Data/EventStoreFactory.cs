@@ -6,6 +6,7 @@
 
     using NEventStore;
     using NEventStore.Dispatcher;
+    using NEventStore.Persistence.SqlPersistence.SqlDialects;
 
     public static class EventStoreFactory
     {
@@ -31,7 +32,10 @@
                 Wireup.Init()
                     .LogToOutputWindow()
                     .UsingInMemoryPersistence()
+                    .UsingSqlPersistence("FeatureBee.SQLite")
+                    .WithDialect(new SqliteDialect())
                     .InitializeStorageEngine()
+                    .EnlistInAmbientTransaction()
                     .TrackPerformanceInstance("featurebee")
                     .UsingBinarySerialization()
                     .UsingSynchronousDispatchScheduler()
