@@ -29,18 +29,18 @@
         {
             dispatcher = new NEventStoreDispatcher(SubscriberDictionary);
             var nEventStore =
-                Wireup.Init()
-                    .LogToOutputWindow()
-                    .UsingInMemoryPersistence()
-                    .UsingSqlPersistence("FeatureBee.SQLite")
-                    .WithDialect(new SqliteDialect())
-                    .InitializeStorageEngine()
-                    .EnlistInAmbientTransaction()
-                    .TrackPerformanceInstance("featurebee")
-                    .UsingBinarySerialization()
-                    .UsingSynchronousDispatchScheduler()
-                    .DispatchTo(new DelegateMessageDispatcher(dispatcher.DispatchCommit))
-                    .Build();
+                    Wireup.Init()
+                        .LogToOutputWindow()
+                        .UsingInMemoryPersistence()
+                        .UsingSqlPersistence("FeatureBee.SQLite")
+                        .WithDialect(new SqliteDialect())
+                        .InitializeStorageEngine()
+                        .EnlistInAmbientTransaction()
+                        .TrackPerformanceInstance("featurebee")
+                        .UsingBinarySerialization()
+                        .UsingSynchronousDispatchScheduler()
+                        .DispatchTo(new DelegateMessageDispatcher(dispatcher.DispatchCommit))
+                        .Build();
             var store = new NEventStoreImpl().Init(id, nEventStore);
             return store;
         }

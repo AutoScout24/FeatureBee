@@ -22,8 +22,8 @@
 
         public void Dispose()
         {
+            store.Dispose();
             scope.Complete();
-            this.store.Dispose();
         }
 
         public IStoreEvents<IStoreEvents> Init(Guid streamId, IStoreEvents underlyingStorage)
