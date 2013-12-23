@@ -47,8 +47,10 @@ $(function () {
             if (self.dialog) {
                 self.dialog.dialog('destroy');
             }
-            self._unSubscribeForReload(item.name);
-            self._subscribeForReload(item.name);
+            if (item && item.name) {
+                self._unSubscribeForReload(item.name);
+                self._subscribeForReload(item.name);
+            }
             self.dialog = $(html).dialog({
                 modal: true,
                 width: self.options.width,
@@ -75,7 +77,9 @@ $(function () {
                 close: function () {
                     $(this).dialog("destroy");
                     self.dialog = null;
-                    self._unSubscribeForReload(item.name);
+                    if (item && item.name) {
+                        self._unSubscribeForReload(item.name);
+                    }
                 }
             });
         },
