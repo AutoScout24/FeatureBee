@@ -5,14 +5,22 @@
     var editPanelHub = $.connection.editPanelHub;
     var form;
     
-    boardHub.client.newItemAdded = function (item) {
+    boardHub.client.featureCreated = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
-    boardHub.client.itemMoved = function (item) {
+    boardHub.client.featureReleased = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
     };
     
+    boardHub.client.featureTested = function (item) {
+        $.Comm('page', 'itemMoved').publish(item);
+    };
+
+    boardHub.client.featureRollbacked = function (item) {
+        $.Comm('page', 'itemMoved').publish(item);
+    };
+
     editPanelHub.client.itemEdited = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
@@ -58,7 +66,7 @@
             source: function() {
                 var data = null;
                 jQuery.ajaxSetup({ async: false });
-                $.post('/FeatureBee/Features').done(function(d) {
+                $.get('/api/features').done(function(d) {
                     data = d;
                 });
                 jQuery.ajaxSetup({ async: true });
@@ -163,7 +171,6 @@
                         name: data.name,
                         team: data.team,
                         link: data.link,
-                        index: 0,
                         conditions: data.conditions
                     });
             });

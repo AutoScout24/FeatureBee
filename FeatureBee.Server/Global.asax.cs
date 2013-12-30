@@ -10,11 +10,7 @@
     using Autofac.Integration.Mvc;
     using Autofac.Integration.WebApi;
 
-    using FeatureBee.Server.App_Start;
-
     using Microsoft.AspNet.SignalR;
-
-    using IDependencyResolver = Microsoft.AspNet.SignalR.IDependencyResolver;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -33,7 +29,7 @@
             GlobalConfiguration.Configuration.DependencyResolver = resolver;
             AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
+            GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

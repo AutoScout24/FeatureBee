@@ -97,6 +97,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="NEventStore, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NEventStore.5.0.0.34\lib\net40\NEventStore.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -197,12 +201,33 @@
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
-    <Compile Include="Data\Features\FeatureRepository.cs" />
+    <Compile Include="Domain\ApplicationServices\ChangeFeatureConditionsCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\FeatureApplicationServices.cs" />
+    <Compile Include="Domain\ApplicationServices\ICommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
+    <Compile Include="Domain\ApplicationServices\ReleaseFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\RollbackFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\TestFeatureCommand.cs" />
+    <Compile Include="Domain\Infrastruture\BaseAggregateRoot.cs" />
+    <Compile Include="Domain\Infrastruture\DomainRepository.cs" />
+    <Compile Include="Domain\Infrastruture\ICommandSender.cs" />
+    <Compile Include="Domain\Infrastruture\IDomainEvent.cs" />
+    <Compile Include="Domain\Infrastruture\IDomainRepository.cs" />
+    <Compile Include="Domain\Infrastruture\NEventStoreDispatcher.cs" />
+    <Compile Include="Domain\Models\Condition.cs" />
+    <Compile Include="Domain\Models\FeatureConditionsChangedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureCreatedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureReleasedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureRollbackedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureTestedEvent.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Feature.cs" />
+    <Compile Include="Domain\Models\FeatureAggregate.cs" />
+    <Compile Include="Models\FeatureReadRepository.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
+    <Compile Include="Models\IFeatureReadRepository.cs" />
     <Compile Include="Models\StateMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -275,12 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FeatureBee.Data\FeatureBee.Data.csproj">
-      <Project>{04A90137-D202-4E7E-BD05-353A3D79CAF2}</Project>
-      <Name>FeatureBee.Data</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

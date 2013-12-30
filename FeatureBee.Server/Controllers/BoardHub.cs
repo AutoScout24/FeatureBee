@@ -1,47 +1,29 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
 
-    using Antlr.Runtime.Misc;
-
-    using FeatureBee.Data;
-    using FeatureBee.Server.Data.Features;
-    using FeatureBee.Server.Models;
+    using FeatureBee.Server.Domain.ApplicationServices;
+    using FeatureBee.Server.Domain.Infrastruture;
+    using FeatureBee.Server.Domain.Models;
 
     using Microsoft.AspNet.SignalR;
 
     public class BoardHub : Hub
     {
-        class BoardHubSubscriber : ISubscribe
+        private readonly ICommandSender commandSender;
+
+        public BoardHub(ICommandSender commandSender)
         {
-            private readonly Action<object> onNotify;
-
-            public BoardHubSubscriber(Action<object> onNotify)
-            {
-                this.onNotify = onNotify;
-            }
-
-            public void Notify(object @event)
-            {
-                onNotify(@event);
-            }
+            this.commandSender = commandSender;
         }
 
-        private readonly IFeatureRepository featureRepository;
-        
-        public BoardHub(IFeatureRepository featureRepository)
-        {
-            this.featureRepository = featureRepository;
-            EventStoreFactory.SubscribeTo<NewFeatureCreated>(new BoardHubSubscriber(
-                o => this.NewItemAdded(((NewFeatureCreated)o).Feature)));
-        }
-
-        public void AddNewItem(Feature feature)
+        public void AddNewItem(CreateFeatureCommand command)
         {
             try
             {
-                featureRepository.AddNewItem(feature.name, feature);
+                //var command = new CreateFeatureCommand(name, team, link, conditions);
+                commandSender.Send(command);
             }
             catch (Exception)
             {
@@ -49,24 +31,27 @@
             }
         }
 
-        public void MoveItem(string name, int oldIndex, int newIndex)
+        public void MoveItem(Guid id, int oldIndex, int newIndex)
         {
-            var feature = featureRepository.Collection().FirstOrDefault(f => f.name == name);
-            if (feature == null) return;
+            ICommand command;
+            switch (newIndex)
+            {
+                case 0:
+                    command = new RollbackFeatureCommand(id);
+                    break;
 
-            feature.index = newIndex;
-            featureRepository.Save(name, feature);
-            this.ItemMoved(feature);
-        }
+                case 1:
+                    command = new TestFeatureCommand(id);
+                    break;
 
-        public void ItemMoved(Feature item)
-        {
-            Clients.All.itemMoved(item);
-        }
+                case 2:
+                    command = new ReleaseFeatureCommand(id);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
 
-        public void NewItemAdded(Feature item)
-        {
-            Clients.All.newItemAdded(item);
+            commandSender.Send(command);
         }
     }
 }
