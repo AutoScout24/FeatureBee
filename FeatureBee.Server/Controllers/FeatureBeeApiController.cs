@@ -1,32 +1,31 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
-    using System.Collections.Generic;
+    using System;
     using System.Linq;
     using System.Web.Http;
 
-    using FeatureBee.Server.Domain.Infrastruture;
     using FeatureBee.Server.Models;
 
     [Route("api/features")]
     public class FeatureBeeApiController : ApiController
     {
-        private readonly IFeatureReadRepository repository;
+        private readonly FeatureBeeContext context;
 
-        public FeatureBeeApiController(IFeatureReadRepository repository)
+        public FeatureBeeApiController()
         {
-            this.repository = repository;
+            context = new FeatureBeeContext();
         }
 
         // GET api/features
-        public IEnumerable<FeatureViewModel> Get()
+        public IQueryable<FeatureViewModel> Get()
         {
-            return repository.Collection();
+            return context.Features;
         }
 
         // GET api/features/myfeature
         public FeatureViewModel Get(string id)
         {
-            return repository.Collection().FirstOrDefault(_ => _.Name == id);
+            return context.Features.FirstOrDefault(x => x.Name.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

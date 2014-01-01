@@ -1,28 +1,18 @@
 namespace FeatureBee.Server.Domain.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Condition
     {
         public Condition()
         {
-            values = new List<string>();
+            Values = new List<string>();
         }
 
-        public string type { get; set; }
+        [Key]
+        public string Type { get; set; }
 
-        public List<string> values { get; set; }
-
-        public void AddValue(string value)
-        {
-            if (values.Contains(value)) return;
-            values.Add(value);
-        }
-
-        public void RemoveValue(string value)
-        {
-            if (!values.Contains(value)) return;
-            values.Remove(value);
-        }
+        public List<string> Values { get; set; }
     }
 }

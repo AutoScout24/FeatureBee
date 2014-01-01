@@ -1,6 +1,9 @@
-﻿using Microsoft.Owin;
+﻿using FeatureBee.Server;
 
-[assembly: OwinStartup(typeof(FeatureBee.Server.Startup))]
+using Microsoft.Owin;
+
+[assembly: OwinStartup(typeof (Startup))]
+
 namespace FeatureBee.Server
 {
     using Owin;

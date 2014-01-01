@@ -11,5 +11,6 @@
         public string Name { get; set; }
         public List<Condition> Conditions { get; set; }
         public string State { get; set; }
+        public int Index { get; set; }
     }
 }

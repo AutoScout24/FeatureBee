@@ -1,19 +1,17 @@
 ﻿namespace FeatureBee.Server.Domain.Infrastruture
 {
-    using System;
-
     using FeatureBee.Server.Controllers;
     using FeatureBee.Server.Domain.Models;
 
     using Microsoft.AspNet.SignalR;
 
     using NEventStore;
-    using NEventStore.Persistence;
 
     public class NEventStoreDispatcher
     {
         public void DispatchCommit(ICommit commit)
         {
+            // TODO: Let Autofac inject all registered eventhandlers
             foreach (var @event in commit.Events)
             {
                 if (@event.Body is FeatureCreatedEvent)

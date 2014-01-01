@@ -47,11 +47,10 @@
             var nEventStore =
                 Wireup.Init()
                     .LogToOutputWindow()
-                    .UsingSqlPersistence("FeatureBee.SQLite")
-                    .WithDialect(new SqliteDialect())
+                    .UsingSqlPersistence("FeatureBeeContext")
+                    .WithDialect(new MsSqlDialect())
                     .InitializeStorageEngine()
                     .EnlistInAmbientTransaction()
-//                    .TrackPerformanceInstance("featurebee")
                     .UsingJsonSerialization()
                     .UsingSynchronousDispatchScheduler()
                     .DispatchTo(new DelegateMessageDispatcher(dispatcher.DispatchCommit))
