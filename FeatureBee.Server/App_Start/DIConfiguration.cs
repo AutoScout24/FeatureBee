@@ -44,7 +44,7 @@
             builder.RegisterType<FeatureApplicationServices>().AsImplementedInterfaces();
             builder.RegisterType<CommandSender>().As<ICommandSender>();
 
-            var eventHandlers = new IEventHandler[] {new HubEventHandler(), new DatabaseEventHandler()};
+            var eventHandlers = new IEventHandler[] {new DatabaseEventHandler(), new HubEventHandler()};
             var dispatcher =new NEventStoreDispatcher(eventHandlers);
 
             var nEventStore =
