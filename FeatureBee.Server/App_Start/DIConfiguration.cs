@@ -9,6 +9,7 @@
     using Autofac.Integration.WebApi;
 
     using FeatureBee.Server.Domain.ApplicationServices;
+    using FeatureBee.Server.Domain.EventHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
 
     using NEventStore;
@@ -43,7 +44,9 @@
             builder.RegisterType<FeatureApplicationServices>().AsImplementedInterfaces();
             builder.RegisterType<CommandSender>().As<ICommandSender>();
 
-            var dispatcher = new NEventStoreDispatcher();
+            var eventHandlers = new IEventHandler[] {new HubEventHandler(), new DatabaseEventHandler()};
+            var dispatcher =new NEventStoreDispatcher(eventHandlers);
+
             var nEventStore =
                 Wireup.Init()
                     .LogToOutputWindow()

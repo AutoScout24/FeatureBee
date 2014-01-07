@@ -8,7 +8,9 @@
         ICommandHandler<ReleaseFeatureCommand>,
         ICommandHandler<TestFeatureCommand>,
         ICommandHandler<RollbackFeatureCommand>,
-        ICommandHandler<ChangeFeatureConditionsCommand>
+        ICommandHandler<ChangeFeatureConditionsCommand>,
+        ICommandHandler<UpdateDescriptionCommand>,
+        ICommandHandler<LinkToTicketCommand>
     {
         private readonly IDomainRepository repository;
 
@@ -19,7 +21,7 @@
 
         public void Execute(CreateFeatureCommand command)
         {
-            var aggregate = FeatureAggregate.CreateNew(command.Name, command.Team, command.Conditions);
+            var aggregate = FeatureAggregate.CreateNew(command.Name, command.Description, command.Conditions, command.Link);
             repository.Save(aggregate);
         }
 
@@ -57,6 +59,24 @@
 
             var aggregate = new FeatureAggregate(events);
             aggregate.ChangeConditions(command.Conditions);
+            repository.Save(aggregate);
+        }
+
+        public void Execute(UpdateDescriptionCommand command)
+        {
+            var events = repository.GetById(command.Id);
+
+            var aggregate = new FeatureAggregate(events);
+            aggregate.UpdateDescription(command.Description);
+            repository.Save(aggregate);
+        }
+
+        public void Execute(LinkToTicketCommand command)
+        {
+            var events = repository.GetById(command.Id);
+
+            var aggregate = new FeatureAggregate(events);
+            aggregate.LinkToTicket(command.Link);
             repository.Save(aggregate);
         }
     }

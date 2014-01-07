@@ -4,10 +4,10 @@
 
     using FeatureBee.Server.Domain.Infrastruture;
 
-    // TODO: Find a better name
-    public class FeatureTestedEvent : IDomainEvent
+    public class FeatureLinkedToTicketEvent : IDomainEvent
     {
         public Guid AggregateId { get; set; }
         public int Version { get; set; }
+        public string Link { get; set; }
     }
 }

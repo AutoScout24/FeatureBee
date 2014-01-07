@@ -10,7 +10,6 @@ namespace FeatureBee.Server.Domain.Models
             Values = new List<string>();
         }
 
-        [Key]
         public string Type { get; set; }
 
         public List<string> Values { get; set; }

@@ -10,9 +10,7 @@ $(function () {
             // communicatorId
             publisher: 'page',
             streams: {
-                valueAddedTo: 'valueAddedTo',
-                valueRemovedFrom: 'valueRemovedFrom',
-                conditionCreatedTo: 'conditionCreatedTo'
+                conditionsChanged: 'conditionsChanged'
             },
             communicator: function (publisher, why) {
                 return $.Comm ? $.Comm(publisher, why) : { subscribe: function () { }, publish: function () { }, unsubscribe : function () { } };
@@ -27,17 +25,13 @@ $(function () {
             var self = this;
             var action = function (item) { self.open(item); };
             var streams = self.options.streams;
-            self.options.communicator(self.options.publisher, streams.valueAddedTo + ':' + forName).subscribe(action);
-            self.options.communicator(self.options.publisher, streams.valueRemovedFrom + ':' + forName).subscribe(action);
-            self.options.communicator(self.options.publisher, streams.conditionCreatedTo + ':' + forName).subscribe(action);
+            self.options.communicator(self.options.publisher, streams.conditionsChanged + ':' + forName).subscribe(action);
         },
         
         _unSubscribeForReload: function (forName) {
             var self = this;
             var streams = self.options.streams;
-            self.options.communicator(self.options.publisher, streams.valueAddedTo + ':' + forName).empty();
-            self.options.communicator(self.options.publisher, streams.valueRemovedFrom + ':' + forName).empty();
-            self.options.communicator(self.options.publisher, streams.conditionCreatedTo + ':' + forName).empty();
+            self.options.communicator(self.options.publisher, streams.conditionsChanged + ':' + forName).empty();
         },
 
         open: function (item) {

@@ -1,50 +1,27 @@
 ﻿namespace FeatureBee.Server.Domain.Infrastruture
 {
-    using FeatureBee.Server.Controllers;
-    using FeatureBee.Server.Domain.Models;
-
-    using Microsoft.AspNet.SignalR;
+    using System.Collections.Generic;
 
     using NEventStore;
 
     public class NEventStoreDispatcher
     {
+        private readonly IEnumerable<IEventHandler> eventHandlers;
+
+        public NEventStoreDispatcher(IEnumerable<IEventHandler> eventHandlers)
+        {
+            this.eventHandlers = eventHandlers;
+        }
+
         public void DispatchCommit(ICommit commit)
         {
-            // TODO: Let Autofac inject all registered eventhandlers
             foreach (var @event in commit.Events)
             {
-                if (@event.Body is FeatureCreatedEvent)
+                foreach (var eventHandler in eventHandlers)
                 {
-                    var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                    hub.Clients.All.featureCreated(@event.Body as FeatureCreatedEvent);
-                }
-                if (@event.Body is FeatureReleasedEvent)
-                {
-                    var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                    hub.Clients.All.featureReleased(@event.Body as FeatureReleasedEvent);
-                }
-                if (@event.Body is FeatureTestedEvent)
-                {
-                    var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                    hub.Clients.All.featureTested(@event.Body as FeatureTestedEvent);
-                }
-                if (@event.Body is FeatureRollbackedEvent)
-                {
-                    var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                    hub.Clients.All.featureRollbacked(@event.Body as FeatureRollbackedEvent);
+                    eventHandler.Handle(@event);
                 }
             }
-
-            //nEventStoreCommit.Events.ForEach(
-            //    @event =>
-            //    {
-            //        var key = @event.Body.GetType().FullName;
-            //        if (this.subscriberDictionary.ContainsKey(key))
-            //        {
-            //            this.subscriberDictionary[key].Notify(@event.Body);
-            //        }
-            //    });
         }
     }
 }
