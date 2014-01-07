@@ -28,20 +28,20 @@
             }
         }
 
-        public void MoveItem(Guid id, int oldIndex, int newIndex)
+        public void MoveItem(string name, int newIndex)
         {
             switch (newIndex)
             {
                 case 0:
-                    commandSender.Send(new RollbackFeatureCommand(id));
+                    commandSender.Send(new RollbackFeatureCommand(name));
                     break;
 
                 case 1:
-                    commandSender.Send(new TestFeatureCommand(id));
+                    commandSender.Send(new TestFeatureCommand(name));
                     break;
 
                 case 2:
-                    commandSender.Send(new ReleaseFeatureCommand(id));
+                    commandSender.Send(new ReleaseFeatureCommand(name));
                     break;
 
                 default:

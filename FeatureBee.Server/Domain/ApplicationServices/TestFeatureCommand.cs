@@ -1,14 +1,12 @@
 namespace FeatureBee.Server.Domain.ApplicationServices
 {
-    using System;
-
     public class TestFeatureCommand : ICommand
     {
-        public TestFeatureCommand(Guid id)
-        {
-            Id = id;
-        }
+        public string Name { get; private set; }
 
-        public Guid Id { get; private set; }
+        public TestFeatureCommand(string name)
+        {
+            Name = name;
+        }
     }
 }

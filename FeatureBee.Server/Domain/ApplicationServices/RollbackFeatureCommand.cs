@@ -1,14 +1,12 @@
 ﻿namespace FeatureBee.Server.Domain.ApplicationServices
 {
-    using System;
-
     public class RollbackFeatureCommand : ICommand
     {
-        public RollbackFeatureCommand(Guid id)
-        {
-            Id = id;
-        }
+        public string Name { get; private set; }
 
-        public Guid Id { get; private set; }
+        public RollbackFeatureCommand(string name)
+        {
+            Name = name;
+        }
     }
 }

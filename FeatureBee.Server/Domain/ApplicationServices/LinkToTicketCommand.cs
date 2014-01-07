@@ -1,16 +1,14 @@
 ﻿namespace FeatureBee.Server.Domain.ApplicationServices
 {
-    using System;
-
     public class LinkToTicketCommand : ICommand
     {
-        public LinkToTicketCommand(Guid id, string link)
+        public LinkToTicketCommand(string name, string link)
         {
+            Name = name;
             Link = link;
-            Id = id;
         }
 
-        public Guid Id { get; private set; }
+        public string Name { get; private set; }
         public string Link { get; private set; }
     }
 }

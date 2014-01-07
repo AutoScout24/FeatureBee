@@ -68,7 +68,7 @@
                 return data;
             },
             subscribeToItemChanged: function(obj) {
-                boardHub.server.moveItem(obj.data.id, obj.data.oldIndex, obj.data.index);
+                boardHub.server.moveItem(obj.data.name, obj.data.index);
             },
             subscribeToItemSelected: function(obj) {
                 form.openEdit(obj.data);
@@ -148,7 +148,7 @@
         var createEditForm = function (usingItem) {
             return createForm(usingItem, function (data) {
                 editPanelHub.server.editItem(
-                    data.id,
+                    data.name,
                     data.team,
                     data.link
                     );
@@ -161,6 +161,7 @@
                 boardHub.server.addNewItem(
                     {
                         name: data.name,
+                        team: data.team,
                         description: data.description,
                         link: data.link,
                         conditions: data.conditions
@@ -171,7 +172,7 @@
         var editItem = $('[data-edit-item="edit"]');
         var formEdit = createEditForm(editItem);
         var formNew = createNewForm(editItem);
-        
+
         this.openEdit = function (data) {
             formEdit.formify('open', data);
         };

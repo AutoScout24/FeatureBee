@@ -12,10 +12,10 @@
             RegisterEvents();
         }
 
-        private FeatureAggregate(Guid id, string name, string description, List<Condition> conditions, string link) : this()
+        private FeatureAggregate(Guid id, string name, string description, string team, string link, List<Condition> conditions) : this()
         {
             Id = id;
-            Apply(new FeatureCreatedEvent { Name = name, Description = description, Conditions = conditions });
+            Apply(new FeatureCreatedEvent { Name = name, Description = description, Conditions = conditions, Team = team });
 
             if (!string.IsNullOrEmpty(link)) { 
                 Apply(new FeatureLinkedToTicketEvent { Link = link });
@@ -27,9 +27,9 @@
             LoadFromHistory(domainEvents);
         }
 
-        public static FeatureAggregate CreateNew(string name, string description, List<Condition> conditions, string link)
+        public static FeatureAggregate CreateNew(string name, string description, string team, string link, List<Condition> conditions)
         {
-            return new FeatureAggregate(Guid.NewGuid(), name, description, conditions, link);
+            return new FeatureAggregate(Guid.NewGuid(), name, description, team, link, conditions);
         }
 
         private void RegisterEvents()

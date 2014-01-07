@@ -1,5 +1,7 @@
 namespace FeatureBee.Server.Domain.EventHandlers
 {
+    using System;
+    using System.Diagnostics;
     using System.Linq;
 
     using FeatureBee.Server.Domain.Infrastruture;
@@ -16,16 +18,28 @@ namespace FeatureBee.Server.Domain.EventHandlers
 
             if (@event.Body is FeatureCreatedEvent)
             {
-                var body = @event.Body as FeatureCreatedEvent;
-                context.Features.Add(new FeatureViewModel
+                try
                 {
-                    Id = body.AggregateId,
-                    Name = body.Name,
-                    Description = body.Description,
-                    Conditions = body.Conditions.Select(c => new ConditionViewModel { Type = c.Type, Values = c.Values }).ToList(),
-                    Link = body.Link,
-                    Index = 0
-                });
+                    var body = @event.Body as FeatureCreatedEvent;
+                    var conditions = body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = c.Values});
+
+                    var conditionList = conditions.ToList();
+
+                    context.Features.Add(new FeatureViewModel
+                    {
+                        Id = body.AggregateId,
+                        Name = body.Name,
+                        Description = body.Description,
+                        Team = body.Team,
+                        Link = body.Link,
+                        Index = 0,
+                        Conditions = conditionList
+                    });
+                }
+                catch (Exception e)
+                {
+                    Debug.Write(e);
+                }
             }
 
             if (@event.Body is FeatureDescriptionUpdatedEvent)
