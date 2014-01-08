@@ -7,6 +7,8 @@
 
     public class FeatureAggregate : BaseAggregateRoot
     {
+        private string name;
+
         private FeatureAggregate()
         {
             RegisterEvents();
@@ -32,6 +34,41 @@
             return new FeatureAggregate(Guid.NewGuid(), name, description, team, link, conditions);
         }
 
+        public void UpdateDescription(string description)
+        {
+            Apply(new FeatureDescriptionUpdatedEvent { Name = name, Description = description });
+        }
+
+        public void LinkToTicket(string link)
+        {
+            Apply(new FeatureLinkedToTicketEvent { Name = name, Link = link });
+        }
+
+        public void Test()
+        {
+            Apply(new FeatureTestedEvent { Name = name });
+        }
+
+        public void Release()
+        {
+            Apply(new FeatureReleasedEvent {Name = name});
+        }
+
+        public void Rollback()
+        {
+            Apply(new FeatureRollbackedEvent { Name = name });
+        }
+
+        public void Remove()
+        {
+            Apply(new FeatureRemovedEvent { Name = name });
+        }
+
+        public void ChangeConditions(List<Condition> conditions)
+        {
+            Apply(new FeatureConditionsChangedEvent(name, conditions));
+        }
+
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);
@@ -42,6 +79,12 @@
             RegisterEvent<FeatureDescriptionUpdatedEvent>(OnFeatureDescriptionUpdated);
             RegisterEvent<FeatureLinkedToTicketEvent>(OnFeatureLinkedToTicket);
             RegisterEvent<FeatureRemovedEvent>(OnFeatureRemoved);
+        }
+
+        private void OnFeatureCreated(FeatureCreatedEvent @event)
+        {
+            Id = @event.AggregateId;
+            name = @event.Name;
         }
 
         private void OnFeatureDescriptionUpdated(FeatureDescriptionUpdatedEvent obj)
@@ -70,46 +113,6 @@
 
         private void OnFeatureRemoved(FeatureRemovedEvent @event)
         {
-        }
-
-        public void Release()
-        {
-            Apply(new FeatureReleasedEvent());
-        }
-
-        public void UpdateDescription(string description)
-        {
-            Apply(new FeatureDescriptionUpdatedEvent { Description = description });
-        }
-
-        public void LinkToTicket(string link)
-        {
-            Apply(new FeatureLinkedToTicketEvent { Link = link });
-        }
-
-        private void OnFeatureCreated(FeatureCreatedEvent @event)
-        {
-            Id = @event.AggregateId;
-        }
-
-        public void Test()
-        {
-            Apply(new FeatureTestedEvent());
-        }
-
-        public void Rollback()
-        {
-            Apply(new FeatureRollbackedEvent());
-        }
-
-        public void Remove()
-        {
-            Apply(new FeatureRemovedEvent());
-        }
-
-        public void ChangeConditions(List<Condition> conditions)
-        {
-            Apply(new FeatureConditionsChangedEvent(conditions));
         }
     }
 }

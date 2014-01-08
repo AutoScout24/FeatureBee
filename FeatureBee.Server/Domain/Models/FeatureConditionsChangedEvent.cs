@@ -7,13 +7,15 @@
 
     public class FeatureConditionsChangedEvent : IDomainEvent
     {
-        public FeatureConditionsChangedEvent(List<Condition> conditions)
+        public FeatureConditionsChangedEvent(string name, List<Condition> conditions)
         {
+            Name = name;
             Conditions = conditions;
         }
 
-        public List<Condition> Conditions { get; set; }
         public Guid AggregateId { get; set; }
         public int Version { get; set; }
+        public string Name { get; set; }
+        public List<Condition> Conditions { get; set; }
     }
 }
