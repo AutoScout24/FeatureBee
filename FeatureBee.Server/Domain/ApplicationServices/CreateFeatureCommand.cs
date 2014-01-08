@@ -8,7 +8,7 @@
     {
         public CreateFeatureCommand(string name, string description, string link, string team, List<Condition> conditions)
         {
-            Conditions = conditions;
+            Conditions = conditions ?? new List<Condition>();
             Description = description;
             Link = link;
             Team = team;

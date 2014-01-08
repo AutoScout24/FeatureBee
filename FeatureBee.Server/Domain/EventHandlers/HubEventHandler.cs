@@ -17,15 +17,15 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
                 hub.Clients.All.featureCreated((@event.Body as FeatureCreatedEvent).Name);
             }
-            if (@event.Body is FeatureReleasedEvent)
+            if (@event.Body is FeatureReleasedForEveryoneEvent)
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureReleased((@event.Body as FeatureReleasedEvent).Name);
+                hub.Clients.All.featureReleasedForEveryone((@event.Body as FeatureReleasedForEveryoneEvent).Name);
             }
-            if (@event.Body is FeatureTestedEvent)
+            if (@event.Body is FeatureReleasedWithConditionsEvent)
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureTested((@event.Body as FeatureTestedEvent).Name);
+                hub.Clients.All.featureReleasedWithConditions((@event.Body as FeatureReleasedWithConditionsEvent).Name);
             }
             if (@event.Body is FeatureRollbackedEvent)
             {

@@ -4,8 +4,7 @@
 
     using FeatureBee.Server.Domain.Infrastruture;
 
-    // TODO: Find a better name
-    public class FeatureTestedEvent : IDomainEvent
+    public class FeatureReleasedForEveryoneEvent: IDomainEvent
     {
         public Guid AggregateId { get; set; }
         public int Version { get; set; }

@@ -9,11 +9,11 @@
         $.Comm('page', 'itemChanged').publish(item);
     };
 
-    boardHub.client.featureReleased = function (item) {
+    boardHub.client.featureReleasedForEveryone = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
     };
     
-    boardHub.client.featureTested = function (item) {
+    boardHub.client.featureReleasedWithConditions = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
     };
 

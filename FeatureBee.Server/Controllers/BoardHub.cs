@@ -18,14 +18,7 @@
 
         public void AddNewItem(CreateFeatureCommand command)
         {
-            try
-            {
-                commandSender.Send(command);
-            }
-            catch (Exception)
-            {
-                throw new Exception("oh noes, kiddy no playz");
-            }
+            commandSender.Send(command);
         }
 
         public void MoveItem(string name, int newIndex)
@@ -37,11 +30,11 @@
                     break;
 
                 case 1:
-                    commandSender.Send(new TestFeatureCommand(name));
+                    commandSender.Send(new ReleaseFeatureWithConditionsCommand(name));
                     break;
 
                 case 2:
-                    commandSender.Send(new ReleaseFeatureCommand(name));
+                    commandSender.Send(new ReleaseFeatureForEveryoneCommand(name));
                     break;
 
                 default:

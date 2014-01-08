@@ -1,10 +1,10 @@
 namespace FeatureBee.Server.Domain.ApplicationServices
 {
-    public class TestFeatureCommand : ICommand
+    public class ReleaseFeatureWithConditionsCommand : ICommand
     {
         public string Name { get; private set; }
 
-        public TestFeatureCommand(string name)
+        public ReleaseFeatureWithConditionsCommand(string name)
         {
             Name = name;
         }

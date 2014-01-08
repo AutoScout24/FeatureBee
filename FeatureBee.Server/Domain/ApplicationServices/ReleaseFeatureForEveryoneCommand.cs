@@ -1,10 +1,10 @@
 ﻿namespace FeatureBee.Server.Domain.ApplicationServices
 {
-    public class ReleaseFeatureCommand : ICommand
+    public class ReleaseFeatureForEveryoneCommand : ICommand
     {
         public string Name { get; private set; }
 
-        public ReleaseFeatureCommand(string name)
+        public ReleaseFeatureForEveryoneCommand(string name)
         {
             Name = name;
         }

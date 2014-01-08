@@ -222,9 +222,9 @@
     <Compile Include="Domain\ApplicationServices\ICommand.cs" />
     <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
     <Compile Include="Domain\ApplicationServices\LinkToTicketCommand.cs" />
-    <Compile Include="Domain\ApplicationServices\ReleaseFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ReleaseFeatureForEveryoneCommand.cs" />
     <Compile Include="Domain\ApplicationServices\RollbackFeatureCommand.cs" />
-    <Compile Include="Domain\ApplicationServices\TestFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ReleaseFeatureWithConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\UpdateDescriptionCommand.cs" />
     <Compile Include="Domain\EventHandlers\DatabaseEventHandler.cs" />
     <Compile Include="Domain\EventHandlers\HubEventHandler.cs" />
@@ -240,10 +240,10 @@
     <Compile Include="Domain\Models\FeatureCreatedEvent.cs" />
     <Compile Include="Domain\Models\FeatureDescriptionUpdatedEvent.cs" />
     <Compile Include="Domain\Models\FeatureLinkedToTicketEvent.cs" />
-    <Compile Include="Domain\Models\FeatureReleasedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureReleasedForEveryoneEvent.cs" />
     <Compile Include="Domain\Models\FeatureRemovedEvent.cs" />
     <Compile Include="Domain\Models\FeatureRollbackedEvent.cs" />
-    <Compile Include="Domain\Models\FeatureTestedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureReleasedWithConditionsEvent.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

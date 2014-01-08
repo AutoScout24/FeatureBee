@@ -63,13 +63,13 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 feature.Conditions = body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = c.Values}).ToList();
             }
 
-            if (@event.Body is FeatureReleasedEvent)
+            if (@event.Body is FeatureReleasedForEveryoneEvent)
             {
                 var feature = context.Features.Find((@event.Body as IDomainEvent).AggregateId);
                 feature.Index = 2;
             }
 
-            if (@event.Body is FeatureTestedEvent)
+            if (@event.Body is FeatureReleasedWithConditionsEvent)
             {
                 var feature = context.Features.Find((@event.Body as IDomainEvent).AggregateId);
                 feature.Index = 1;

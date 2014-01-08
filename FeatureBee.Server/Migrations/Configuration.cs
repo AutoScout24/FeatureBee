@@ -1,6 +1,5 @@
 namespace FeatureBee.Server.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
 
     using FeatureBee.Server.Models;
@@ -15,12 +14,12 @@ namespace FeatureBee.Server.Migrations
         protected override void Seed(FeatureBeeContext context)
         {
             //  This method will be called after migrating to the latest version.
-            context.Features.AddOrUpdate(
-                f => f.Name,
-                new FeatureViewModel { Id = Guid.NewGuid(), Index = 0, Name = "XY-1780", State = "In Development"},
-                new FeatureViewModel { Id = Guid.NewGuid(), Index = 1, Name = "XY-1781", State = "Under Test"},
-                new FeatureViewModel { Id = Guid.NewGuid(), Index = 2, Name = "XY-1782", State = "Released"}
-                );
+            //context.Features.AddOrUpdate(
+            //    f => f.Name,
+            //    new FeatureViewModel { Id = Guid.NewGuid(), Index = 0, Name = "XY-1780", State = "In Development"},
+            //    new FeatureViewModel { Id = Guid.NewGuid(), Index = 1, Name = "XY-1781", State = "Under Test"},
+            //    new FeatureViewModel { Id = Guid.NewGuid(), Index = 2, Name = "XY-1782", State = "Released"}
+            //    );
         }
     }
 }

@@ -44,14 +44,14 @@
             Apply(new FeatureLinkedToTicketEvent { Name = name, Link = link });
         }
 
-        public void Test()
+        public void ReleaseWithConditions()
         {
-            Apply(new FeatureTestedEvent { Name = name });
+            Apply(new FeatureReleasedWithConditionsEvent { Name = name });
         }
 
-        public void Release()
+        public void ReleaseForEveryone()
         {
-            Apply(new FeatureReleasedEvent {Name = name});
+            Apply(new FeatureReleasedForEveryoneEvent {Name = name});
         }
 
         public void Rollback()
@@ -72,8 +72,8 @@
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);
-            RegisterEvent<FeatureTestedEvent>(OnFeatureTested);
-            RegisterEvent<FeatureReleasedEvent>(OnFeatureRelased);
+            RegisterEvent<FeatureReleasedWithConditionsEvent>(OnFeatureTested);
+            RegisterEvent<FeatureReleasedForEveryoneEvent>(OnFeatureRelased);
             RegisterEvent<FeatureRollbackedEvent>(OnFeatureRollbacked);
             RegisterEvent<FeatureConditionsChangedEvent>(OnFeatureConditionsChanged);
             RegisterEvent<FeatureDescriptionUpdatedEvent>(OnFeatureDescriptionUpdated);
@@ -103,11 +103,11 @@
         {
         }
 
-        private void OnFeatureTested(FeatureTestedEvent @event)
+        private void OnFeatureTested(FeatureReleasedWithConditionsEvent @event)
         {
         }
 
-        private void OnFeatureRelased(FeatureReleasedEvent @event)
+        private void OnFeatureRelased(FeatureReleasedForEveryoneEvent @event)
         {
         }
 

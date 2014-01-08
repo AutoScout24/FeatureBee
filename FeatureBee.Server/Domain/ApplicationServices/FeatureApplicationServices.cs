@@ -9,8 +9,8 @@
 
     public class FeatureApplicationServices : 
         ICommandHandler<CreateFeatureCommand>,
-        ICommandHandler<ReleaseFeatureCommand>,
-        ICommandHandler<TestFeatureCommand>,
+        ICommandHandler<ReleaseFeatureForEveryoneCommand>,
+        ICommandHandler<ReleaseFeatureWithConditionsCommand>,
         ICommandHandler<RollbackFeatureCommand>,
         ICommandHandler<ChangeFeatureConditionsCommand>,
         ICommandHandler<UpdateDescriptionCommand>,
@@ -30,17 +30,17 @@
             repository.Save(aggregate);
         }
 
-        public void Execute(ReleaseFeatureCommand command)
+        public void Execute(ReleaseFeatureForEveryoneCommand command)
         {
             var aggregate = LoadAggregate(command.Name);
-            aggregate.Release();
+            aggregate.ReleaseForEveryone();
             repository.Save(aggregate);
         }
 
-        public void Execute(TestFeatureCommand command)
+        public void Execute(ReleaseFeatureWithConditionsCommand command)
         {
             var aggregate = LoadAggregate(command.Name);
-            aggregate.Test();
+            aggregate.ReleaseWithConditions();
             repository.Save(aggregate);
         }
 
