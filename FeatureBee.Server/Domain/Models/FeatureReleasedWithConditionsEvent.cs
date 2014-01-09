@@ -4,7 +4,6 @@
 
     using FeatureBee.Server.Domain.Infrastruture;
 
-    // TODO: Find a better name
     public class FeatureReleasedWithConditionsEvent : IDomainEvent
     {
         public Guid AggregateId { get; set; }
