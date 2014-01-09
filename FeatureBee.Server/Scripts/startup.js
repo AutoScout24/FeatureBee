@@ -5,29 +5,31 @@
     var editPanelHub = $.connection.editPanelHub;
     var form;
     
-    boardHub.client.newItemAdded = function (item) {
+    boardHub.client.featureCreated = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
-    boardHub.client.itemMoved = function (item) {
+    boardHub.client.featureReleasedForEveryone = function (item) {
         $.Comm('page', 'itemMoved').publish(item);
     };
     
+    boardHub.client.featureReleasedWithConditions = function (item) {
+        $.Comm('page', 'itemMoved').publish(item);
+    };
+
+    boardHub.client.featureRollbacked = function (item) {
+        $.Comm('page', 'itemMoved').publish(item);
+    };
+
     editPanelHub.client.itemEdited = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
-    editPanelHub.client.conditionValueAddedToFeature = function (item) {
-        $.Comm('page', 'valueAddedTo:' + item.name).publish(item);
+    editPanelHub.client.conditionsChanged = function (item) {
+        $.Comm('page', 'conditionsChanged:' + item.name).publish(item);
     };
-    
-    editPanelHub.client.conditionValueRemovedFromFeature = function (item) {
-        $.Comm('page', 'valueRemovedFrom:' + item.name).publish(item);
-    };
-    
-    editPanelHub.client.conditionCreatedForFeature = function (item) {
-        $.Comm('page', 'conditionCreatedTo:' + item.name).publish(item);
-    };
+
+
 
     var boot = {
         loadPrerequisite: function () {
@@ -58,7 +60,7 @@
             source: function() {
                 var data = null;
                 jQuery.ajaxSetup({ async: false });
-                $.post('/FeatureBee/Features').done(function(d) {
+                $.get('/api/features').done(function(d) {
                     data = d;
                 });
                 jQuery.ajaxSetup({ async: true });
@@ -66,7 +68,7 @@
                 return data;
             },
             subscribeToItemChanged: function(obj) {
-                boardHub.server.moveItem(obj.data.name, obj.data.oldIndex, obj.data.index);
+                boardHub.server.moveItem(obj.data.name, obj.data.index);
             },
             subscribeToItemSelected: function(obj) {
                 form.openEdit(obj.data);
@@ -145,14 +147,12 @@
 
         var createEditForm = function (usingItem) {
             return createForm(usingItem, function (data) {
-                editPanelHub.server.editItem(data.oldName,
-                    {
-                        name: data.name,
-                        team: data.team,
-                        link: data.link,
-                        index: data.index,
-                        conditions: data.conditions
-                    });
+                editPanelHub.server.editItem(
+                    data.name,
+                    data.team,
+                    data.link
+                    );
+                // TODO: editPanelHub.server.changeConditions(data.id, data.conditions);
             });
         };
 
@@ -162,8 +162,8 @@
                     {
                         name: data.name,
                         team: data.team,
+                        description: data.description,
                         link: data.link,
-                        index: 0,
                         conditions: data.conditions
                     });
             });
@@ -172,7 +172,7 @@
         var editItem = $('[data-edit-item="edit"]');
         var formEdit = createEditForm(editItem);
         var formNew = createNewForm(editItem);
-        
+
         this.openEdit = function (data) {
             formEdit.formify('open', data);
         };

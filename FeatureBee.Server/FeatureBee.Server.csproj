@@ -62,6 +62,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.WebApi2.3.0.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Machine.Fakes, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Machine.Fakes.1.8.0\lib\net40\Machine.Fakes.dll</HintPath>
@@ -84,6 +90,14 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.0.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Owin">
       <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -96,6 +110,10 @@
     <Reference Include="Moq, Version=4.1.1309.1617, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Moq.4.1.1309.1617\lib\net40\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NEventStore, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NEventStore.5.0.0.34\lib\net40\NEventStore.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,6 +129,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Spatial, Version=5.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.6.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -124,6 +146,9 @@
     <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.OData">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.OData.5.0.0\lib\net45\System.Web.Http.OData.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -191,13 +216,41 @@
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
-    <Compile Include="Data\Features\FeatureRepository.cs" />
+    <Compile Include="Domain\ApplicationServices\ChangeFeatureConditionsCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\FeatureApplicationServices.cs" />
+    <Compile Include="Domain\ApplicationServices\ICommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
+    <Compile Include="Domain\ApplicationServices\LinkToTicketCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ReleaseFeatureForEveryoneCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\RollbackFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\ReleaseFeatureWithConditionsCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\UpdateDescriptionCommand.cs" />
+    <Compile Include="Domain\EventHandlers\DatabaseEventHandler.cs" />
+    <Compile Include="Domain\EventHandlers\HubEventHandler.cs" />
+    <Compile Include="Domain\Infrastruture\BaseAggregateRoot.cs" />
+    <Compile Include="Domain\Infrastruture\DomainRepository.cs" />
+    <Compile Include="Domain\Infrastruture\ICommandSender.cs" />
+    <Compile Include="Domain\Infrastruture\IDomainEvent.cs" />
+    <Compile Include="Domain\Infrastruture\IDomainRepository.cs" />
+    <Compile Include="Domain\Infrastruture\IEventHandler.cs" />
+    <Compile Include="Domain\Infrastruture\NEventStoreDispatcher.cs" />
+    <Compile Include="Domain\Models\Condition.cs" />
+    <Compile Include="Domain\Models\FeatureConditionsChangedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureCreatedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureDescriptionUpdatedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureLinkedToTicketEvent.cs" />
+    <Compile Include="Domain\Models\FeatureReleasedForEveryoneEvent.cs" />
+    <Compile Include="Domain\Models\FeatureRemovedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureRollbackedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureReleasedWithConditionsEvent.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Feature.cs" />
+    <Compile Include="Domain\Models\FeatureAggregate.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\FeatureBeeContext.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
-    <Compile Include="Models\StateMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

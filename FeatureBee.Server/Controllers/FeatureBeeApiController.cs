@@ -1,38 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Web.Http;
-
-namespace FeatureBee.Server.Controllers
+﻿namespace FeatureBee.Server.Controllers
 {
+    using System;
     using System.Linq;
+    using System.Web.Http;
 
-    using FeatureBee.Server.Data.Features;
     using FeatureBee.Server.Models;
 
+    [Route("api/features")]
     public class FeatureBeeApiController : ApiController
     {
-        private readonly IFeatureRepository repository;
+        private readonly FeatureBeeContext context;
 
-        public FeatureBeeApiController(IFeatureRepository repository)
+        public FeatureBeeApiController()
         {
-            this.repository = repository;
+            context = new FeatureBeeContext();
         }
 
         // GET api/features
-        public IEnumerable<FeatureViewModel> Get()
+        public IQueryable<FeatureViewModel> Get()
         {
-            return repository.Collection().Select(
-                feature => new FeatureViewModel
-                {
-                    Name = feature.name,
-                    Conditions = feature.conditions,
-                    State = new StateMapper().Map(feature.index)
-                });
+            return context.Features;
         }
 
         // GET api/features/myfeature
-        public Feature Get(string id)
+        public FeatureViewModel Get(string id)
         {
-            return repository.Collection().FirstOrDefault(_ => _.name == id);
+            return context.Features.FirstOrDefault(x => x.Name.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

@@ -1,45 +1,45 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
-    using System.Linq;
+    using System;
 
-    using FeatureBee.Server.Data.Features;
-    using FeatureBee.Server.Models;
+    using FeatureBee.Server.Domain.ApplicationServices;
+    using FeatureBee.Server.Domain.Infrastruture;
 
     using Microsoft.AspNet.SignalR;
 
     public class BoardHub : Hub
     {
-        private readonly IFeatureRepository featureRepository;
-        
-        public BoardHub(IFeatureRepository featureRepository)
+        private readonly ICommandSender commandSender;
+
+        public BoardHub(ICommandSender commandSender)
         {
-            this.featureRepository = featureRepository;
+            this.commandSender = commandSender;
         }
 
-        public void AddNewItem(Feature feature)
+        public void AddNewItem(CreateFeatureCommand command)
         {
-            featureRepository.Save(feature.name, feature);
-            this.NewItemAdded(feature);
+            commandSender.Send(command);
         }
 
-        public void MoveItem(string name, int oldIndex, int newIndex)
+        public void MoveItem(string name, int newIndex)
         {
-            var feature = featureRepository.Collection().FirstOrDefault(f => f.name == name);
-            if (feature == null) return;
+            switch (newIndex)
+            {
+                case 0:
+                    commandSender.Send(new RollbackFeatureCommand(name));
+                    break;
 
-            feature.index = newIndex;
-            featureRepository.Save(name, feature);
-            this.ItemMoved(feature);
-        }
+                case 1:
+                    commandSender.Send(new ReleaseFeatureWithConditionsCommand(name));
+                    break;
 
-        public void ItemMoved(Feature item)
-        {
-            Clients.All.itemMoved(item);
-        }
+                case 2:
+                    commandSender.Send(new ReleaseFeatureForEveryoneCommand(name));
+                    break;
 
-        public void NewItemAdded(Feature item)
-        {
-            Clients.All.newItemAdded(item);
+                default:
+                    throw new InvalidOperationException();
+            }
         }
     }
 }
