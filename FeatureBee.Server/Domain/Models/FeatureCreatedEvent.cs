@@ -12,13 +12,11 @@
             Conditions = new List<Condition>();
         }
 
-        public Guid AggregateId { get; set; }
-        public int Version { get; set; }
-
         public string Name { get; set; }
         public string Description { get; set; }
         public string Team { get; set; }
-        public string Link { get; set; }
         public List<Condition> Conditions { get; set; }
+        public Guid AggregateId { get; set; }
+        public int Version { get; set; }
     }
 }

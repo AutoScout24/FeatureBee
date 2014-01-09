@@ -21,14 +21,17 @@
         $.Comm('page', 'itemMoved').publish(item);
     };
 
-    editPanelHub.client.itemEdited = function (item) {
+    editPanelHub.client.linkedToTicket = function (item) {
+        $.Comm('page', 'itemChanged').publish(item);
+    };
+
+    editPanelHub.client.descriptionUpdated = function (item) {
         $.Comm('page', 'itemChanged').publish(item);
     };
 
     editPanelHub.client.conditionsChanged = function (item) {
         $.Comm('page', 'conditionsChanged:' + item.name).publish(item);
     };
-
 
 
     var boot = {
@@ -146,13 +149,14 @@
         };
 
         var createEditForm = function (usingItem) {
-            return createForm(usingItem, function (data) {
+            return createForm(usingItem, function(data) {
                 editPanelHub.server.editItem(
-                    data.name,
-                    data.team,
-                    data.link
-                    );
-                // TODO: editPanelHub.server.changeConditions(data.id, data.conditions);
+                {
+                    name: data.name,
+                    description: data.description,
+                    link: data.link
+                });
+                // TODO: editPanelHub.server.changeConditions(data.name, data.conditions);
             });
         };
 

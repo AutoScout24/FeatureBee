@@ -7,7 +7,9 @@
 
     public class FeatureAggregate : BaseAggregateRoot
     {
-        private string name;
+        private string featureDescription;
+        private string featureLinkToTicket;
+        private string featureName;
 
         private FeatureAggregate()
         {
@@ -17,10 +19,11 @@
         private FeatureAggregate(Guid id, string name, string description, string team, string link, List<Condition> conditions) : this()
         {
             Id = id;
-            Apply(new FeatureCreatedEvent { Name = name, Description = description, Conditions = conditions, Team = team });
+            Apply(new FeatureCreatedEvent {Name = name, Description = description, Conditions = conditions, Team = team});
 
-            if (!string.IsNullOrEmpty(link)) { 
-                Apply(new FeatureLinkedToTicketEvent { Link = link });
+            if (!string.IsNullOrEmpty(link))
+            {
+                Apply(new FeatureLinkedToTicketEvent {Link = link});
             }
         }
 
@@ -36,37 +39,47 @@
 
         public void UpdateDescription(string description)
         {
-            Apply(new FeatureDescriptionUpdatedEvent { Name = name, Description = description });
+            if ((featureDescription ?? "").Equals(description ?? ""))
+            {
+                return;
+            }
+
+            Apply(new FeatureDescriptionUpdatedEvent {Name = featureName, Description = description});
         }
 
         public void LinkToTicket(string link)
         {
-            Apply(new FeatureLinkedToTicketEvent { Name = name, Link = link });
+            if (featureLinkToTicket.Equals(link))
+            {
+                return;
+            }
+
+            Apply(new FeatureLinkedToTicketEvent {Name = featureName, Link = link});
         }
 
         public void ReleaseWithConditions()
         {
-            Apply(new FeatureReleasedWithConditionsEvent { Name = name });
+            Apply(new FeatureReleasedWithConditionsEvent {Name = featureName});
         }
 
         public void ReleaseForEveryone()
         {
-            Apply(new FeatureReleasedForEveryoneEvent {Name = name});
+            Apply(new FeatureReleasedForEveryoneEvent {Name = featureName});
         }
 
         public void Rollback()
         {
-            Apply(new FeatureRollbackedEvent { Name = name });
+            Apply(new FeatureRollbackedEvent {Name = featureName});
         }
 
         public void Remove()
         {
-            Apply(new FeatureRemovedEvent { Name = name });
+            Apply(new FeatureRemovedEvent {Name = featureName});
         }
 
         public void ChangeConditions(List<Condition> conditions)
         {
-            Apply(new FeatureConditionsChangedEvent(name, conditions));
+            Apply(new FeatureConditionsChangedEvent(featureName, conditions));
         }
 
         private void RegisterEvents()
@@ -84,15 +97,18 @@
         private void OnFeatureCreated(FeatureCreatedEvent @event)
         {
             Id = @event.AggregateId;
-            name = @event.Name;
+            featureName = @event.Name;
+            featureDescription = @event.Description;
         }
 
-        private void OnFeatureDescriptionUpdated(FeatureDescriptionUpdatedEvent obj)
+        private void OnFeatureDescriptionUpdated(FeatureDescriptionUpdatedEvent @event)
         {
+            featureDescription = @event.Description;
         }
 
-        private void OnFeatureLinkedToTicket(FeatureLinkedToTicketEvent obj)
+        private void OnFeatureLinkedToTicket(FeatureLinkedToTicketEvent @event)
         {
+            featureLinkToTicket = @event.Link;
         }
 
         private void OnFeatureConditionsChanged(FeatureConditionsChangedEvent @event)

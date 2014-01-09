@@ -1,14 +1,14 @@
 ﻿<div id="board">
     <div data-state="In Development" class="board-row col-lg-4" data-tooltip-position="top" data-tooltip="Here are all the unreleased features">
-        <h2 class="header">In development</h2>
+        <h2 class="header">In Development</h2>
         <div style="clear: both"></div>
     </div>
     <div data-state="Under Test" class="board-row col-lg-4" data-tooltip-position="top" data-tooltip="These features are available for a selected test group on live">
-        <h2 class="header">Under test || Testgroup || Usertests</h2>
+        <h2 class="header">Released || For Testgroup</h2>
         <div style="clear: both"></div>
     </div>
     <div data-state="Released" class="board-row col-lg-4" data-tooltip-position="top" data-tooltip="All features in here are live and visible for everybody">
-        <h2 class="header">Released || For all</h2>
+        <h2 class="header">Released || For All</h2>
         <div style="clear: both"></div>
     </div>
     <div data-item="template" class="template">
@@ -16,7 +16,9 @@
             <strong>{{name}}</strong>
             <br>
             <small>{{team}}</small>
-            <a href="{{link}}" target="_blank">read more</a><br />
+            {{#if link}}
+                <a href="{{link}}" target="_blank">read more</a><br />
+            {{/if}}
             {{#each conditions}}
                         {{#each values}}
                             <span class="label label-{{../type}}">{{this}}</span>

@@ -1,17 +1,17 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
-    using System.Linq;
-
+    using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.Infrastruture;
-    using FeatureBee.Server.Domain.Models;
-    using FeatureBee.Server.Models;
 
     using Microsoft.AspNet.SignalR;
 
     public class EditPanelHub : Hub
     {
-        public EditPanelHub(IDomainRepository domainRepository)
+        private readonly ICommandSender commandSender;
+
+        public EditPanelHub(ICommandSender commandSender)
         {
+            this.commandSender = commandSender;
         }
 
         public void CreateCondition(string name, string type)
@@ -57,16 +57,24 @@
             //this.ConditionValueRemoved(feature);
         }
 
-        public void EditItem(string oldName, FeatureAggregate feature)
+        public void EditItem(EditItemDto changes)
         {
-            // TODO: Implement
-            //domainRepository.Save(oldName, feature);
-            //this.ItemEdited(feature);
+            commandSender.Send(new UpdateDescriptionCommand(changes.Name, changes.Description));
+            commandSender.Send(new LinkToTicketCommand(changes.Name, changes.Link));
+        }
+    }
+
+    public class EditItemDto
+    {
+        public EditItemDto(string name, string description, string link)
+        {
+            Link = link;
+            Description = description;
+            Name = name;
         }
 
-        public void ItemEdited(FeatureAggregate item)
-        {
-            Clients.All.itemEdited(item);
-        }
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public string Link { get; private set; }
     }
 }

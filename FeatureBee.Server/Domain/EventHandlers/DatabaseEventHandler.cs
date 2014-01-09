@@ -31,7 +31,6 @@ namespace FeatureBee.Server.Domain.EventHandlers
                         Name = body.Name,
                         Description = body.Description,
                         Team = body.Team,
-                        Link = body.Link,
                         Index = 0,
                         Conditions = conditionList
                     });

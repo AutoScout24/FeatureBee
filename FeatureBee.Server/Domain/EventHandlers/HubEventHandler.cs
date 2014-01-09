@@ -8,7 +8,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
 
     using NEventStore;
 
-    public class HubEventHandler: IEventHandler
+    public class HubEventHandler : IEventHandler
     {
         public void Handle(EventMessage @event)
         {
@@ -39,12 +39,12 @@ namespace FeatureBee.Server.Domain.EventHandlers
             }
             if (@event.Body is FeatureDescriptionUpdatedEvent)
             {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
+                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
                 hub.Clients.All.descriptionUpdated((@event.Body as FeatureDescriptionUpdatedEvent).Name);
             }
             if (@event.Body is FeatureLinkedToTicketEvent)
             {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
+                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
                 hub.Clients.All.linkedToTicket((@event.Body as FeatureLinkedToTicketEvent).Name);
             }
         }
