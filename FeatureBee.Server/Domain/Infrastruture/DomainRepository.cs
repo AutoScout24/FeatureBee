@@ -17,7 +17,7 @@
         public IEnumerable<IDomainEvent> GetById(Guid id)
         {
             var list = new List<IDomainEvent>();
-            using (var stream = eventStore.OpenStream(id, 0))
+            using (var stream = eventStore.OpenStream(id, 0, int.MaxValue))
             {
                 var committedEvents = stream.CommittedEvents;
                 foreach (var eventMessage in committedEvents)
@@ -30,16 +30,16 @@
 
         public void Save<T>(T aggregateRoot) where T : BaseAggregateRoot
         {
-            using (var stream = eventStore.OpenStream(aggregateRoot.Id, 0))
+            using (var stream = eventStore.OpenStream(aggregateRoot.Id, 0, int.MaxValue))
             {
                 if (stream.StreamRevision != aggregateRoot.Version)
                 {
                     throw new ConcurrencyException();
                 }
 
-                foreach (IDomainEvent @event in aggregateRoot.GetChanges())
+                foreach (var @event in aggregateRoot.GetChanges())
                 {
-                    stream.Add(new EventMessage { Body = @event });
+                    stream.Add(new EventMessage {Body = @event});
                     stream.CommitChanges(Guid.NewGuid());
                 }
             }

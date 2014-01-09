@@ -13,7 +13,7 @@
             this.eventHandlers = eventHandlers;
         }
 
-        public void DispatchCommit(ICommit commit)
+        public void DispatchCommit(Commit commit)
         {
             foreach (var @event in commit.Events)
             {

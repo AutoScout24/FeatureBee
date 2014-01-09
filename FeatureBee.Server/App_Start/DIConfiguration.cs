@@ -14,7 +14,7 @@
 
     using NEventStore;
     using NEventStore.Dispatcher;
-    using NEventStore.Persistence.Sql.SqlDialects;
+    using NEventStore.Persistence.SqlPersistence.SqlDialects;
 
     using Module = Autofac.Module;
 
@@ -45,7 +45,7 @@
             builder.RegisterType<CommandSender>().As<ICommandSender>();
 
             var eventHandlers = new IEventHandler[] {new DatabaseEventHandler(), new HubEventHandler()};
-            var dispatcher =new NEventStoreDispatcher(eventHandlers);
+            var dispatcher = new NEventStoreDispatcher(eventHandlers);
 
             var nEventStore =
                 Wireup.Init()
@@ -53,7 +53,7 @@
                     .UsingSqlPersistence("FeatureBeeContext")
                     .WithDialect(new MsSqlDialect())
                     .InitializeStorageEngine()
-                    .EnlistInAmbientTransaction()
+                    // .EnlistInAmbientTransaction()
                     .UsingJsonSerialization()
                     .UsingSynchronousDispatchScheduler()
                     .DispatchTo(new DelegateMessageDispatcher(dispatcher.DispatchCommit))
