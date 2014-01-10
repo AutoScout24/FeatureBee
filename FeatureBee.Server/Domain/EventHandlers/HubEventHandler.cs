@@ -1,6 +1,7 @@
 namespace FeatureBee.Server.Domain.EventHandlers
 {
     using FeatureBee.Server.Controllers;
+    using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.Infrastruture;
     using FeatureBee.Server.Domain.Models;
 
@@ -46,6 +47,21 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
                 hub.Clients.All.linkedToTicket((@event.Body as FeatureLinkedToTicketEvent).Name);
+            }
+            if (@event.Body is FeatureConditionCreatedEvent)
+            {
+                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
+                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionCreatedEvent).FeatureName);
+            }
+            if (@event.Body is FeatureConditionValuesAddedEvent)
+            {
+                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
+                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionValuesAddedEvent).FeatureName);
+            }
+            if (@event.Body is FeatureConditionValuesRemovedEvent)
+            {
+                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
+                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionValuesRemovedEvent).FeatureName);
             }
         }
     }

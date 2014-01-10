@@ -53,8 +53,8 @@
                     item.append(li.append(a));
                     a.click(function () {
                         self.options.new({ name: name, type: value.type });
-                        btn.find('[data-select="condition"]').hide('fast');
-                        btn.find('[data-select="condition"]').remove();
+                        btn.parent().find('[data-select="condition"]').hide('fast');
+                        btn.parent().find('[data-select="condition"]').remove();
                     });
                 });
                 btn.hide('fast');
