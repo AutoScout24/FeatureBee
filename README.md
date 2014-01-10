@@ -10,8 +10,8 @@ FeatureBee
 
 ## Feature Bee Server 
 
-![Feature Bee Server](https://github.as24.local/OpenSource/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Server.png)
+![Feature Bee Server](https://github.com/AutoScout24/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Server.png)
 
 ## Feature Bee TrayIcon
 
-![Feature Bee Tray](https://github.as24.local/OpenSource/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Tray%20Icon.png)
+![Feature Bee Tray](https://github.com/AutoScout24/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Tray%20Icon.png)
