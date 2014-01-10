@@ -25,7 +25,7 @@
         {
             Error += (sender, args) => Debug.Write(args);
 
-            (new FeatureBeeContext()).Database.Initialize(true);
+            (new FeatureBeeContext()).Initialize(true);
 
             var container = new DIConfiguration().BuildApplicationContainer();
 

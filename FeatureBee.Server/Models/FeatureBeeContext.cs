@@ -10,6 +10,7 @@ namespace FeatureBee.Server.Models
         public FeatureBeeContext()
             : base("FeatureBeeContext")
         {
+            Database.SetInitializer(new CreateDatabaseIfNotExists<FeatureBeeContext>());
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<FeatureBeeContext, Configuration>());
         }
 
@@ -18,6 +19,11 @@ namespace FeatureBee.Server.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
+
+        public void Initialize(bool force)
+        {
+            Database.Initialize(force);
         }
     }
 }
