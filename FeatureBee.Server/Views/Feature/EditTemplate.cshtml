@@ -51,7 +51,7 @@
                         <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
                         <span class="label-{{../type}} label label-condition">
                             <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
-                            <span data-edit="{{this}}">{{this}}</span>
+                            <span data-edit="{{this}}">{{this.value}}</span>
                         </span>
                         {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
                     </p>
