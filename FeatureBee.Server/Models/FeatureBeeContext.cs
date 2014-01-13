@@ -1,7 +1,9 @@
 namespace FeatureBee.Server.Models
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.ModelConfiguration.Conventions;
+    using System.Linq;
 
     using FeatureBee.Server.Migrations;
 
@@ -15,7 +17,7 @@ namespace FeatureBee.Server.Models
         }
 
         public DbSet<FeatureViewModel> Features { get; set; }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

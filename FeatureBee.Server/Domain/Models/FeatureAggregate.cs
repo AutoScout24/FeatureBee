@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using FeatureBee.Server.Domain.Infrastruture;
 
@@ -10,6 +11,8 @@
         private string featureDescription;
         private string featureLinkToTicket;
         private string featureName;
+
+        private List<Condition> conditions;
 
         private FeatureAggregate()
         {
@@ -82,6 +85,21 @@
             Apply(new FeatureConditionsChangedEvent(featureName, conditions));
         }
 
+        public void AddCondition(string type)
+        {
+            Apply(new FeatureConditionCreatedEvent(featureName, new Condition() { Type = type }));
+        }
+
+        public void AddValuesToCondition(string type, string[] values)
+        {
+            Apply(new FeatureConditionValuesAddedEvent(featureName, type, values));
+        }
+
+        public void RemoveValueFromCondition(string type, string[] values)
+        {
+            Apply(new FeatureConditionValuesRemovedEvent(featureName, type, values));
+        }
+
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);
@@ -92,6 +110,9 @@
             RegisterEvent<FeatureDescriptionUpdatedEvent>(OnFeatureDescriptionUpdated);
             RegisterEvent<FeatureLinkedToTicketEvent>(OnFeatureLinkedToTicket);
             RegisterEvent<FeatureRemovedEvent>(OnFeatureRemoved);
+            RegisterEvent<FeatureConditionCreatedEvent>(OnFeatureConditionAdded);
+            RegisterEvent<FeatureConditionValuesAddedEvent>(OnFeatureConditionValuesAdded);
+            RegisterEvent<FeatureConditionValuesRemovedEvent>(OnFeatureConditionValuesRemoved);
         }
 
         private void OnFeatureCreated(FeatureCreatedEvent @event)
@@ -99,6 +120,7 @@
             Id = @event.AggregateId;
             featureName = @event.Name;
             featureDescription = @event.Description;
+            conditions = @event.Conditions ?? new List<Condition>();
         }
 
         private void OnFeatureDescriptionUpdated(FeatureDescriptionUpdatedEvent @event)
@@ -109,6 +131,38 @@
         private void OnFeatureLinkedToTicket(FeatureLinkedToTicketEvent @event)
         {
             featureLinkToTicket = @event.Link;
+        }
+
+        private void OnFeatureConditionAdded(FeatureConditionCreatedEvent @event)
+        {
+            if (this.conditions.Any(_ => _.Type == @event.Condition.Type))
+            {
+                return;
+            }
+
+            this.conditions.Add(@event.Condition);
+        }
+
+        private void OnFeatureConditionValuesAdded(FeatureConditionValuesAddedEvent @event)
+        {
+            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type);
+            if (condition == null)
+            {
+                throw new Exception("You cannot add values to a condition that does not exist");
+            }
+
+            new ConditionEditor().AddValue(condition, @event.Value);
+        }
+
+        private void OnFeatureConditionValuesRemoved(FeatureConditionValuesRemovedEvent @event)
+        {
+            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type);
+            if (condition == null)
+            {
+                throw new Exception("You cannot add values to a condition that does not exist");
+            }
+
+            new ConditionEditor().RemoveValue(condition, @event.Value);
         }
 
         private void OnFeatureConditionsChanged(FeatureConditionsChangedEvent @event)
@@ -131,4 +185,5 @@
         {
         }
     }
+
 }

@@ -30,7 +30,7 @@
     };
 
     editPanelHub.client.conditionsChanged = function (item) {
-        $.Comm('page', 'conditionsChanged:' + item.name).publish(item);
+        $.Comm('page', 'conditionsChanged:' + item).publish(item);
     };
 
 
@@ -144,7 +144,17 @@
                 save: function (data) {
                     callback(data);
                 },
-                width: $(window).width() - 180
+                width: $(window).width() - 180,
+                source: function(feature) {
+                    var data = null;
+                    jQuery.ajaxSetup({ async: false });
+                    $.get('/api/features/?id=' + feature).done(function (d) {
+                        data = d;
+                    });
+                    jQuery.ajaxSetup({ async: true });
+
+                    return data;
+                }
             });
         };
 

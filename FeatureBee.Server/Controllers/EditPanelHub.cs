@@ -16,45 +16,17 @@
 
         public void CreateCondition(string name, string type)
         {
-            //var feature = this.domainRepository.Collection().Single(_ => _.name == name);
-            //var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
-
-            //if (condition == null)
-            //{
-            //    feature.conditions.Add(new Condition() { type = type });
-            //}
-
-            //this.ConditionCreated(feature);
+            commandSender.Send(new NewConditionCommand(name, type));
         }
 
         public void AddConditionValue(string name, string type, string[] values)
         {
-            //var feature = this.domainRepository.Collection().Single(_ => _.name == name);
-            //var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
-            //if (condition == null)
-            //{
-            //    condition = new Condition() { type = type };
-            //    feature.conditions.Add(condition);
-            //}
-
-            //condition.AddValue(string.Join("-", values));
-            //this.ConditionValueAdded(feature);
+            commandSender.Send(new AddValueToConditionCommand(name, type, values));
         }
 
         public void RemoveConditionValue(string name, string type, string[] values)
         {
-            //var feature = this.domainRepository.Collection().Single(_ => _.name == name);
-            //var condition = feature.conditions.FirstOrDefault(_ => _.type == type);
-            //if (condition != null)
-            //{
-            //    condition.RemoveValue(string.Join("-", values));
-            //    if (!condition.values.Any())
-            //    {
-            //        feature.conditions.Remove(condition);
-            //    }
-            //}
-
-            //this.ConditionValueRemoved(feature);
+            commandSender.Send(new RemoveValueFromConditionCommand(name, type, values));
         }
 
         public void EditItem(EditItemDto changes)
