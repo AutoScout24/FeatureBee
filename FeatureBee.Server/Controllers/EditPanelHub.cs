@@ -1,7 +1,6 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
     using FeatureBee.Server.Domain.ApplicationServices;
-    using FeatureBee.Server.Domain.EventHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
 
     using Microsoft.AspNet.SignalR;

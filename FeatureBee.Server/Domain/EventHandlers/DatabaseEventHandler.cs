@@ -21,7 +21,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 try
                 {
                     var body = @event.Body as FeatureCreatedEvent;
-                    var conditions = body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = c.Values.Select(_ => new ConditionValueViewModel(_)).ToList()});
+                    var conditions = body.Conditions.Select(c => new ConditionViewModel { Type = c.Type, Values = c.Values.Select(_ => new ConditionValueViewModel(_)).ToList() });
 
                     var conditionList = conditions.ToList();
 
@@ -89,23 +89,23 @@ namespace FeatureBee.Server.Domain.EventHandlers
 
             if (@event.Body is FeatureConditionCreatedEvent)
             {
-                try
-                {
-                    var condition = (@event.Body as FeatureConditionCreatedEvent).Condition;
-                    var feature = context.Features.FirstOrDefault(f => f.Id == domainEvent.AggregateId);
-                    feature.AddCondition(condition.Type);
-                }
-                catch (Exception e0)
-                {
-                    Console.WriteLine();
-                    throw;
-                }
+                var condition = (@event.Body as FeatureConditionCreatedEvent).Condition;
+                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
+                feature.AddCondition(condition.Type);
             }
             if (@event.Body is FeatureConditionValuesAddedEvent)
             {
-                var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
-                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
+                try
+                {
+                    var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
+                    var feature = context.LoadedFeatures().First(f => f.Id == domainEvent.AggregateId);
+                    feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
+                }
+                catch (Exception e0)
+                {
+                    Console.WriteLine(e0);
+                    throw;
+                }
             }
             if (@event.Body is FeatureConditionValuesRemovedEvent)
             {

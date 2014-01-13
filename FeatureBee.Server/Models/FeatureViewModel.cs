@@ -9,7 +9,7 @@
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public List<ConditionViewModel> Conditions { get; set; }
+        public virtual List<ConditionViewModel> Conditions { get; set; }
         public string State { get; set; }
         public int Index { get; set; }
         public string Link { get; set; }
@@ -28,7 +28,7 @@
     {
         [Key]
         public string Type { get; set; }
-        public List<ConditionValueViewModel> Values { get; set; }
+        public virtual List<ConditionValueViewModel> Values { get; set; }
         
         public void AddValue(string value)
         {

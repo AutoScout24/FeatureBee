@@ -4,7 +4,7 @@
     {
         public static string Concat(params string[] values)
         {
-            return string.Join("-", values);
+            return values != null ? string.Join("-", values) : string.Empty;
         }
     }
 }
