@@ -17,12 +17,7 @@ namespace FeatureBee.Server.Models
         }
 
         public DbSet<FeatureViewModel> Features { get; set; }
-
-        public List<FeatureViewModel> LoadedFeatures()
-        {
-            return this.Features.Include("Conditions.Values").ToList();
-        }
-
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

@@ -49,9 +49,11 @@
     {
         public ConditionValueViewModel()
         {
+            Id = Guid.NewGuid();
         }
 
         public ConditionValueViewModel(string value)
+            : this()
         {
             this.Value = value;
         }
