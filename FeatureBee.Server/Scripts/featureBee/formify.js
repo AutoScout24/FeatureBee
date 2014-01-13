@@ -24,7 +24,7 @@ $(function () {
         
         _subscribeForReload: function (forName) {
             var self = this;
-            var action = function (item) { self.open(self.source(item)); };
+            var action = function (item) { self.open(self.options.source(item)); };
             var streams = self.options.streams;
             self.options.communicator(self.options.publisher, streams.conditionsChanged + ':' + forName).subscribe(action);
         },

@@ -19,7 +19,7 @@
         public void AddCondition(string type)
         {
             if (Conditions == null) Conditions = new List<ConditionViewModel>();
-            if (Conditions.All(_ => _.Type != type)) return;
+            if (Conditions.Any(_ => _.Type == type)) return;
             Conditions.Add(new ConditionViewModel() { Type = type, Values = new List<ConditionValueViewModel>() });
         }
     }
