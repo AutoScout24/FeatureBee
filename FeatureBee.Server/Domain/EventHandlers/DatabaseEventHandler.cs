@@ -98,7 +98,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 try
                 {
                     var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
-                    var feature = context.LoadedFeatures().First(f => f.Id == domainEvent.AggregateId);
+                    var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
                     feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
                 }
                 catch (Exception e0)

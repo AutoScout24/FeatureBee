@@ -33,14 +33,14 @@
         public void AddValue(string value)
         {
             var model = new ConditionValueViewModel(value);
-            if (Values.All(v => v.Value != model.Value)) return;
+            if (Values.Any(v => v.Value == model.Value)) return;
             Values.Add(model);
         }
 
         public void RemoveValue(string value)
         {
             var model = new ConditionValueViewModel(value);
-            if (Values.All(v => v.Value != model.Value)) return;
+            if (Values.Any(v => v.Value == model.Value)) return;
             Values.Remove(model);
         }
     }
