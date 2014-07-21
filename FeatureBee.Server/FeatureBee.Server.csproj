@@ -226,6 +226,7 @@
     <Compile Include="Controllers\FeatureHistoryApiController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
+    <Compile Include="Controllers\TrustpilotHealthCheckController.cs" />
     <Compile Include="Domain\ApplicationServices\UpdateConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\DeleteFeatureCommand.cs" />
