@@ -259,7 +259,7 @@
                     $(window).resize(function() {
                         self._resetValue();
                         self._sizeScrollbar();
-                        self.reflowContent();
+                        self._reflowContent();
                     });
 
                     $('.feature-bee-hide').click(function() {
